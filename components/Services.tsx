@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useRef, useState } from "react";
+import { Fragment, useEffect, useRef, useState } from "react";
 import { services } from "../app/data";
 
 // Направления — дословный sticky-steps эталона: список с гэпом 30dvh,
@@ -53,15 +53,30 @@ export default function Services() {
                 <div data-sticky-steps-anchor className="sticky-steps__text">
                   <span className="sticky-steps__eyebrow">{s.no}</span>
                   <h2 data-step-h2 className="sticky-steps__h2">
-                    {s.title.split("").map((ch, c) => (
-                      <span
-                        key={c}
-                        className="sticky-steps__char"
-                        style={{ color: c / s.title.length < fill[i] ? "#000" : undefined }}
-                      >
-                        {ch === " " ? " " : ch}
-                      </span>
-                    ))}
+                    {(() => {
+                      let gi = 0; // сквозной индекс символа для порога заливки
+                      const total = s.title.length;
+                      const words = s.title.split(" ");
+                      return words.map((word, w) => (
+                        <Fragment key={w}>
+                          <span className="sticky-steps__word">
+                            {word.split("").map((ch, c) => {
+                              const idx = gi++;
+                              return (
+                                <span
+                                  key={c}
+                                  className="sticky-steps__char"
+                                  style={{ color: idx / total < fill[i] ? "#000" : undefined }}
+                                >
+                                  {ch}
+                                </span>
+                              );
+                            })}
+                          </span>
+                          {w < words.length - 1 ? " " : null}
+                        </Fragment>
+                      ));
+                    })()}
                   </h2>
                   <p className="sticky-steps__p">{s.text}</p>
                 </div>
