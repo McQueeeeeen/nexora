@@ -28,9 +28,12 @@ export default function Statement() {
         <h2 className="max-w-[1100px] text-balance text-center text-[min(3.25em,9.7vw)] font-normal leading-[1.08] tracking-[-0.02em] lg:text-[80px] lg:tracking-[-3px]">
           {words.map((w, i) => {
             const local = Math.max(0, Math.min(1, p * n - i));
+            // Как у эталона: заливка идёт с цветным фронтом —
+            // слово, которое проявляется прямо сейчас, подсвечено брендом.
+            const color = local >= 1 ? "var(--ink)" : local > 0 ? "var(--brand)" : "rgba(16,20,24,0.14)";
             return (
               <Fragment key={i}>
-                <span style={{ opacity: local < 0.01 ? 0.12 : 0.12 + local * 0.88, willChange: "opacity" }}>{w}</span>
+                <span style={{ color, willChange: "color" }}>{w}</span>
                 {i < n - 1 ? " " : ""}
               </Fragment>
             );

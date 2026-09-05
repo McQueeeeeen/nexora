@@ -62,11 +62,16 @@ export default function Services() {
                           <span className="sticky-steps__word">
                             {word.split("").map((ch, c) => {
                               const idx = gi++;
+                              const t = idx / total;
+                              // Фронт заливки подсвечен брендом, как у эталона.
+                              const color = t < fill[i]
+                                ? (fill[i] - t < 0.07 ? "var(--brand)" : "#000")
+                                : undefined;
                               return (
                                 <span
                                   key={c}
                                   className="sticky-steps__char"
-                                  style={{ color: idx / total < fill[i] ? "#000" : undefined }}
+                                  style={{ color }}
                                 >
                                   {ch}
                                 </span>

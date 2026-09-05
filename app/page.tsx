@@ -3,6 +3,7 @@ import Header from "../components/Header";
 import Hero from "../components/Hero";
 import Statement from "../components/Statement";
 import About from "../components/About";
+import RouteMap from "../components/RouteMap";
 import Services from "../components/Services";
 import Cta from "../components/Cta";
 import Steps from "../components/Steps";
@@ -21,6 +22,7 @@ export default function Page() {
       <Hero />
       <Statement />
       <About />
+      <RouteMap />
       <Services />
       <Cta />
       <Steps />

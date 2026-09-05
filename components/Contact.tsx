@@ -14,8 +14,10 @@ export default function Contact() {
   return (
     <div ref={ref} data-footer-parallax style={{ position: "relative", overflow: "hidden" }}>
       <div data-footer-parallax-inner style={{ transform: `translateY(${(1 - p) * 90}px)`, willChange: "transform" }}>
-        <footer id="contact" className="bg-[#101418] px-4 pb-[76px] pt-16 lg:px-12 lg:pb-10 lg:pt-20">
-          <div className="mx-auto flex max-w-[1408px] flex-col gap-8">
+        <footer id="contact" className="relative overflow-hidden bg-[#101418] px-4 pb-[76px] pt-16 lg:px-12 lg:pb-10 lg:pt-20">
+          <div aria-hidden className="pointer-events-none absolute inset-0"
+            style={{ background: "radial-gradient(60% 45% at 85% 0%, rgba(94,234,212,0.12), transparent 70%), radial-gradient(50% 40% at 10% 100%, rgba(94,234,212,0.08), transparent 70%)" }} />
+          <div className="relative mx-auto flex max-w-[1408px] flex-col gap-8">
             <div className="flex flex-col gap-[36px] lg:gap-12">
               <div className="border-b border-white/10 pb-6">
                 <span className="font-mono text-base font-bold uppercase text-white/60">Контакты</span>
@@ -88,18 +90,37 @@ export default function Contact() {
               </div>
             </div>
             <div className="h-px bg-white/10" />
-            <div className="flex flex-col gap-8 lg:flex-row">
-              <div className="text-2xl font-bold">NEXORA<span style={{ color: YB }}>.</span></div>
-              <p className="max-w-sm text-sm leading-relaxed text-white/60">Помогаем поступить в университеты Австрии и Венгрии: аудит, гранты, документы и ВНЖ под ключ.</p>
-              <nav className="flex flex-col items-start gap-3 text-xl font-medium text-white/80">
-                <a href={`${pre}#services`} className="hover-underline transition hover:text-white">Программы</a>
-                <a href="/austria" className="hover-underline transition hover:text-white">Австрия</a>
-                <a href="/hungary" className="hover-underline transition hover:text-white">Венгрия</a>
-                <a href={`${pre}#faq`} className="hover-underline transition hover:text-white">FAQ</a>
-              </nav>
-              <div className="flex flex-col gap-2 text-sm text-white/70">
-                <a href="https://www.google.com/maps/search/?api=1&query=Schottengasse+4+1010+Wien" target="_blank" rel="noopener" className="hover-underline transition hover:text-white">Schottengasse 4, 1010 Wien</a>
-                <a href="https://www.google.com/maps/search/?api=1&query=Váci+utca+12+1052+Budapest" target="_blank" rel="noopener" className="hover-underline transition hover:text-white">Váci utca 12, 1052 Budapest</a>
+            <div className="grid grid-cols-1 gap-10 lg:grid-cols-2 lg:gap-16">
+              <div>
+                <div className="text-2xl font-bold">NEXORA<span style={{ color: YB }}>.</span></div>
+                <p className="mt-4 max-w-sm text-sm leading-relaxed text-white/60">Помогаем поступить в университеты Австрии и Венгрии: аудит, гранты, документы и ВНЖ под ключ.</p>
+                <nav className="mt-6 flex flex-wrap gap-x-8 gap-y-3 text-xl font-medium text-white/80">
+                  <a href={`${pre}#services`} className="hover-underline transition hover:text-white">Программы</a>
+                  <a href="/austria" className="hover-underline transition hover:text-white">Австрия</a>
+                  <a href="/hungary" className="hover-underline transition hover:text-white">Венгрия</a>
+                  <a href={`${pre}#faq`} className="hover-underline transition hover:text-white">FAQ</a>
+                </nav>
+              </div>
+              <div className="flex flex-col gap-6">
+                <div>
+                  <span className="font-mono text-xs font-bold uppercase tracking-[2px] text-white/40">Telegram</span>
+                  <p className="mt-2"><a href="https://t.me/nexora_support" target="_blank" rel="noopener" className="hover-underline text-lg transition hover:text-white">@nexora_support</a></p>
+                </div>
+                <div>
+                  <span className="font-mono text-xs font-bold uppercase tracking-[2px] text-white/40">Почта</span>
+                  <p className="mt-2"><a href="mailto:admissions@nexora.eu" className="hover-underline text-lg transition hover:text-white">admissions@nexora.eu</a></p>
+                </div>
+                <div>
+                  <span className="font-mono text-xs font-bold uppercase tracking-[2px] text-white/40">Адрес</span>
+                  <p className="mt-2 flex flex-col gap-1">
+                    <a href="https://www.google.com/maps/search/?api=1&query=Schottengasse+4+1010+Wien" target="_blank" rel="noopener" className="hover-underline w-fit transition hover:text-white">Schottengasse 4, 1010 Wien</a>
+                    <a href="https://www.google.com/maps/search/?api=1&query=Váci+utca+12+1052+Budapest" target="_blank" rel="noopener" className="hover-underline w-fit transition hover:text-white">Váci utca 12, 1052 Budapest</a>
+                  </p>
+                </div>
+                <div>
+                  <span className="font-mono text-xs font-bold uppercase tracking-[2px] text-white/40">Часы</span>
+                  <p className="mt-2 text-lg">Пн–Вс, 8:00–18:00</p>
+                </div>
               </div>
             </div>
             <div className="h-px bg-white/10" />
