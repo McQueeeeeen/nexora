@@ -48,8 +48,7 @@ export default async function CountryPage({ params }: { params: Promise<{ countr
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/50 via-black/20 to-black/70" />
         <div className="wrap relative flex h-full items-end pb-8 lg:pb-[72px]">
           <Reveal className="flex max-w-[920px] flex-col gap-4 lg:gap-6">
-            <span className="inline-flex w-fit items-center gap-2.5 rounded-full bg-black/55 px-4 py-2 backdrop-blur-[10px]">
-              <span className="h-1.5 w-1.5 rounded-full" style={{ background: "#FFE533" }} />
+            <span className="inline-flex w-fit items-center rounded-full bg-black/55 px-4 py-2 backdrop-blur-[10px]">
               <span className="font-mono text-xs font-bold uppercase leading-[1.2] text-white lg:text-sm">{c.name}</span>
             </span>
             <h1 className="text-balance text-[40px] font-bold leading-[1.05] tracking-[-1.2px] text-white lg:text-[80px] lg:tracking-[-2.4px]">
