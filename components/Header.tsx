@@ -165,7 +165,7 @@ export default function Header() {
       }}>
       <div className="mega-nav__bar" onMouseLeave={scheduleClose}>
         <div className="mega-nav__container">
-          <a href="/" className="text-xl font-bold tracking-tight text-[#101418]">NEXORA<span style={{ color: "var(--brand)" }}>.</span></a>
+          <a href="/" className="text-xl font-bold tracking-tight text-[#FBF9F5]">NEXORA<span className="text-[#FBF9F5]/50">.</span></a>
           <div className="mega-nav__desktop-links ml-auto items-center gap-8">
             {(Object.keys(parents) as Exclude<Panel, null>[]).map((k) => (
               <button
@@ -185,10 +185,10 @@ export default function Header() {
             {anchors.map(([t, href]) => (
               <a key={t} href={href} onMouseEnter={() => poke(null)} className="mega-nav__bar-link text-sm font-medium"><Roll text={t} /></a>
             ))}
-            <a href="https://t.me/nexora_support" target="_blank" rel="noopener" className="hidden text-sm font-semibold text-[#101418]/80 transition hover:text-[var(--brand)] xl:inline">
+            <a href="https://t.me/nexora_support" target="_blank" rel="noopener" className="hidden text-sm font-semibold text-[#FBF9F5]/75 transition hover:text-[#FBF9F5] xl:inline">
               @nexora_support
             </a>
-            <a href={contactHref} className="mp5-btn mp5-btn--primary rounded px-4 py-2 text-sm">Консультация €10</a>
+            <a href={contactHref} className="mp5-btn mp5-btn--light rounded px-4 py-2 text-sm font-semibold">Консультация €10</a>
           </div>
           <button className="mega-nav__burger ml-auto" onClick={() => (mobile ? closeMobile() : setMobile(true))} aria-label="Меню" aria-expanded={mobile}>
             <span className="mega-nav__burger-line" data-burger-line="top" />
@@ -212,18 +212,18 @@ export default function Header() {
             {view === null ? (
               <>
                 {(Object.keys(parents) as Exclude<Panel, null>[]).map((k) => (
-                  <button key={k} onClick={() => setView(k)} className="flex w-full items-center justify-between border-b border-[#101418]/10 py-3 text-left text-lg font-medium text-[#101418]">
-                    {parents[k]}<ArrowIcon className="h-5 w-5 text-[#101418]/50" />
+                  <button key={k} onClick={() => setView(k)} className="flex w-full items-center justify-between border-b border-[#FBF9F5]/12 py-3 text-left text-lg font-medium text-[#FBF9F5]">
+                    {parents[k]}<ArrowIcon className="h-5 w-5 text-[#FBF9F5]/50" />
                   </button>
                 ))}
                 {anchors.map(([t, href]) => (
-                  <a key={t} href={href} onClick={closeMobile} className="border-b border-[#101418]/10 py-3 text-lg font-medium text-[#101418]">{t}</a>
+                  <a key={t} href={href} onClick={closeMobile} className="border-b border-[#FBF9F5]/12 py-3 text-lg font-medium text-[#FBF9F5]">{t}</a>
                 ))}
-                <a href={contactHref} onClick={closeMobile} className="mp5-btn mp5-btn--primary mt-3 h-14 rounded-xl">Консультация €10</a>
+                <a href={contactHref} onClick={closeMobile} className="mp5-btn mp5-btn--light mt-3 h-14 rounded-xl text-base font-semibold">Консультация €10</a>
               </>
             ) : (
               <>
-                <button onClick={() => setView(null)} aria-label="Назад в меню" className="flex items-center gap-2 py-3 text-base font-medium text-[#101418]/70">
+                <button onClick={() => setView(null)} aria-label="Назад в меню" className="flex items-center gap-2 py-3 text-base font-medium text-[#FBF9F5]/70">
                   <ArrowIcon className="h-4 w-4 rotate-180" />Назад
                 </button>
                 <Panel {...panels[view]} onGo={closeMobile} />

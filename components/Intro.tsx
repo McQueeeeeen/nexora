@@ -121,8 +121,8 @@ export default function Intro() {
               transition: "opacity .35s ease",
               transitionDelay: covering ? (drop ? ".3s" : "0s") : "0s",
             }}>
-            <span className="text-3xl font-bold tracking-tight text-[#101418] sm:text-4xl">
-              NEXORA<span className="text-white">.</span>
+            <span className="text-3xl font-bold tracking-tight text-[#FBF9F5] sm:text-4xl">
+              NEXORA<span className="text-[#FBF9F5]/60">.</span>
             </span>
           </div>
         </div>

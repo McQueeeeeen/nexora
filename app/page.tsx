@@ -16,7 +16,7 @@ import { faqs } from "./data";
 // Главная — витрина + агентство, как у эталона. Каталог вузов живёт на страницах стран.
 export default function Page() {
   return (
-    <main className="min-h-screen bg-[#F7F5EF] text-[#101418]">
+    <main className="min-h-screen bg-[#FBF9F5] text-[#2A211D]">
       <Intro />
       <Header />
       <Hero />

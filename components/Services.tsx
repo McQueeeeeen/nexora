@@ -24,7 +24,7 @@ export default function Services() {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
       charGroups.forEach((group) => {
         group.forEach((c) => {
-          c.style.color = "#000";
+          c.style.color = "#2A211D";
           c.style.textShadow = "none";
         });
       });
@@ -40,7 +40,7 @@ export default function Services() {
 
         if (r.bottom < 0) {
           chars.forEach((c) => {
-            if (c.style.color !== "#000") c.style.color = "#000";
+            if (c.style.color !== "#2A211D") c.style.color = "#2A211D";
             if (c.style.textShadow !== "none") c.style.textShadow = "none";
           });
           return;
@@ -59,8 +59,8 @@ export default function Services() {
           const t = idx / total;
           const filled = t < p;
           const frontier = !filled && p - t < 0.07;
-          const col = filled ? "#000" : frontier ? "var(--brand)" : "";
-          const shadow = frontier ? "0 0 18px rgba(11,138,118,0.45)" : "none";
+          const col = filled ? "#2A211D" : frontier ? "var(--brand)" : "";
+          const shadow = frontier ? "0 0 18px rgba(42,33,29,0.3)" : "none";
           const el = chars[idx];
           if (el.style.color !== col) el.style.color = col;
           if (el.style.textShadow !== shadow) el.style.textShadow = shadow;

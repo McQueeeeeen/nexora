@@ -8,7 +8,7 @@ export default function SafeImage({ src, alt, className = "", eager = false }: {
 }) {
   const [dead, setDead] = useState(false);
   if (dead) {
-    return <div aria-hidden className={`bg-[#101418]/5 ${className}`} />;
+    return <div aria-hidden className={`bg-[#2A211D]/5 ${className}`} />;
   }
   return (
     <img

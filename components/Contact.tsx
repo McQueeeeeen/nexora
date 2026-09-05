@@ -105,78 +105,78 @@ export default function Contact() {
   return (
     <div ref={containerRef} data-footer-parallax style={{ position: "relative", overflow: "hidden" }}>
       <div ref={innerRef} data-footer-parallax-inner style={{ transform: "translateY(-75%)", willChange: "transform" }}>
-        <footer id="contact" className="relative overflow-hidden px-4 pb-[76px] pt-20 lg:px-12 lg:pb-10 lg:pt-24">
+        <footer id="contact" className="relative overflow-hidden bg-[#2A211D] px-4 pb-[76px] pt-20 text-[#FBF9F5] lg:px-12 lg:pb-10 lg:pt-24">
           <div aria-hidden className="pointer-events-none absolute inset-0"
-            style={{ background: "radial-gradient(60% 45% at 85% 0%, rgba(94,234,212,0.12), transparent 70%), radial-gradient(50% 40% at 10% 100%, rgba(94,234,212,0.08), transparent 70%)" }} />
+            style={{ background: "radial-gradient(60% 45% at 85% 0%, rgba(251,249,245,0.06), transparent 70%), radial-gradient(50% 40% at 10% 100%, rgba(251,249,245,0.04), transparent 70%)" }} />
           <div className="relative mx-auto flex max-w-[1408px] flex-col gap-6">
             <div className="flex flex-col gap-8 lg:gap-10">
-              <div className="border-b border-[#101418]/10 pb-6">
-                <span className="font-mono text-base font-bold uppercase text-[#101418]/60">Контакты</span>
+              <div className="border-b border-[#FBF9F5]/12 pb-6">
+                <span className="font-mono text-base font-bold uppercase text-[#FBF9F5]/60">Контакты</span>
               </div>
               <div className="flex flex-col gap-5 lg:flex-row lg:gap-5">
                 <Reveal className="flex flex-col lg:flex-1">
-                  <h3 className="text-[28px] font-normal leading-[1.05] tracking-[-1px] lg:text-[48px] lg:tracking-[-1.6px]">
+                  <h3 className="text-[28px] font-normal leading-[1.05] tracking-[-1px] text-[#FBF9F5] lg:text-[48px] lg:tracking-[-1.6px]">
                     Персональная консультация — €10
                   </h3>
-                  <p className="mt-4 text-lg text-[#101418]/60 lg:text-xl">Оценим шансы на грант, проверим дедлайны и составим план поступления.</p>
-                  <div className="mt-8 space-y-3 text-sm text-[#101418]/80">
-                    <p><b>Telegram:</b> <a href="https://t.me/nexora_support" target="_blank" rel="noopener" className="underline" style={{ color: Y }}>@nexora_support</a></p>
-                    <p><b>Email:</b> <a href="mailto:admissions@nexora.eu" className="underline break-all" style={{ color: Y }}>admissions@nexora.eu</a></p>
+                  <p className="mt-4 text-lg text-[#FBF9F5]/70 lg:text-xl">Оценим шансы на грант, проверим дедлайны и составим план поступления.</p>
+                  <div className="mt-8 space-y-3 text-sm text-[#FBF9F5]/85">
+                    <p><b>Telegram:</b> <a href="https://t.me/nexora_support" target="_blank" rel="noopener" className="underline hover:text-white" style={{ color: "#FBF9F5" }}>@nexora_support</a></p>
+                    <p><b>Email:</b> <a href="mailto:admissions@nexora.eu" className="underline break-all hover:text-white" style={{ color: "#FBF9F5" }}>admissions@nexora.eu</a></p>
                     <p><b>На связи:</b> Пн–Вс, 8:00–18:00</p>
                   </div>
                 </Reveal>
                 <Reveal className="flex flex-col gap-5 lg:flex-1">
                   {sent ? (
                     <div className="flex min-h-[300px] flex-col items-center justify-center text-center">
-                      <span style={{ color: Y }}><CheckIcon className="h-14 w-14" /></span>
-                      <h4 className="mt-4 text-2xl font-medium">Заявка принята</h4>
-                      <p className="mt-2 max-w-sm text-[#101418]/65">Свяжемся в течение 30 минут, подтвердим время консультации (€10).</p>
+                      <span className="text-[#FBF9F5]"><CheckIcon className="h-14 w-14" /></span>
+                      <h4 className="mt-4 text-2xl font-medium text-[#FBF9F5]">Заявка принята</h4>
+                      <p className="mt-2 max-w-sm text-[#FBF9F5]/70">Свяжемся в течение 30 минут, подтвердим время консультации (€10).</p>
                     </div>
                   ) : (
                     <form onSubmit={submit} className="flex flex-col gap-5">
                       <div className="flex gap-1.5" aria-hidden>
                         {[0, 1].map((d) => (
-                          <span key={d} className="h-1.5 rounded-full transition-all" style={d <= step ? { width: 32, background: Y } : { width: 8, background: "rgba(16,20,24,0.15)" }} />
+                          <span key={d} className="h-1.5 rounded-full transition-all" style={d <= step ? { width: 32, background: "#FBF9F5" } : { width: 8, background: "rgba(251,249,245,0.2)" }} />
                         ))}
                       </div>
                       {step === 0 ? (
                         <>
                           <div className="flex flex-col gap-5 lg:flex-row lg:gap-2.5">
                             <div className="flex flex-1 flex-col gap-2">
-                              <label htmlFor="nx-name" className="font-mono text-xs font-bold uppercase text-[#101418]/45">Ваше имя<span style={{ color: Y }}> *</span></label>
-                              <input id="nx-name" required value={form.name} onChange={set("name")} placeholder="Иван Иванов" autoComplete="name" className="input-light h-14 rounded-[10px] px-4 text-base" />
+                              <label htmlFor="nx-name" className="font-mono text-xs font-bold uppercase text-[#FBF9F5]/60">Ваше имя<span className="text-[#FBF9F5]"> *</span></label>
+                              <input id="nx-name" required value={form.name} onChange={set("name")} placeholder="Иван Иванов" autoComplete="name" className="input-glow h-14 rounded-[10px] px-4 text-base" />
                             </div>
                             <div className="flex flex-1 flex-col gap-2">
-                              <label htmlFor="nx-phone" className="font-mono text-xs font-bold uppercase text-[#101418]/45">Телефон<span style={{ color: Y }}> *</span></label>
-                              <input id="nx-phone" required value={form.phone} onChange={set("phone")} type="tel" inputMode="tel" autoComplete="tel" placeholder="+7 (999) 000-00-00" className="input-light h-14 rounded-[10px] px-4 text-base" />
+                              <label htmlFor="nx-phone" className="font-mono text-xs font-bold uppercase text-[#FBF9F5]/60">Телефон<span className="text-[#FBF9F5]"> *</span></label>
+                              <input id="nx-phone" required value={form.phone} onChange={set("phone")} type="tel" inputMode="tel" autoComplete="tel" placeholder="+7 (999) 000-00-00" className="input-glow h-14 rounded-[10px] px-4 text-base" />
                             </div>
                           </div>
                           <div className="flex flex-col gap-2">
-                            <label htmlFor="nx-email" className="font-mono text-xs font-bold uppercase text-[#101418]/45">Email</label>
-                            <input id="nx-email" value={form.email} onChange={set("email")} type="email" inputMode="email" autoComplete="email" placeholder="you@email.com" pattern="[^@\s]+@[^@\s]+\.[^@\s]+" className="input-light h-14 rounded-[10px] px-4 text-base" />
+                            <label htmlFor="nx-email" className="font-mono text-xs font-bold uppercase text-[#FBF9F5]/60">Email</label>
+                            <input id="nx-email" value={form.email} onChange={set("email")} type="email" inputMode="email" autoComplete="email" placeholder="you@email.com" pattern="[^@\s]+@[^@\s]+\.[^@\s]+" className="input-glow h-14 rounded-[10px] px-4 text-base" />
                           </div>
-                          <button type="button" onClick={(e) => { const f = e.currentTarget.form; if (f && !f.reportValidity()) return; setStep(1); }} className="mp5-btn mp5-btn--primary w-full rounded-xl text-base" style={{ height: 56 }}>Продолжить</button>
+                          <button type="button" onClick={(e) => { const f = e.currentTarget.form; if (f && !f.reportValidity()) return; setStep(1); }} className="mp5-btn mp5-btn--light w-full rounded-xl text-base font-semibold" style={{ height: 56 }}>Продолжить</button>
                         </>
                       ) : (
                         <>
                           <div className="flex flex-col gap-2">
-                            <label htmlFor="nx-country" className="font-mono text-xs font-bold uppercase text-[#101418]/45">Страна и уровень</label>
-                            <input id="nx-country" value={form.country} onChange={set("country")} placeholder="Например: Бакалавриат в Австрии" className="input-light h-14 rounded-[10px] px-4 text-base" />
+                            <label htmlFor="nx-country" className="font-mono text-xs font-bold uppercase text-[#FBF9F5]/60">Страна и уровень</label>
+                            <input id="nx-country" value={form.country} onChange={set("country")} placeholder="Например: Бакалавриат в Австрии" className="input-glow h-14 rounded-[10px] px-4 text-base" />
                           </div>
                           <div className="flex flex-col gap-2">
-                            <label htmlFor="nx-about" className="font-mono text-xs font-bold uppercase text-[#101418]/45">О себе (оценки, язык)</label>
-                            <input id="nx-about" value={form.about} onChange={set("about")} placeholder="Например: GPA 4.5, английский B2" className="input-light h-14 rounded-[10px] px-4 text-base" />
+                            <label htmlFor="nx-about" className="font-mono text-xs font-bold uppercase text-[#FBF9F5]/60">О себе (оценки, язык)</label>
+                            <input id="nx-about" value={form.about} onChange={set("about")} placeholder="Например: GPA 4.5, английский B2" className="input-glow h-14 rounded-[10px] px-4 text-base" />
                           </div>
-                          <label className="flex cursor-pointer items-start gap-3 text-xs leading-relaxed text-[#101418]/60">
-                            <input type="checkbox" required checked={agreed} onChange={(e) => setAgreed(e.target.checked)} className="mt-0.5 h-4 w-4 shrink-0 accent-[#0B8A76]" />
-                            <span>Соглашаюсь на обработку персональных данных для связи по заявке. <a href="/privacy" className="underline">Политика конфиденциальности</a>.</span>
+                          <label className="flex cursor-pointer items-start gap-3 text-xs leading-relaxed text-[#FBF9F5]/70">
+                            <input type="checkbox" required checked={agreed} onChange={(e) => setAgreed(e.target.checked)} className="mt-0.5 h-4 w-4 shrink-0 accent-[#2A211D]" />
+                            <span>Соглашаюсь на обработку персональных данных для связи по заявке. <a href="/privacy" className="underline hover:text-white">Политика конфиденциальности</a>.</span>
                           </label>
                           {/* honeypot против спам-ботов */}
                           <input type="text" name="_honey" tabIndex={-1} autoComplete="off" className="hidden" aria-hidden value="" readOnly />
-                          {failed && <p className="text-sm text-red-700">Не отправилось — проверьте соединение и попробуйте ещё раз.</p>}
+                          {failed && <p className="text-sm text-red-300">Не отправилось — проверьте соединение и попробуйте ещё раз.</p>}
                           <div className="flex gap-3">
-                            <button type="button" onClick={() => setStep(0)} className="mp5-btn mp5-btn--outline flex items-center gap-2 rounded-xl px-6 text-base" style={{ height: 56 }}><ArrowIcon className="h-4 w-4 rotate-180" />Назад</button>
-                            <button type="submit" disabled={sending} className="mp5-btn mp5-btn--primary flex-1 rounded-xl text-base" style={{ height: 56 }}>{sending ? "Отправляем…" : "Записаться на консультацию"}</button>
+                            <button type="button" onClick={() => setStep(0)} className="mp5-btn mp5-btn--secondary flex items-center gap-2 rounded-xl px-6 text-base" style={{ height: 56 }}><ArrowIcon className="h-4 w-4 rotate-180" />Назад</button>
+                            <button type="submit" disabled={sending} className="mp5-btn mp5-btn--light flex-1 rounded-xl text-base font-semibold" style={{ height: 56 }}>{sending ? "Отправляем…" : "Записаться на консультацию"}</button>
                           </div>
                         </>
                       )}
@@ -185,56 +185,56 @@ export default function Contact() {
                 </Reveal>
               </div>
             </div>
-            <div className="h-px bg-[#101418]/10" />
+            <div className="h-px bg-[#FBF9F5]/12" />
             <Reveal>
             <div className="grid grid-cols-1 gap-10 lg:grid-cols-2 lg:gap-16">
               <div className="flex h-full flex-col">
-                <div className="text-2xl font-bold text-[#101418]">NEXORA<span style={{ color: Y }}>.</span></div>
-                <p className="mt-3 font-mono text-xs uppercase text-[#101418]/50">Study abroad. Start here.</p>
-                <p className="mt-4 max-w-sm text-sm leading-relaxed text-[#101418]/60">Помогаем поступить в университеты Австрии и Венгрии: консультация €10, гранты, документы и ВНЖ под ключ.</p>
-                <nav className="mt-auto flex flex-wrap gap-x-8 gap-y-3 pt-6 text-xl font-medium text-[#101418]/80">
-                  <a href={`${pre}#services`} className="hover-underline transition hover:text-[#101418]">Программы</a>
-                  <a href="/austria" className="hover-underline transition hover:text-[#101418]">Австрия</a>
-                  <a href="/hungary" className="hover-underline transition hover:text-[#101418]">Венгрия</a>
-                  <a href="/blog" className="hover-underline transition hover:text-[#101418]">Блог</a>
-                  <a href="/faq" className="hover-underline transition hover:text-[#101418]">FAQ</a>
+                <div className="text-2xl font-bold text-[#FBF9F5]">NEXORA<span className="text-[#FBF9F5]/50">.</span></div>
+                <p className="mt-3 font-mono text-xs uppercase text-[#FBF9F5]/50">Study abroad. Start here.</p>
+                <p className="mt-4 max-w-sm text-sm leading-relaxed text-[#FBF9F5]/70">Помогаем поступить в университеты Австрии и Венгрии: консультация €10, гранты, документы и ВНЖ под ключ.</p>
+                <nav className="mt-auto flex flex-wrap gap-x-8 gap-y-3 pt-6 text-xl font-medium text-[#FBF9F5]/80">
+                  <a href={`${pre}#services`} className="hover-underline transition hover:text-[#FBF9F5]">Программы</a>
+                  <a href="/austria" className="hover-underline transition hover:text-[#FBF9F5]">Австрия</a>
+                  <a href="/hungary" className="hover-underline transition hover:text-[#FBF9F5]">Венгрия</a>
+                  <a href="/blog" className="hover-underline transition hover:text-[#FBF9F5]">Блог</a>
+                  <a href="/faq" className="hover-underline transition hover:text-[#FBF9F5]">FAQ</a>
                 </nav>
               </div>
-              <div className="flex flex-col gap-6 text-[#101418]/85">
+              <div className="flex flex-col gap-6 text-[#FBF9F5]/90">
                 <div>
-                  <span className="font-mono text-xs font-bold uppercase tracking-[1px] text-[#101418]/45">Telegram</span>
-                  <p className="mt-2"><a href="https://t.me/nexora_support" target="_blank" rel="noopener" className="hover-underline text-lg transition hover:text-[#101418]">@nexora_support</a></p>
+                  <span className="font-mono text-xs font-bold uppercase tracking-[1px] text-[#FBF9F5]/50">Telegram</span>
+                  <p className="mt-2"><a href="https://t.me/nexora_support" target="_blank" rel="noopener" className="hover-underline text-lg transition hover:text-[#FBF9F5]">@nexora_support</a></p>
                 </div>
                 <div>
-                  <span className="font-mono text-xs font-bold uppercase tracking-[1px] text-[#101418]/45">Почта</span>
-                  <p className="mt-2"><a href="mailto:admissions@nexora.eu" className="hover-underline break-all text-lg transition hover:text-[#101418]">admissions@nexora.eu</a></p>
+                  <span className="font-mono text-xs font-bold uppercase tracking-[1px] text-[#FBF9F5]/50">Почта</span>
+                  <p className="mt-2"><a href="mailto:admissions@nexora.eu" className="hover-underline break-all text-lg transition hover:text-[#FBF9F5]">admissions@nexora.eu</a></p>
                 </div>
                 <div>
-                  <span className="font-mono text-xs font-bold uppercase tracking-[1px] text-[#101418]/45">Формат</span>
+                  <span className="font-mono text-xs font-bold uppercase tracking-[1px] text-[#FBF9F5]/50">Формат</span>
                   <p className="mt-2 text-lg">100% удалённо, без офисов</p>
                 </div>
                 <div>
-                  <span className="font-mono text-xs font-bold uppercase tracking-[1px] text-[#101418]/45">Часы</span>
+                  <span className="font-mono text-xs font-bold uppercase tracking-[1px] text-[#FBF9F5]/50">Часы</span>
                   <p className="mt-2 text-lg">Пн–Вс, 8:00–18:00</p>
                 </div>
               </div>
             </div>
             </Reveal>
-            <div className="h-px bg-[#101418]/10" />
+            <div className="h-px bg-[#FBF9F5]/12" />
             <Reveal>
-            <div className="flex flex-col gap-5 text-[13px] text-[#101418]/50 lg:flex-row lg:items-center">
+            <div className="flex flex-col gap-5 text-[13px] text-[#FBF9F5]/55 lg:flex-row lg:items-center">
               <span>© 2026 Nexora Admissions. Правила приёма актуальны на сезон 2026/2027.</span>
-              <a href="/privacy" className="hover-underline w-fit transition hover:text-[#101418] lg:ml-auto">Privacy policy</a>
+              <a href="/privacy" className="hover-underline w-fit transition hover:text-[#FBF9F5] lg:ml-auto">Privacy policy</a>
             </div>
             </Reveal>
           </div>
         </footer>
       </div>
-      <div ref={darkRef} data-footer-parallax-dark aria-hidden style={{ position: "absolute", inset: 0, width: "100%", height: "100%", opacity: "0.85", pointerEvents: "none", backgroundColor: "#F7F5EF" }} />
+      <div ref={darkRef} data-footer-parallax-dark aria-hidden style={{ position: "absolute", inset: 0, width: "100%", height: "100%", opacity: "0.85", pointerEvents: "none", backgroundColor: "#2A211D" }} />
       <button onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })} aria-label="Наверх"
-        className="fixed bottom-24 right-4 z-40 hidden h-14 w-14 items-center justify-center rounded-full border border-[#101418]/10 bg-white/85 shadow-xl backdrop-blur-md transition-all duration-300 hover:scale-110 lg:bottom-8 lg:right-8 lg:flex"
+        className="fixed bottom-24 right-4 z-40 hidden h-14 w-14 items-center justify-center rounded-full border border-[#FBF9F5]/20 bg-[#2A211D]/90 text-[#FBF9F5] shadow-xl backdrop-blur-md transition-all duration-300 hover:scale-110 lg:bottom-8 lg:right-8 lg:flex"
         style={{ opacity: top ? 1 : 0, pointerEvents: top ? "auto" : "none" }}>
-        <span aria-hidden><ArrowIcon className="h-5 w-5 -rotate-90 text-[#101418]" /></span>
+        <span aria-hidden><ArrowIcon className="h-5 w-5 -rotate-90 text-[#FBF9F5]" /></span>
       </button>
     </div>
   );

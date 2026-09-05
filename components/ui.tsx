@@ -86,7 +86,7 @@ export function Reveal({ children, className = "" }: { children: React.ReactNode
 
 export function Tag({ children, dark = false }: { children: string; dark?: boolean }) {
   return (
-    <span className={`font-mono text-xs uppercase tracking-[1px] ${dark ? "text-white/60" : "text-[#5B6470]"}`}>{children}</span>
+    <span className={`font-mono text-xs uppercase tracking-[1px] ${dark ? "text-[#FBF9F5]/70" : "text-[#786C64]"}`}>{children}</span>
   );
 }
 
@@ -129,10 +129,10 @@ export function CheckIcon({ className = "" }: { className?: string }) {
   );
 }
 
-export function Btn({ href, children, ghost = false, outline = false, className = "", style }: {
-  href: string; children: React.ReactNode; ghost?: boolean; outline?: boolean; className?: string; style?: React.CSSProperties;
+export function Btn({ href, children, ghost = false, outline = false, light = false, className = "", style }: {
+  href: string; children: React.ReactNode; ghost?: boolean; outline?: boolean; light?: boolean; className?: string; style?: React.CSSProperties;
 }) {
-  const kind = outline ? "mp5-btn--outline" : ghost ? "mp5-btn--secondary" : "mp5-btn--primary";
+  const kind = light ? "mp5-btn--light" : outline ? "mp5-btn--outline" : ghost ? "mp5-btn--secondary" : "mp5-btn--primary";
   const mref = useRef<HTMLAnchorElement>(null);
   // Магнит: кнопка слегка тянется за курсором (без ре-рендеров, напрямую в style).
   const onMove = (e: React.MouseEvent) => {

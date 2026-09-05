@@ -44,8 +44,8 @@ export default function Statement() {
         const t = k / total;
         const filled = t < p;
         const frontier = !filled && p - t < BAND;
-        const col = filled ? "var(--ink)" : frontier ? "var(--brand)" : "rgba(16,20,24,0.16)";
-        const shadow = frontier ? "0 0 22px rgba(11,138,118,0.55)" : "none";
+        const col = filled ? "var(--ink)" : frontier ? "var(--brand)" : "rgba(42,33,29,0.18)";
+        const shadow = frontier ? "0 0 22px rgba(42,33,29,0.3)" : "none";
 
         if (el.style.color !== col) el.style.color = col;
         if (el.style.textShadow !== shadow) el.style.textShadow = shadow;
@@ -72,7 +72,7 @@ export default function Statement() {
                       }}
                       className="sticky-steps__char"
                       style={{
-                        color: "rgba(16,20,24,0.16)",
+                        color: "rgba(42,33,29,0.18)",
                         transition: "color 0.1s ease",
                       }}
                     >

@@ -43,7 +43,7 @@ export default function WhyCountry({ c }: { c: CountryInfo }) {
           {c.whyPoints.map((pt, i) => (
             <Reveal key={pt.title}>
               <div className="flex items-center gap-3 lg:gap-4">
-                <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-[#242424] font-mono text-base font-bold text-[#5EEAD4] lg:h-14 lg:w-14 lg:rounded-xl" aria-hidden>
+                <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg border border-white/10 bg-[#2A211D] font-mono text-base font-bold text-[#FBF9F5] lg:h-14 lg:w-14 lg:rounded-xl" aria-hidden>
                   0{i + 1}
                 </span>
                 <div className="flex min-w-0 flex-col gap-1">

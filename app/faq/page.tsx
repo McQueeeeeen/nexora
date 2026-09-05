@@ -46,7 +46,7 @@ export default function FaqPage() {
   };
 
   return (
-    <main className="min-h-screen bg-[#F7F5EF] text-[#101418]">
+    <main className="min-h-screen bg-[#FBF9F5] text-[#2A211D]">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
@@ -60,23 +60,23 @@ export default function FaqPage() {
       <section className="wrap pb-2 pt-36 lg:pt-44">
         <Reveal>
           <nav aria-label="Breadcrumb" className="pb-3">
-            <ol className="flex flex-wrap items-center gap-2 font-mono text-xs uppercase tracking-[-0.3px] text-[#101418]/50 lg:text-sm">
+            <ol className="flex flex-wrap items-center gap-2 font-mono text-xs uppercase tracking-[-0.3px] text-[#2A211D]/50 lg:text-sm">
               <li className="flex items-center gap-2">
                 <a href="/" className="transition-colors duration-200 hover:text-[var(--brand)]">
                   Главная
                 </a>
-                <span className="text-[#101418]/25">/</span>
+                <span className="text-[#2A211D]/25">/</span>
               </li>
               <li className="flex items-center gap-2">
-                <span className="font-semibold text-[#101418]" aria-current="page">FAQ</span>
+                <span className="font-semibold text-[#2A211D]" aria-current="page">FAQ</span>
               </li>
             </ol>
           </nav>
           <h1 className="mt-2 max-w-[900px] text-balance text-4xl font-medium leading-[1.08] tracking-tight sm:text-5xl lg:text-6xl">
             <span className="text-[var(--brand)]">Частые </span>
-            <span className="text-[#101418]">вопросы о поступлении</span>
+            <span className="text-[#2A211D]">вопросы о поступлении</span>
           </h1>
-          <p className="mt-4 max-w-[640px] text-base text-[#101418]/65 lg:text-lg">
+          <p className="mt-4 max-w-[640px] text-base text-[#2A211D]/65 lg:text-lg">
             Гранты, требования к языку, дедлайны и студенческий ВНЖ. Если не нашли свой вопрос — задайте его напрямую в Telegram.
           </p>
         </Reveal>

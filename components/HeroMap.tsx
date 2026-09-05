@@ -21,11 +21,11 @@ const HeroMap = memo(function HeroMap({ narrow, pathRef, drawA, drawB, budaRef, 
       className="h-full w-full" role="img" aria-label="Карта маршрута Вена — Будапешт">
       <defs>
         <pattern id="hero-grid" width="50" height="50" patternUnits="userSpaceOnUse">
-          <path d="M 50 0 L 0 0 0 50" fill="none" stroke="rgba(16,20,24,0.08)" strokeWidth="1" />
+          <path d="M 50 0 L 0 0 0 50" fill="none" stroke="rgba(42,33,29,0.06)" strokeWidth="1" />
         </pattern>
       </defs>
       <rect width="1000" height="700" fill="url(#hero-grid)" />
-      <g fill="none" stroke="rgba(16,20,24,0.1)" strokeWidth="1.5">
+      <g fill="none" stroke="rgba(42,33,29,0.08)" strokeWidth="1.5">
         <path d="M 60,120 C 220,100 420,140 620,110 S 900,90 1040,120" />
         <path d="M -20,560 C 200,540 420,580 640,550 S 900,530 1030,560" />
         <path d="M 420,-20 C 410,150 430,350 415,520 S 405,650 410,720" />
@@ -41,13 +41,13 @@ const HeroMap = memo(function HeroMap({ narrow, pathRef, drawA, drawB, budaRef, 
         <path d="M 60,360 C 240,340 420,360 600,345 S 820,330 1010,350" strokeOpacity="0.5" />
         <path d="M 950,80 C 940,240 955,420 945,600" strokeOpacity="0.4" />
       </g>
-      <g fill="none" stroke="rgba(11,138,118,0.4)" strokeWidth="1.5">
+      <g fill="none" stroke="rgba(42,33,29,0.3)" strokeWidth="1.5">
         <path className="street-flow" d="M 60,120 C 220,100 420,140 620,110 S 900,90 1040,120" />
         <path className="street-flow" d="M -20,560 C 200,540 420,580 640,550 S 900,530 1030,560" />
       </g>
       {/* Дунай (Danube River): плавное русло от Австрии к Будапешту */}
       <path d="M -20,500 C 180,480 360,460 560,405 S 840,230 1020,280"
-        fill="none" stroke="#2D9CDB" strokeOpacity="0.22" strokeWidth="10" strokeLinecap="round" />
+        fill="none" stroke="#2A211D" strokeOpacity="0.18" strokeWidth="10" strokeLinecap="round" />
       {/* Университетские города Австрии и Венгрии (размещены вне зоны заголовка) */}
       {(
         [
@@ -61,20 +61,20 @@ const HeroMap = memo(function HeroMap({ narrow, pathRef, drawA, drawB, budaRef, 
         ] as { cx: number; cy: number; name: string; lx: number; ly: number; anchor?: "middle" }[]
       ).map(({ cx, cy, name, lx, ly, anchor }) => (
         <g key={name}>
-          <circle cx={cx} cy={cy} r="4" fill="rgba(16,20,24,0.3)" />
-          <text x={lx} y={ly} textAnchor={anchor} fill="rgba(16,20,24,0.45)"
+          <circle cx={cx} cy={cy} r="4" fill="rgba(42,33,29,0.3)" />
+          <text x={lx} y={ly} textAnchor={anchor} fill="rgba(42,33,29,0.55)"
             fontSize="14" letterSpacing="1" fontFamily="var(--font-mono), monospace">{name}</text>
         </g>
       ))}
-      <path ref={pathRef} d={ROUTE} fill="none" stroke="rgba(16,20,24,0.15)" strokeWidth="2" />
-      <path ref={drawA} d={ROUTE} fill="none" stroke="var(--brand)" strokeOpacity="0.25" strokeWidth="12" strokeLinecap="round"
+      <path ref={pathRef} d={ROUTE} fill="none" stroke="rgba(42,33,29,0.15)" strokeWidth="2" />
+      <path ref={drawA} d={ROUTE} fill="none" stroke="var(--brand)" strokeOpacity="0.2" strokeWidth="12" strokeLinecap="round"
         pathLength={100} style={{ strokeDasharray: 100, strokeDashoffset: 100 }} />
-      <path ref={drawB} d={ROUTE} fill="none" stroke="var(--brand)" strokeWidth="5" strokeLinecap="round"
+      <path ref={drawB} d={ROUTE} fill="none" stroke="var(--brand)" strokeWidth="4" strokeLinecap="round"
         pathLength={100} style={{ strokeDasharray: 100, strokeDashoffset: 100 }} />
       {/* Промежуточный студенческий город маршрута — Дьёр (Венгрия) */}
       <g>
-        <circle cx={580} cy={390} r="5" fill="#F7F5EF" stroke="rgba(16,20,24,0.5)" strokeWidth="2" />
-        <text x={580} y={365} textAnchor="middle" fill="rgba(16,20,24,0.6)"
+        <circle cx={580} cy={390} r="5" fill="#FBF9F5" stroke="rgba(42,33,29,0.5)" strokeWidth="2" />
+        <text x={580} y={365} textAnchor="middle" fill="rgba(42,33,29,0.7)"
           fontSize="15" letterSpacing="1" fontFamily="var(--font-mono), monospace">Дьёр</text>
       </g>
       {/* Вена — столица программ в Австрии */}
@@ -83,7 +83,7 @@ const HeroMap = memo(function HeroMap({ narrow, pathRef, drawA, drawB, budaRef, 
         <animate attributeName="opacity" values="0.7;0" dur="2.4s" repeatCount="indefinite" />
       </circle>
       <circle cx="180" cy="480" r="7" fill="var(--brand)" />
-      <text x="180" y="525" textAnchor="middle" fill="rgba(16,20,24,0.85)"
+      <text x="180" y="525" textAnchor="middle" fill="rgba(42,33,29,0.9)"
         fontSize="22" letterSpacing="2.5" fontFamily="var(--font-mono), monospace">ВЕНА</text>
       {/* Будапешт — столица программ в Венгрии */}
       <g ref={budaRef} style={{ opacity: 0 }}>
@@ -92,7 +92,7 @@ const HeroMap = memo(function HeroMap({ narrow, pathRef, drawA, drawB, budaRef, 
           <animate attributeName="opacity" values="0.7;0" dur="2.4s" begin="1.2s" repeatCount="indefinite" />
         </circle>
         <circle cx="860" cy="250" r="7" fill="var(--brand)" />
-        <text x="860" y="210" textAnchor="middle" fill="rgba(16,20,24,0.85)"
+        <text x="860" y="210" textAnchor="middle" fill="rgba(42,33,29,0.9)"
           fontSize="22" letterSpacing="2.5" fontFamily="var(--font-mono), monospace">БУДАПЕШТ</text>
       </g>
       <g ref={cursorRef} transform="translate(180,480)">

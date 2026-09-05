@@ -165,7 +165,7 @@ export default function Hero() {
             style={{ opacity: i === 0 ? 1 : 0 }}
           />
         ))}
-        <div ref={mapRef} className="absolute inset-0 bg-[#F7F5EF]" style={{ opacity: 0, visibility: "hidden" }}>
+        <div ref={mapRef} className="absolute inset-0 bg-[#FBF9F5]" style={{ opacity: 0, visibility: "hidden" }}>
           <HeroMap
             narrow={narrow}
             pathRef={pathRef}
@@ -185,7 +185,7 @@ export default function Hero() {
                 key={ph.t}
                 data-hero-phrase
                 aria-hidden={i === 0 ? undefined : true}
-                className={`font-normal max-w-[90vw] md:max-w-[72vw] lg:max-w-[56vw] xl:max-w-[820px] ${light ? "text-white" : "text-[#101418]"}`}
+                className={`font-normal max-w-[90vw] md:max-w-[72vw] lg:max-w-[56vw] xl:max-w-[820px] ${light ? "text-white" : "text-[#2A211D]"}`}
                 style={{
                   position: "absolute",
                   fontSize: "clamp(28px,5.6vw,72px)",

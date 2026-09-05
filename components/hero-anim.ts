@@ -39,19 +39,19 @@ export function buildHeroMetas(phrases: { t: string }[]): HeroCharMeta[] {
   return metas;
 }
 
-// Фраза 1 по тёмным фото: акцент → белый.
+// Фраза 1 по тёмным фото: тёплый намёк → белый.
 export const mixLight = (t: number) => {
-  const r = Math.round(94 + (255 - 94) * t);
-  const g = Math.round(234 + (255 - 234) * t);
-  const b = Math.round(212 + (255 - 212) * t);
+  const r = Math.round(238 + (255 - 238) * t);
+  const g = Math.round(228 + (255 - 228) * t);
+  const b = Math.round(218 + (255 - 218) * t);
   return `rgb(${r},${g},${b})`;
 };
 
-// Остальные фразы по светлой карте: акцент → чернила.
+// Остальные фразы по светлой карте: тёплый оттенок → глубокий эспрессо #2A211D.
 export const mixInk = (t: number) => {
-  const r = Math.round(11 + (16 - 11) * t);
-  const g = Math.round(138 + (20 - 138) * t);
-  const b = Math.round(118 + (24 - 118) * t);
+  const r = Math.round(140 + (42 - 140) * t);
+  const g = Math.round(128 + (33 - 128) * t);
+  const b = Math.round(118 + (29 - 118) * t);
   return `rgb(${r},${g},${b})`;
 };
 

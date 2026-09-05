@@ -61,7 +61,7 @@ export default async function CountryPage({ params }: { params: Promise<{ countr
   };
 
   return (
-    <main className="min-h-screen bg-[#F7F5EF] text-[#101418]">
+    <main className="min-h-screen bg-[#FBF9F5] text-[#2A211D]">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbsJsonLd) }}
@@ -100,14 +100,14 @@ export default async function CountryPage({ params }: { params: Promise<{ countr
 
       <section className="wrap pb-24">
         <Reveal>
-          <a href={other.href} className="card group flex items-center justify-between rounded-2xl border border-[#101418]/10 bg-white p-8 lg:p-10">
+          <a href={other.href} className="card group flex items-center justify-between rounded-2xl border border-[#2A211D]/10 bg-white p-8 lg:p-10">
             <div>
-              <span className="font-mono text-xs uppercase tracking-[1px] text-[#101418]/50">Смотрите также</span>
+              <span className="font-mono text-xs uppercase tracking-[1px] text-[#2A211D]/50">Смотрите также</span>
               <h2 className="mt-3 text-3xl font-medium tracking-tight lg:text-5xl">{other.title}</h2>
-              <p className="mt-2 text-sm text-[#101418]/60">{other.desc}</p>
+              <p className="mt-2 text-sm text-[#2A211D]/60">{other.desc}</p>
             </div>
-            <span className="hidden h-14 w-14 shrink-0 items-center justify-center rounded-full bg-[#101418]/5 transition-all duration-300 group-hover:scale-110 group-hover:bg-[var(--brand)] sm:flex" aria-hidden>
-              <ArrowIcon className="h-5 w-5 transition-colors group-hover:text-white" />
+            <span className="hidden h-14 w-14 shrink-0 items-center justify-center rounded-full bg-[#2A211D]/5 transition-all duration-300 group-hover:scale-110 group-hover:bg-[#2A211D] sm:flex" aria-hidden>
+              <ArrowIcon className="h-5 w-5 transition-colors group-hover:text-[#FBF9F5]" />
             </span>
           </a>
         </Reveal>

@@ -36,7 +36,7 @@ export default function Steps() {
 
   return (
     <div ref={containerRef} id="steps" className="steps-pin-wrap relative" style={{ height: "300vh" }}>
-      <section className="mp5-benefits-pin sticky top-0 grid h-screen w-full grid-rows-[1fr_auto] overflow-hidden rounded-t-[2.5em] bg-white text-black">
+      <section className="mp5-benefits-pin sticky top-0 grid h-screen w-full grid-rows-[1fr_auto] overflow-hidden rounded-t-[2.5em] bg-[#FBF9F5] text-[#2A211D]">
         <div className="relative w-full overflow-hidden">
           {steps.map((s, i) => (
             <div
@@ -50,11 +50,11 @@ export default function Steps() {
               }}
             >
               <SafeImage src={s.img} alt={s.title} className="absolute h-full w-full object-cover" />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/35 via-transparent to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/45 via-transparent to-transparent" />
             </div>
           ))}
         </div>
-        <div className="relative w-full overflow-hidden bg-white">
+        <div className="relative w-full overflow-hidden border-t border-[#2A211D]/8 bg-[#FBF9F5]">
           {/* сайзер — самая высокая панель, чтобы остальные не обрезались */}
           <div className="invisible" aria-hidden>
             <Panel s={tallest} i={0} barStyle={{ width: "8%" }} />
@@ -101,13 +101,13 @@ function Panel({
   return (
     <div className="mx-auto grid w-full max-w-[1408px] grid-cols-1 items-start gap-6 px-6 py-8 lg:grid-cols-12 lg:gap-16 lg:px-12 lg:py-12">
       <div className="flex flex-col gap-3 lg:col-span-4">
-        <span className="text-[11px] font-semibold uppercase tracking-[1px] text-[#101418]/60">{s.no}</span>
-        <h3 className="text-[22px] font-normal leading-[1.1] tracking-[-0.6px] lg:text-[32px]">{s.title}</h3>
-        <span className="block h-[2px] w-16 bg-black/10">
-          <span data-step-bar className="block h-full bg-[var(--brand)]" style={barStyle} />
+        <span className="text-[11px] font-semibold uppercase tracking-[1px] text-[#2A211D]/60">{s.no}</span>
+        <h3 className="text-[22px] font-normal leading-[1.1] tracking-[-0.6px] text-[#2A211D] lg:text-[32px]">{s.title}</h3>
+        <span className="block h-[2px] w-16 bg-[#2A211D]/15">
+          <span data-step-bar className="block h-full bg-[#2A211D]" style={barStyle} />
         </span>
       </div>
-      <p className="max-w-[760px] text-base leading-[1.5] lg:col-span-8 lg:text-lg">{s.text}</p>
+      <p className="max-w-[760px] text-base leading-[1.5] text-[#2A211D]/75 lg:col-span-8 lg:text-lg">{s.text}</p>
       <span className="sr-only">Шаг {i + 1}</span>
     </div>
   );
