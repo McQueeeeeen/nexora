@@ -175,7 +175,7 @@ export default function Header() {
             ) : (
               <>
                 <button onClick={() => setView(null)} aria-label="Назад в меню" className="flex items-center gap-2 py-3 text-base font-medium text-[#101418]/70">
-                  <ArrowIcon className="h-4 w-4 rotate-180" />Back
+                  <ArrowIcon className="h-4 w-4 rotate-180" />Назад
                 </button>
                 <Panel {...panels[view]} onGo={closeMobile} />
               </>

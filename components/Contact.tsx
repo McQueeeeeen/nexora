@@ -64,7 +64,7 @@ export default function Contact() {
                             <label className="font-mono text-xs font-bold uppercase text-white/40">Email</label>
                             <input type="email" inputMode="email" autoComplete="email" placeholder="you@email.com" pattern="[^@\s]+@[^@\s]+\.[^@\s]+" className="input-glow h-14 rounded-[10px] px-4 text-sm" />
                           </div>
-                          <button type="button" onClick={(e) => { const f = e.currentTarget.form; if (f && !f.reportValidity()) return; setStep(1); }} className="mp5-btn mp5-btn--primary w-full rounded-xl text-base" style={{ height: 56 }}>Continue</button>
+                          <button type="button" onClick={(e) => { const f = e.currentTarget.form; if (f && !f.reportValidity()) return; setStep(1); }} className="mp5-btn mp5-btn--primary w-full rounded-xl text-base" style={{ height: 56 }}>Продолжить</button>
                         </>
                       ) : (
                         <>

@@ -142,7 +142,7 @@ html.preloaded [data-load-wrap] { display: none !important; }
 .sticky-steps__collection { min-height: 100dvh; display: flex; position: relative; }
 .sticky-steps__list { flex-flow: column; flex: 1; gap: 30dvh; padding-top: calc(50dvh - 7.5em); padding-bottom: calc(50dvh - 7.5em); display: flex; }
 .sticky-steps__text { flex-flow: column; gap: 1.25em; width: 50%; padding-right: 6em; display: flex; }
-.sticky-steps__eyebrow { text-transform: uppercase; font-family: var(--font-mono), ui-monospace, monospace; letter-spacing: .14em; color: var(--brand); opacity: .9; font-size: .8125em; font-weight: 500; }
+.sticky-steps__eyebrow { text-transform: uppercase; letter-spacing: .06em; color: var(--brand); opacity: .9; font-size: .8125em; font-weight: 600; }
 .sticky-steps__h2 { letter-spacing: -.035em; margin: 0; font-size: min(5em, 13.5vw); font-weight: 500; line-height: .92; }
 .sticky-steps__p { opacity: .65; max-width: 32ch; margin: 0; font-size: min(1.25em, 4.5vw); line-height: 1.4; }
 .sticky-steps__media { width: 50%; height: 100%; padding-left: 3em; position: absolute; top: 0; right: 0; }

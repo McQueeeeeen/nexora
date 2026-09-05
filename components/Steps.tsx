@@ -42,7 +42,7 @@ function Panel({ s, i, bar = 0 }: { s: (typeof steps)[number]; i: number; bar?: 
   return (
     <div className="mx-auto grid w-full max-w-[1408px] grid-cols-1 items-start gap-6 px-6 py-8 lg:grid-cols-12 lg:gap-16 lg:px-12 lg:py-12">
       <div className="flex flex-col gap-3 lg:col-span-4">
-        <span className="font-mono text-[11px] uppercase tracking-[2px]">{s.no}</span>
+        <span className="text-[11px] font-semibold uppercase tracking-[1px] text-[#101418]/60">{s.no}</span>
         <h3 className="text-[22px] font-normal leading-[1.1] tracking-[-0.6px] lg:text-[32px]">{s.title}</h3>
         <span className="block h-[2px] w-16 bg-black/10">
           <span data-step-bar className="block h-full bg-[var(--brand)]" style={{ width: `${Math.max(8, bar * 100)}%` }} />

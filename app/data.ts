@@ -51,14 +51,14 @@ export const agency = {
 export const heroPhrases = [
   { t: "Поступление в вузы Европы — от первой консультации до визы.", img: "https://images.unsplash.com/photo-1541339907198-e08756dedf3f?auto=format&fit=crop&w=1920&q=75" },
   { t: "Гранты, дедлайны и зачисление без риска отказа.", img: "https://images.unsplash.com/photo-1562774053-701939374585?auto=format&fit=crop&w=1920&q=75" },
-  { t: "Австрия и Венгрия — один куратор на весь путь.", img: "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&w=1920&q=75" },
+  { t: "Австрия и Венгрия — один куратор на весь путь.", img: "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=1920&q=75" },
 ];
 
 export const services = [
-  { no: "SERVICE 01", title: "Бакалавриат в Австрии", desc: "от €1 450/год · VWU с нуля", text: "Государственные университеты Вены, Граца и Линца от €1 450/год. Поступление после 11 классов, подготовительное отделение (VWU) и программы на немецком и английском.", img: "https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=800&q=75" },
-  { no: "SERVICE 02", title: "Гранты в Венгрии", desc: "грант 100% · всё включено", text: "Stipendium Hungaricum: 100% бесплатное обучение, ежемесячная стипендия, бесплатное общежитие и медицинская страховка. Полная подготовка портфолио.", img: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=800&q=75" },
-  { no: "SERVICE 03", title: "Магистратура и MBA", desc: "120+ программ на английском", text: "Топовые университеты (WU Vienna, TU Wien, Corvinus, ELTE). Более 120 программ полностью на английском языке с прямым зачислением без потери семестра.", img: "https://images.unsplash.com/photo-1523580494863-6f3031224c94?auto=format&fit=crop&w=800&q=75" },
-  { no: "SERVICE 04", title: "Сопровождение под ключ", desc: "документы, заявки и ВНЖ", text: "Апостили, судебные переводы, нострификация аттестатов и дипломов, подача заявок в вузы и гарантированное получение студенческого ВНЖ.", img: "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&w=800&q=75" },
+  { no: "Направление 01", title: "Бакалавриат в Австрии", desc: "от €1 450/год · VWU с нуля", text: "Государственные университеты Вены, Граца и Линца от €1 450/год. Поступление после 11 классов, подготовительное отделение (VWU) и программы на немецком и английском.", img: "https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=800&q=75" },
+  { no: "Направление 02", title: "Гранты в Венгрии", desc: "грант 100% · всё включено", text: "Stipendium Hungaricum: 100% бесплатное обучение, ежемесячная стипендия, бесплатное общежитие и медицинская страховка. Полная подготовка портфолио.", img: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=800&q=75" },
+  { no: "Направление 03", title: "Магистратура и MBA", desc: "120+ программ на английском", text: "Топовые университеты (WU Vienna, TU Wien, Corvinus, ELTE). Более 120 программ полностью на английском языке с прямым зачислением без потери семестра.", img: "https://images.unsplash.com/photo-1523580494863-6f3031224c94?auto=format&fit=crop&w=800&q=75" },
+  { no: "Направление 04", title: "Сопровождение под ключ", desc: "документы, заявки и ВНЖ", text: "Апостили, судебные переводы, нострификация аттестатов и дипломов, подача заявок в вузы и гарантированное получение студенческого ВНЖ.", img: "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&w=800&q=75" },
 ];
 
 // Ссылки подменю «База вузов» (аналог Cities we serve у эталона) — ведут на страницы стран.
@@ -127,7 +127,7 @@ export const countries: Record<string, CountryInfo> = {
     ],
     ctaTitle: "Точную стратегию поступления в Австрию — за 15 минут",
     ctaSub: "Без воды: шансы, дедлайны и бюджет под ваш профиль.",
-    ctaImg: "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&w=1920&q=75",
+    ctaImg: "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=1920&q=75",
   },
   hungary: {
     code: "HU", name: "Венгрия",
@@ -179,10 +179,10 @@ export const countries: Record<string, CountryInfo> = {
 };
 
 export const steps = [
-  { no: "Step 01", title: "Академический аудит", text: "Анализируем оценки, уровень языка и академическую разницу. Рассчитываем точные шансы на грант и бюджет.", img: "https://images.unsplash.com/photo-1498243691581-b145c3f54a5a?auto=format&fit=crop&w=800&q=75" },
-  { no: "Step 02", title: "Стратегия и шортлист", text: "Подбираем 3–6 подходящих программ (от топовых до гарантированных) и формируем персональный календарь дедлайнов.", img: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=800&q=75" },
-  { no: "Step 03", title: "Документы и подача", text: "Берём на себя присяжные переводы, апостили, нострификацию и написание сильных мотивационных писем.", img: "https://images.unsplash.com/photo-1481627834876-b7833e8f5570?auto=format&fit=crop&w=800&q=75" },
-  { no: "Step 04", title: "Зачисление и ВНЖ", text: "Подаём документы в вузы, получаем подтверждение зачисления (Zulassung) и оформляем студенческий ВНЖ.", img: "https://images.unsplash.com/photo-1571260899304-425eee4c7efc?auto=format&fit=crop&w=800&q=75" },
+  { no: "Этап 01", title: "Академический аудит", text: "Анализируем оценки, уровень языка и академическую разницу. Рассчитываем точные шансы на грант и бюджет.", img: "https://images.unsplash.com/photo-1498243691581-b145c3f54a5a?auto=format&fit=crop&w=800&q=75" },
+  { no: "Этап 02", title: "Стратегия и шортлист", text: "Подбираем 3–6 подходящих программ (от топовых до гарантированных) и формируем персональный календарь дедлайнов.", img: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=800&q=75" },
+  { no: "Этап 03", title: "Документы и подача", text: "Берём на себя присяжные переводы, апостили, нострификацию и написание сильных мотивационных писем.", img: "https://images.unsplash.com/photo-1481627834876-b7833e8f5570?auto=format&fit=crop&w=800&q=75" },
+  { no: "Этап 04", title: "Зачисление и ВНЖ", text: "Подаём документы в вузы, получаем подтверждение зачисления (Zulassung) и оформляем студенческий ВНЖ.", img: "https://images.unsplash.com/photo-1571260899304-425eee4c7efc?auto=format&fit=crop&w=800&q=75" },
 ];
 
 export const stats = [
