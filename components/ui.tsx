@@ -30,41 +30,6 @@ export function useScrollProgress<T extends HTMLElement>() {
   return [ref, p] as const;
 }
 
-/** Сглаженный прогресс (аналог scrub:.4 у эталона — догоняющее отставание). */
-export function useSmoothScrollProgress<T extends HTMLElement>(factor = 0.2) {
-  const ref = useRef<T>(null);
-  const [p, setP] = useState(0);
-  useEffect(() => {
-    let raf = 0;
-    let cur = 0;
-    const compute = () => {
-      if (!ref.current) return 0;
-      const r = ref.current.getBoundingClientRect();
-      const total = r.height - window.innerHeight;
-      return total <= 0 ? 0 : Math.max(0, Math.min(1, -r.top / total));
-    };
-    const tick = () => {
-      raf = 0;
-      const t = compute();
-      const next = cur + (t - cur) * factor;
-      const v = Math.abs(t - next) < 0.0004 ? t : next;
-      if (v !== cur) {
-        cur = v;
-        setP(v);
-      }
-      if (v !== t) raf = requestAnimationFrame(tick);
-    };
-    const onScroll = () => { if (!raf) raf = requestAnimationFrame(tick); };
-    window.addEventListener("scroll", onScroll, { passive: true });
-    onScroll();
-    return () => {
-      window.removeEventListener("scroll", onScroll);
-      if (raf) cancelAnimationFrame(raf);
-    };
-  }, [factor]);
-  return [ref, p] as const;
-}
-
 /** Прогресс входа обычной секции во вьюпорт: 0 — нижний край коснулся низа экрана, 1 — секция дошла до верха. */
 export function useViewportProgress<T extends HTMLElement>() {
   const ref = useRef<T>(null);

@@ -1,11 +1,10 @@
 "use client";
-import { Fragment, useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { heroPhrases } from "../app/data";
-import { useSmoothScrollProgress, onRafScroll } from "./ui";
 
-// Hero: фото per-phrase кроссфейдом + живая карта поверх (линия рисуется
-// скроллом, курсор едет по пути) + посимвольные фразы. Антилаг: без
-// drop-shadow на фулскрине, линия и курсор — напрямую в DOM без ре-рендеров.
+// Hero: фото per-phrase кроссфейдом + живая карта (линия, курсор) +
+// посимвольные фразы. Ноль ре-рендеров при скролле: один rAF-цикл
+// пишет opacity/цвет/позиции напрямую в DOM.
 const ROUTE = "M 150,430 C 300,410 380,330 520,320 C 660,310 740,300 860,270";
 
 const pos = [
@@ -13,8 +12,6 @@ const pos = [
   "top:13%;left:5%;text-align:left;max-width:min(900px,66vw)",
   "bottom:12%;left:50%;text-align:center;max-width:min(1000px,92vw)",
 ] as const;
-
-const CENTERED = 2; // фраза по центру (нужен translateX(-50%))
 
 function css(s: string): React.CSSProperties {
   const o: Record<string, string> = {};
@@ -39,94 +36,40 @@ const mixBrand = (t: number) => {
   return `rgb(${r},${g},${b})`;
 };
 
-// Дословная формула фраз эталона: слот e=0.92/N, появление, окраска, уход.
-function Phrase({ text, index, total, time, centered, style }: {
-  text: string; index: number; total: number; time: number; centered?: boolean; style: React.CSSProperties;
-}) {
-  const e = 0.92 / total;
-  const I = 0.55 * e, S = 0.2 * e, F = 0.25 * e;
-  const h = 0.04 + index * e;
-  const words: string[][] = [];
-  let acc: string[] = [];
-  text.split("").forEach((ch) => {
-    if (ch === " ") { if (acc.length) { words.push(acc); acc = []; } words.push([" "]); }
-    else acc.push(ch);
-  });
-  if (acc.length) words.push(acc);
-  const C = text.length;
-  const pd = (0.5 * I) / C;
-  const fd = F / C;
-  let gi = 0;
-  const Tag = index === Math.min(total - 1, Math.round(time * Math.max(1, total - 1))) ? "h1" : "div";
-  return (
-    <Tag data-hero-phrase aria-hidden={Tag === "h1" ? undefined : true}
-      className="font-normal text-white"
-      style={{
-        position: "absolute",
-        fontSize: "clamp(29px,6.2vw,76px)",
-        lineHeight: 1.05,
-        letterSpacing: "-0.025em",
-        textShadow: "0 2px 18px rgba(0,0,0,0.9)",
-        ...(centered ? { transform: "translateX(-50%)" } : {}),
-        ...style,
-      }}>
-      {words.map((w, wi) => {
-        if (w.length === 1 && w[0] === " ") {
-          const j = gi++;
-          return <Char key={wi} ch=" " j={j} />;
-        }
-        return (
-          <span key={wi} className="hero-word">
-            {w.map((ch, ci) => {
-              const j = gi++;
-              return <Char key={ci} ch={ch} j={j} />;
-            })}
-          </span>
-        );
-      })}
-    </Tag>
-  );
+interface CharMeta { l: number; j: number; C: number; last: boolean }
 
-  function Char({ ch, j }: { ch: string; j: number }) {
-    const oIn = easeOut2(clamp01((time - (h + j * pd)) / (8 * pd)));
-    const cT = easeOut3(clamp01((time - (h + 3 * pd + j * pd)) / (14 * pd)));
-    const oOut = index < total - 1 ? easeIn2(clamp01((time - (h + I + S + j * fd)) / (4 * fd))) : 0;
-    const opacity = oIn * (1 - oOut);
-    return (
-      <span className="hero-char" style={{ opacity: opacity < 0.01 ? 0 : opacity, color: mixBrand(cT) }}>
-        {ch}
-      </span>
-    );
-  }
+// Плоский порядок символов = порядок в DOM (слова + пробелы-разделители).
+function useCharMetas(): CharMeta[] {
+  return useMemo(() => {
+    const metas: CharMeta[] = [];
+    const N = heroPhrases.length;
+    heroPhrases.forEach((ph, l) => {
+      const C = ph.t.length;
+      let gi = 0;
+      const words: string[][] = [];
+      let acc: string[] = [];
+      ph.t.split("").forEach((ch) => {
+        if (ch === " ") { if (acc.length) { words.push(acc); acc = []; } words.push([" "]); }
+        else acc.push(ch);
+      });
+      if (acc.length) words.push(acc);
+      words.forEach((w) => {
+        if (w.length === 1 && w[0] === " ") metas.push({ l, j: gi++, C, last: l === N - 1 });
+        else w.forEach(() => { metas.push({ l, j: gi++, C, last: l === N - 1 }); });
+      });
+    });
+    return metas;
+  }, []);
 }
 
 export default function Hero() {
-  const [ref, p] = useSmoothScrollProgress<HTMLDivElement>(0.2);
-  const n = heroPhrases.length;
-  const x = p * Math.max(1, n - 1);
-
-  // Линия и курсор — напрямую в DOM: SVG не ре-рендерится каждый кадр.
-  const drawRefs = useRef<(SVGPathElement | null)[]>([]);
+  const ref = useRef<HTMLDivElement>(null);
+  const pathRef = useRef<SVGPathElement>(null);
   const cursorRef = useRef<SVGGElement>(null);
-  const pRef = useRef(0);
-  pRef.current = p;
-  useEffect(() => onRafScroll(() => {
-    const t = Math.max(0, Math.min(1, pRef.current));
-    for (const el of drawRefs.current) {
-      if (el) el.style.strokeDashoffset = String(100 - t * 100);
-    }
-    const path = drawRefs.current[0];
-    const cursor = cursorRef.current;
-    if (path && cursor) {
-      try {
-        const len = path.getTotalLength();
-        const pt = path.getPointAtLength(len * t);
-        const ahead = path.getPointAtLength(Math.min(len, len * t + 2));
-        const ang = (Math.atan2(ahead.y - pt.y, ahead.x - pt.x) * 180) / Math.PI;
-        cursor.setAttribute("transform", `translate(${pt.x.toFixed(1)},${pt.y.toFixed(1)}) rotate(${ang.toFixed(1)})`);
-      } catch { /* SVG ещё не готов */ }
-    }
-  }), []);
+  const drawA = useRef<SVGPathElement>(null);
+  const drawB = useRef<SVGPathElement>(null);
+  const budaRef = useRef<SVGGElement>(null);
+  const metas = useCharMetas();
 
   // На узких экранах карту показываем целиком, на широких — кинематографичный кроп.
   const [narrow, setNarrow] = useState(false);
@@ -138,30 +81,128 @@ export default function Hero() {
     return () => mq.removeEventListener("change", f);
   }, []);
 
-  const budapest = Math.max(0, Math.min(1, (p - 0.45) / 0.25)); // второй хаб проявляется к концу
+  useEffect(() => {
+    const region = ref.current;
+    if (!region) return;
+    const chars = Array.from(region.querySelectorAll<HTMLElement>(".hero-char"));
+    // Без движения: статичный первый кадр (фраза и фото 1, линия в начале).
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      chars.forEach((el, k) => {
+        if (k < metas.length && metas[k].l === 0) {
+          el.style.opacity = "1";
+          el.style.color = "rgb(255,255,255)";
+        }
+      });
+      return;
+    }
+    const photos = Array.from(region.querySelectorAll<HTMLElement>("[data-hero-photo]"));
+    const N = heroPhrases.length;
+    let raf = 0;
+    let cur = -1;
+    const compute = () => {
+      const r = region.getBoundingClientRect();
+      const total = r.height - window.innerHeight;
+      return total <= 0 ? 0 : Math.max(0, Math.min(1, -r.top / total));
+    };
+    const apply = (t: number) => {
+      const x = t * Math.max(1, N - 1);
+      for (let k = 0; k < chars.length && k < metas.length; k++) {
+        const el = chars[k];
+        const m = metas[k];
+        const e = 0.92 / N;
+        const I = 0.55 * e, S = 0.2 * e, F = 0.25 * e;
+        const h = 0.04 + m.l * e;
+        const pd = (0.5 * I) / m.C;
+        const fd = F / m.C;
+        const oIn = easeOut2(clamp01((t - (h + m.j * pd)) / (8 * pd)));
+        const cT = easeOut3(clamp01((t - (h + 3 * pd + m.j * pd)) / (14 * pd)));
+        const oOut = !m.last ? easeIn2(clamp01((t - (h + I + S + m.j * fd)) / (4 * fd))) : 0;
+        const op = oIn * (1 - oOut);
+        el.style.opacity = op < 0.01 ? "0" : op.toFixed(3);
+        el.style.color = mixBrand(cT);
+      }
+      photos.forEach((img, i) => {
+        const op = Math.max(0, Math.min(1, 1 - Math.abs(x - i)));
+        img.style.opacity = op < 0.01 ? "0" : op.toFixed(3);
+      });
+      const off = String(100 - t * 100);
+      if (drawA.current) drawA.current.style.strokeDashoffset = off;
+      if (drawB.current) drawB.current.style.strokeDashoffset = off;
+      const buda = budaRef.current;
+      if (buda) {
+        const v = Math.max(0, Math.min(1, (t - 0.45) / 0.25));
+        buda.style.opacity = v < 0.02 ? "0" : v.toFixed(3);
+      }
+      const path = pathRef.current, cursor = cursorRef.current;
+      if (path && cursor) {
+        try {
+          const len = path.getTotalLength();
+          const pt = path.getPointAtLength(len * t);
+          const ahead = path.getPointAtLength(Math.min(len, len * t + 2));
+          const ang = (Math.atan2(ahead.y - pt.y, ahead.x - pt.x) * 180) / Math.PI;
+          cursor.setAttribute("transform", `translate(${pt.x.toFixed(1)},${pt.y.toFixed(1)}) rotate(${ang.toFixed(1)})`);
+        } catch { /* SVG ещё не готов */ }
+      }
+    };
+    const tick = () => {
+      raf = 0;
+      const goal = compute();
+      const next = cur < 0 ? goal : cur + (goal - cur) * 0.2;
+      const v = Math.abs(goal - next) < 0.0004 ? goal : next;
+      if (v !== cur) {
+        cur = v;
+        apply(v);
+      }
+      if (v !== goal) raf = requestAnimationFrame(tick);
+    };
+    const onScroll = () => { if (!raf) raf = requestAnimationFrame(tick); };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      if (raf) cancelAnimationFrame(raf);
+    };
+  }, [metas]);
+
+  const renderWords = (text: string) => {
+    const words: string[][] = [];
+    let acc: string[] = [];
+    text.split("").forEach((ch) => {
+      if (ch === " ") { if (acc.length) { words.push(acc); acc = []; } words.push([" "]); }
+      else acc.push(ch);
+    });
+    if (acc.length) words.push(acc);
+    return words.map((w, wi) => {
+      if (w.length === 1 && w[0] === " ") {
+        return <span key={wi} className="hero-char" style={{ opacity: 0 }}> </span>;
+      }
+      return (
+        <span key={wi} className="hero-word">
+          {w.map((ch, ci) => (
+            <span key={ci} className="hero-char" style={{ opacity: 0, color: mixBrand(0) }}>{ch}</span>
+          ))}
+        </span>
+      );
+    });
+  };
 
   return (
     <div ref={ref} data-hero-region className="relative w-full" style={{ height: "320vh" }}>
       <section className="sticky top-0 h-screen w-full overflow-hidden bg-black">
-        {heroPhrases.map((ph, i) => {
-          const op = Math.max(0, Math.min(1, 1 - Math.abs(x - i)));
-          return (
-            <img
-              key={ph.img}
-              src={ph.img}
-              alt=""
-              aria-hidden
-              fetchPriority={i === 0 ? "high" : undefined}
-              loading={i === 0 ? "eager" : "lazy"}
-              decoding="async"
-              className="absolute inset-0 h-full w-full object-cover"
-              style={{
-                opacity: op < 0.01 ? 0 : op,
-                transform: i === Math.round(x) ? `scale(${(1 + p * 0.1).toFixed(3)})` : undefined,
-              }}
-            />
-          );
-        })}
+        {heroPhrases.map((ph, i) => (
+          <img
+            key={ph.img}
+            data-hero-photo
+            src={ph.img}
+            alt=""
+            aria-hidden
+            fetchPriority={i === 0 ? "high" : undefined}
+            loading={i === 0 ? "eager" : "lazy"}
+            decoding="async"
+            className="absolute inset-0 h-full w-full object-cover"
+            style={{ opacity: i === 0 ? 1 : 0 }}
+          />
+        ))}
         <svg viewBox="0 0 1000 700" preserveAspectRatio={narrow ? "xMidYMid meet" : "xMidYMid slice"}
           className="absolute inset-0 h-full w-full" role="img" aria-label="Карта маршрута Вена — Будапешт">
           <defs>
@@ -203,9 +244,9 @@ export default function Hero() {
             </g>
           ))}
           <path d={ROUTE} fill="none" stroke="rgba(255,255,255,0.14)" strokeWidth="2" />
-          <path ref={(el) => { drawRefs.current[0] = el; }} d={ROUTE} fill="none" stroke="var(--brand-bright)" strokeOpacity="0.25" strokeWidth="9" strokeLinecap="round"
+          <path ref={drawA} d={ROUTE} fill="none" stroke="var(--brand-bright)" strokeOpacity="0.25" strokeWidth="9" strokeLinecap="round"
             pathLength={100} style={{ strokeDasharray: 100, strokeDashoffset: 100 }} />
-          <path ref={(el) => { drawRefs.current[1] = el; }} d={ROUTE} fill="none" stroke="var(--brand-bright)" strokeWidth="3.5" strokeLinecap="round"
+          <path ref={drawB} d={ROUTE} fill="none" stroke="var(--brand-bright)" strokeWidth="3.5" strokeLinecap="round"
             pathLength={100} style={{ strokeDasharray: 100, strokeDashoffset: 100 }} />
           {[
             [284, 394, "Братислава"], [615, 312, "Дьёр"],
@@ -223,7 +264,7 @@ export default function Hero() {
           <circle cx="150" cy="430" r="7" fill="var(--brand-bright)" />
           <text x="150" y="474" textAnchor="middle" fill="rgba(255,255,255,0.85)"
             fontSize="22" letterSpacing="4" fontFamily="var(--font-mono), monospace">ВЕНА</text>
-          <g style={{ opacity: budapest < 0.02 ? 0 : budapest }}>
+          <g ref={budaRef} style={{ opacity: 0 }}>
             <circle cx="860" cy="270" r="7" fill="var(--brand-bright)">
               <animate attributeName="r" values="7;30" dur="2.4s" begin="1.2s" repeatCount="indefinite" />
               <animate attributeName="opacity" values="0.7;0" dur="2.4s" begin="1.2s" repeatCount="indefinite" />
@@ -239,10 +280,28 @@ export default function Hero() {
         </svg>
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/55 via-black/25 to-black/70" />
         <div className="pointer-events-none absolute inset-0 px-6 lg:px-12">
-          {heroPhrases.map((ph, i) => (
-            <Phrase key={ph.t} text={ph.t} index={i} total={heroPhrases.length} time={p}
-              centered={i === CENTERED} style={css(pos[i])} />
-          ))}
+          {heroPhrases.map((ph, i) => {
+            const Tag = i === 0 ? "h1" : "div";
+            return (
+              <Tag
+                key={ph.t}
+                data-hero-phrase
+                aria-hidden={i === 0 ? undefined : true}
+                className="font-normal text-white"
+                style={{
+                  position: "absolute",
+                  fontSize: "clamp(29px,6.2vw,76px)",
+                  lineHeight: 1.05,
+                  letterSpacing: "-0.025em",
+                  textShadow: "0 2px 18px rgba(0,0,0,0.9)",
+                  ...(i === 2 ? { transform: "translateX(-50%)" } : {}),
+                  ...css(pos[i]),
+                }}
+              >
+                {renderWords(ph.t)}
+              </Tag>
+            );
+          })}
         </div>
       </section>
     </div>
