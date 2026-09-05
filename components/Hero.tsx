@@ -243,10 +243,10 @@ export default function Hero() {
                 fontSize="15" letterSpacing="2" fontFamily="var(--font-mono), monospace">{name}</text>
             </g>
           ))}
-          <path d={ROUTE} fill="none" stroke="rgba(255,255,255,0.14)" strokeWidth="2" />
-          <path ref={drawA} d={ROUTE} fill="none" stroke="var(--brand-bright)" strokeOpacity="0.25" strokeWidth="9" strokeLinecap="round"
+          <path ref={pathRef} d={ROUTE} fill="none" stroke="rgba(255,255,255,0.14)" strokeWidth="2" />
+          <path ref={drawA} d={ROUTE} fill="none" stroke="var(--brand-bright)" strokeOpacity="0.3" strokeWidth="12" strokeLinecap="round"
             pathLength={100} style={{ strokeDasharray: 100, strokeDashoffset: 100 }} />
-          <path ref={drawB} d={ROUTE} fill="none" stroke="var(--brand-bright)" strokeWidth="3.5" strokeLinecap="round"
+          <path ref={drawB} d={ROUTE} fill="none" stroke="var(--brand-bright)" strokeWidth="5" strokeLinecap="round"
             pathLength={100} style={{ strokeDasharray: 100, strokeDashoffset: 100 }} />
           {[
             [284, 394, "Братислава"], [615, 312, "Дьёр"],
