@@ -256,12 +256,16 @@ export default function Hero() {
           <path d="M -20,470 C 180,450 320,470 500,440 S 800,380 1020,400"
             fill="none" stroke="#2D9CDB" strokeOpacity="0.25" strokeWidth="10" strokeLinecap="round" />
           {[
-            [120, 300, "Линц"], [60, 470, "Инсбрук"], [330, 540, "Грац"],
-            [800, 540, "Сегед"], [880, 430, "Дебрецен"], [700, 580, "Печ"],
-          ].map(([cx, cy, name]) => (
-            <g key={name as string}>
-              <circle cx={cx as number} cy={cy as number} r="4" fill="rgba(16,20,24,0.3)" />
-              <text x={(cx as number) + 12} y={(cy as number) + 5} fill="rgba(16,20,24,0.45)"
+            { cx: 120, cy: 300, name: "Линц", lx: 132, ly: 305, anchor: undefined },
+            { cx: 60, cy: 470, name: "Инсбрук", lx: 60, ly: 498, anchor: "middle" },
+            { cx: 330, cy: 540, name: "Грац", lx: 342, ly: 545, anchor: undefined },
+            { cx: 800, cy: 540, name: "Сегед", lx: 812, ly: 545, anchor: undefined },
+            { cx: 880, cy: 430, name: "Дебрецен", lx: 830, ly: 462, anchor: undefined },
+            { cx: 700, cy: 580, name: "Печ", lx: 712, ly: 585, anchor: undefined },
+          ].map(({ cx, cy, name, lx, ly, anchor }) => (
+            <g key={name}>
+              <circle cx={cx} cy={cy} r="4" fill="rgba(16,20,24,0.3)" />
+              <text x={lx} y={ly} textAnchor={anchor} fill="rgba(16,20,24,0.45)"
                 fontSize="15" letterSpacing="2" fontFamily="var(--font-mono), monospace">{name}</text>
             </g>
           ))}

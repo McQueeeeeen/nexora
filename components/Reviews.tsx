@@ -1,13 +1,25 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { quotes } from "../app/data";
-import { Y, ArrowIcon, Stars } from "./ui";
+import { Y, Stars } from "./ui";
 
-// Отзывы на бумаге: заголовок, звёзды, аватар с инициалами, стрелки и дотсы.
+// Отзывы: дотсы + автопрокрутка 6.5с как у эталона (стрелки убраны).
 export default function Reviews({ title, detailed = false }: { title?: string; detailed?: boolean }) {
   const [i, setI] = useState(0);
+  const timer = useRef(0);
   const q = quotes[i];
   const initials = q.author.split(" ").map((w) => w[0]).join("");
+
+  const go = (d: number) => {
+    setI(d);
+    window.clearTimeout(timer.current);
+    timer.current = window.setTimeout(() => setI((v) => (v + 1) % quotes.length), 6500);
+  };
+
+  useEffect(() => {
+    timer.current = window.setTimeout(() => setI((v) => (v + 1) % quotes.length), 6500);
+    return () => window.clearTimeout(timer.current);
+  }, []);
 
   return (
     <section id="reviews" className="relative flex min-h-[80vh] items-center overflow-hidden py-24 lg:min-h-[100vh] lg:py-40">
@@ -33,29 +45,18 @@ export default function Reviews({ title, detailed = false }: { title?: string; d
           <span className="text-[22px] font-medium sm:text-[26px] lg:text-[32px]">{q.author}</span>
           <span className="font-mono text-[12px] uppercase tracking-[2.5px] text-[#101418]/60 lg:text-[13px]">{q.role}</span>
         </div>
-        <div className="mt-10 flex items-center justify-center gap-4">
-          <button onClick={() => setI((i - 1 + quotes.length) % quotes.length)} aria-label="Предыдущий отзыв"
-            className="hidden h-14 w-14 items-center justify-center rounded-full border border-[#101418]/10 bg-white transition-all duration-200 lg:flex"
-            style={i === 0 ? { opacity: 0.4, cursor: "default" } : undefined}>
-            <span aria-hidden><ArrowIcon className="h-5 w-5 rotate-180" /></span>
-          </button>
-          <div className="flex items-center gap-2">
+        <div className="mt-10 flex items-center justify-center gap-3">
           {quotes.map((_, d) => (
             <button
               key={d}
-              onClick={() => setI(d)}
+              onClick={() => go(d)}
               aria-label={`Отзыв ${d + 1}`}
-              className="h-2 rounded transition-all duration-300"
+              className="relative h-2 rounded transition-all duration-300 after:absolute after:-inset-3 after:content-['']"
               style={d === i
                 ? { width: 28, background: Y }
                 : { width: 8, background: "rgba(16,20,24,0.15)" }}
             />
           ))}
-          </div>
-          <button onClick={() => setI((i + 1) % quotes.length)} aria-label="Следующий отзыв"
-            className="hidden h-14 w-14 items-center justify-center rounded-full border border-[#101418]/10 bg-white transition-all duration-200 hover:scale-110 lg:flex">
-            <span aria-hidden><ArrowIcon className="h-5 w-5" /></span>
-          </button>
         </div>
       </div>
     </section>
