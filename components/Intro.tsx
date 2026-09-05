@@ -41,7 +41,7 @@ export default function Intro() {
   }, []);
 
   if (phase === "done") return null;
-  const logo = <>NEXORA<span style={{ color: "#FFE533" }}>.</span></>;
+  const logo = <>NEXORA<span style={{ color: "var(--brand)" }}>.</span></>;
 
   return (
     <>
@@ -67,8 +67,8 @@ export default function Intro() {
                 className="relative h-full"
                 style={{
                   flex: "1 0 0%",
-                  backgroundColor: "#FFE533",
-                  boxShadow: "0 0 0 1px #FFE533",
+                  backgroundColor: "var(--brand)",
+                  boxShadow: "0 0 0 1px var(--brand)",
                   willChange: "transform",
                   transform: lift ? "translateY(-100%)" : "translateY(0)",
                   transition: "transform .9s cubic-bezier(.65,0,.35,1)",

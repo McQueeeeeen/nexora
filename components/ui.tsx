@@ -3,7 +3,9 @@ import { useEffect, useRef, useState } from "react";
 
 // Общий контейнер — класс .wrap из globals.css (чистый CSS, не зависит от сканера).
 export const wrap = "wrap";
-export const Y = "#FFE533";
+// Акценты палитры: Y — для светлых поверхностей, YB — яркий для тёмных.
+export const Y = "var(--brand)";
+export const YB = "var(--brand-bright)";
 
 /** Скролл через rAF: один пересчёт на кадр, без дерганий. */
 export function onRafScroll(fn: () => void) {
@@ -53,9 +55,9 @@ export function Reveal({ children, className = "" }: { children: React.ReactNode
   return <div ref={ref} className={`${seen ? "tv5-fade" : "opacity-0"} ${className}`}>{children}</div>;
 }
 
-export function Tag({ children }: { children: string }) {
+export function Tag({ children, dark = false }: { children: string; dark?: boolean }) {
   return (
-    <span className="font-mono text-xs uppercase tracking-[2px] text-white/60">{children}</span>
+    <span className={`font-mono text-xs uppercase tracking-[2px] ${dark ? "text-white/60" : "text-[#5B6470]"}`}>{children}</span>
   );
 }
 
@@ -76,11 +78,12 @@ export function ExtIcon({ className = "" }: { className?: string }) {
   );
 }
 
-export function Btn({ href, children, ghost = false, className = "", style }: {
-  href: string; children: React.ReactNode; ghost?: boolean; className?: string; style?: React.CSSProperties;
+export function Btn({ href, children, ghost = false, outline = false, className = "", style }: {
+  href: string; children: React.ReactNode; ghost?: boolean; outline?: boolean; className?: string; style?: React.CSSProperties;
 }) {
+  const kind = outline ? "mp5-btn--outline" : ghost ? "mp5-btn--secondary" : "mp5-btn--primary";
   return (
-    <a href={href} className={`mp5-btn ${ghost ? "mp5-btn--secondary" : "mp5-btn--primary"} ${className}`} style={style}>
+    <a href={href} className={`mp5-btn ${kind} ${className}`} style={style}>
       {children}
     </a>
   );

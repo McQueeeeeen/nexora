@@ -15,7 +15,7 @@ import MobileBar from "../components/MobileBar";
 // Главная — витрина + агентство, как у эталона. Каталог вузов живёт на страницах стран.
 export default function Page() {
   return (
-    <main className="min-h-screen bg-[#0C0C0C] text-white">
+    <main className="min-h-screen bg-[#F7F5EF] text-[#101418]">
       <Intro />
       <Header />
       <Hero />

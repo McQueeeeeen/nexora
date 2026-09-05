@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import { usePathname } from "next/navigation";
-import { Y, useViewportProgress, Reveal, ArrowIcon } from "./ui";
+import { YB, useViewportProgress, Reveal, ArrowIcon } from "./ui";
 
 // Контакты + футер в параллакс-обёртке эталона.
 // Форма из 2 шагов: дотсы, Continue, Email — как у эталона.
@@ -14,7 +14,7 @@ export default function Contact() {
   return (
     <div ref={ref} data-footer-parallax style={{ position: "relative", overflow: "hidden" }}>
       <div data-footer-parallax-inner style={{ transform: `translateY(${(1 - p) * 90}px)`, willChange: "transform" }}>
-        <footer id="contact" className="bg-[#141414] px-4 pb-[76px] pt-16 lg:px-12 lg:pb-10 lg:pt-20">
+        <footer id="contact" className="bg-[#101418] px-4 pb-[76px] pt-16 lg:px-12 lg:pb-10 lg:pt-20">
           <div className="mx-auto flex max-w-[1408px] flex-col gap-8">
             <div className="flex flex-col gap-[36px] lg:gap-12">
               <div className="border-b border-white/10 pb-6">
@@ -29,15 +29,15 @@ export default function Contact() {
                   <div className="mt-8 space-y-3 text-sm text-white/80">
                     <p>📍 <b>Вена:</b> Schottengasse 4, 1010 Wien</p>
                     <p>📍 <b>Будапешт:</b> Váci utca 12, 1052 Budapest</p>
-                    <p>💬 <b>Telegram:</b> <a href="https://t.me/nexora_support" target="_blank" className="underline" style={{ color: Y }}>@nexora_support</a></p>
-                    <p>✉️ <b>Email:</b> <a href="mailto:admissions@nexora.eu" className="underline" style={{ color: Y }}>admissions@nexora.eu</a></p>
+                    <p>💬 <b>Telegram:</b> <a href="https://t.me/nexora_support" target="_blank" className="underline" style={{ color: YB }}>@nexora_support</a></p>
+                    <p>✉️ <b>Email:</b> <a href="mailto:admissions@nexora.eu" className="underline" style={{ color: YB }}>admissions@nexora.eu</a></p>
                     <p>🕗 <b>На связи:</b> Пн–Вс, 8:00–18:00</p>
                   </div>
                 </Reveal>
                 <Reveal className="flex flex-col gap-5 lg:flex-1">
                   {sent ? (
                     <div className="flex min-h-[300px] flex-col items-center justify-center text-center">
-                      <span className="text-5xl" style={{ color: Y }}>✓</span>
+                      <span className="text-5xl" style={{ color: YB }}>✓</span>
                       <h4 className="mt-4 text-2xl font-medium">Заявка принята</h4>
                       <p className="mt-2 max-w-sm text-white/70">Свяжемся в течение 30 минут для бесплатной диагностики.</p>
                     </div>
@@ -45,18 +45,18 @@ export default function Contact() {
                     <form onSubmit={(e) => { e.preventDefault(); setSent(true); }} className="flex flex-col gap-5">
                       <div className="flex gap-1.5" aria-hidden>
                         {[0, 1].map((d) => (
-                          <span key={d} className="h-1.5 rounded-full transition-all" style={d <= step ? { width: 32, background: Y } : { width: 8, background: "rgba(255,255,255,0.2)" }} />
+                          <span key={d} className="h-1.5 rounded-full transition-all" style={d <= step ? { width: 32, background: YB } : { width: 8, background: "rgba(255,255,255,0.2)" }} />
                         ))}
                       </div>
                       {step === 0 ? (
                         <>
                           <div className="flex flex-col gap-5 lg:flex-row lg:gap-2.5">
                             <div className="flex flex-1 flex-col gap-2">
-                              <label className="font-mono text-xs font-bold uppercase text-white/40">Ваше имя<span style={{ color: Y }}> *</span></label>
+                              <label className="font-mono text-xs font-bold uppercase text-white/40">Ваше имя<span style={{ color: YB }}> *</span></label>
                               <input required placeholder="Иван Иванов" className="input-glow h-14 rounded-[10px] px-4 text-sm" />
                             </div>
                             <div className="flex flex-1 flex-col gap-2">
-                              <label className="font-mono text-xs font-bold uppercase text-white/40">Телефон<span style={{ color: Y }}> *</span></label>
+                              <label className="font-mono text-xs font-bold uppercase text-white/40">Телефон<span style={{ color: YB }}> *</span></label>
                               <input required type="tel" inputMode="tel" autoComplete="tel" placeholder="+7 (999) 000-00-00" className="input-glow h-14 rounded-[10px] px-4 text-sm" />
                             </div>
                           </div>
@@ -89,7 +89,7 @@ export default function Contact() {
             </div>
             <div className="h-px bg-white/10" />
             <div className="flex flex-col gap-8 lg:flex-row">
-              <div className="text-2xl font-bold">NEXORA<span style={{ color: Y }}>.</span></div>
+              <div className="text-2xl font-bold">NEXORA<span style={{ color: YB }}>.</span></div>
               <p className="max-w-sm text-sm leading-relaxed text-white/60">Помогаем поступить в университеты Австрии и Венгрии: аудит, гранты, документы и ВНЖ под ключ.</p>
               <nav className="flex flex-col items-start gap-3 text-xl font-medium text-white/80">
                 <a href={`${pre}#services`} className="hover-underline transition hover:text-white">Программы</a>

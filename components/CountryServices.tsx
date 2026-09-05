@@ -4,21 +4,21 @@ import { wrap, Tag, Reveal, ArrowIcon } from "./ui";
 // Услуги страны — полноэкранные карточки с водяным номером, как у эталона.
 export default function CountryServices({ c }: { c: CountryInfo }) {
   return (
-    <section className="bg-[#0c0c0c] py-[60px] lg:py-[100px]">
+    <section className="py-[60px] lg:py-[100px]">
       <div className={`${wrap} flex flex-col gap-8 lg:gap-16`}>
         <Reveal>
-          <div className="border-b border-white/10 pb-4 lg:pb-6">
+          <div className="border-b border-[#101418]/10 pb-4 lg:pb-6">
             <Tag>Направления</Tag>
           </div>
         </Reveal>
         <Reveal>
           <h2 className="max-w-[900px] text-balance text-[32px] font-bold leading-[1.2] tracking-[-0.96px] lg:text-[64px] lg:tracking-[-2.56px]">{c.servicesTitle}</h2>
-          <p className="mt-4 max-w-[640px] text-white/60">{c.servicesIntro}</p>
+          <p className="mt-4 max-w-[640px] text-[#101418]/60">{c.servicesIntro}</p>
         </Reveal>
         <div className="grid grid-cols-1 gap-3 lg:grid-cols-2 lg:gap-5">
           {c.servicesLocal.map((s, i) => (
             <Reveal key={s.title}>
-              <a href="#database" className="card group relative flex h-[360px] flex-col justify-between overflow-hidden rounded-2xl bg-[#181818] lg:h-[515px]">
+              <a href="#database" className="card group relative flex h-[360px] flex-col justify-between overflow-hidden rounded-2xl bg-[#101418] lg:h-[515px]">
                 <span aria-hidden className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 select-none font-light text-[100px] leading-[1.2] tracking-[-4.92px] text-white/[0.07] lg:text-[164px]">
                   {i + 1}
                 </span>

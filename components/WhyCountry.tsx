@@ -25,7 +25,7 @@ export default function WhyCountry({ c }: { c: CountryInfo }) {
       <div className={`${wrap} relative flex w-full flex-col justify-between gap-10 lg:gap-16`}>
         <Reveal className="flex flex-col gap-6 lg:gap-8">
           <div className="border-b border-white/10 pb-4">
-            <Tag>{c.whyTag}</Tag>
+            <Tag dark>{c.whyTag}</Tag>
           </div>
           <h2 className="text-balance text-[32px] font-bold leading-[1.05] tracking-[-1.5px] text-white sm:text-[56px] lg:text-[64px] lg:tracking-[-2px]">{c.whyHeading}</h2>
           <p className="max-w-[600px] text-base font-normal leading-[1.5] text-white/90 lg:text-lg">{c.whyText}</p>
@@ -34,7 +34,7 @@ export default function WhyCountry({ c }: { c: CountryInfo }) {
           {c.whyPoints.map((pt, i) => (
             <Reveal key={pt.title}>
               <div className="flex items-center gap-3 lg:gap-4">
-                <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-[#242424] font-mono text-base font-bold text-[#FFE533] lg:h-14 lg:w-14 lg:rounded-xl" aria-hidden>
+                <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-[#242424] font-mono text-base font-bold text-[#5EEAD4] lg:h-14 lg:w-14 lg:rounded-xl" aria-hidden>
                   0{i + 1}
                 </span>
                 <div className="flex min-w-0 flex-col gap-1">

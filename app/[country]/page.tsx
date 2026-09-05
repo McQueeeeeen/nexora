@@ -39,7 +39,7 @@ export default async function CountryPage({ params }: { params: Promise<{ countr
   const other = uniLinks.find((u) => u.href === `/${otherSlug}`)!;
 
   return (
-    <main className="min-h-screen bg-[#0C0C0C] text-white">
+    <main className="min-h-screen bg-[#F7F5EF] text-[#101418]">
       <Intro />
       <Header />
 
@@ -74,14 +74,14 @@ export default async function CountryPage({ params }: { params: Promise<{ countr
 
       <section className={`${wrap} pb-24`}>
         <Reveal>
-          <a href={other.href} className="card group flex items-center justify-between rounded-2xl border border-white/10 bg-[#181818] p-8 lg:p-10">
+          <a href={other.href} className="card group flex items-center justify-between rounded-2xl border border-[#101418]/10 bg-white p-8 lg:p-10">
             <div>
-              <span className="font-mono text-xs uppercase tracking-[2px] text-white/50">Смотрите также</span>
+              <span className="font-mono text-xs uppercase tracking-[2px] text-[#101418]/50">Смотрите также</span>
               <h2 className="mt-3 text-3xl font-medium tracking-tight lg:text-5xl">{other.title}</h2>
-              <p className="mt-2 text-sm text-white/60">{other.desc}</p>
+              <p className="mt-2 text-sm text-[#101418]/60">{other.desc}</p>
             </div>
-            <span className="hidden h-14 w-14 shrink-0 items-center justify-center rounded-full bg-[#242424] transition-all duration-300 group-hover:scale-110 group-hover:bg-[#FFE533] sm:flex" aria-hidden>
-              <ArrowIcon className="h-5 w-5 text-white transition-colors group-hover:text-black" />
+            <span className="hidden h-14 w-14 shrink-0 items-center justify-center rounded-full bg-[#101418]/5 transition-all duration-300 group-hover:scale-110 group-hover:bg-[var(--brand)] sm:flex" aria-hidden>
+              <ArrowIcon className="h-5 w-5 transition-colors group-hover:text-white" />
             </span>
           </a>
         </Reveal>

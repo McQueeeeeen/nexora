@@ -20,16 +20,16 @@ export default function Included({ c }: { c: CountryInfo }) {
   }, []);
 
   return (
-    <section className="bg-[#0c0c0c] pb-[60px] pt-[60px] lg:pb-[80px] lg:pt-[100px]">
+    <section className="pb-[60px] pt-[60px] lg:pb-[80px] lg:pt-[100px]">
       <div className={wrap}>
         <Reveal>
-          <div className="border-b border-white/10 pb-4 lg:pb-6">
+          <div className="border-b border-[#101418]/10 pb-4 lg:pb-6">
             <Tag>Что включено</Tag>
           </div>
         </Reveal>
         <Reveal>
           <h2 className="mt-6 max-w-[900px] text-balance text-[32px] font-bold leading-[1.2] tracking-[-0.96px] lg:text-[64px] lg:tracking-[-2.56px]">{c.includedTitle}</h2>
-          <p className="mt-4 max-w-[640px] text-white/60">{c.includedIntro}</p>
+          <p className="mt-4 max-w-[640px] text-[#101418]/60">{c.includedIntro}</p>
         </Reveal>
       </div>
 
@@ -55,16 +55,16 @@ export default function Included({ c }: { c: CountryInfo }) {
 
 function Card({ n, title, desc, className = "" }: { n: number; title: string; desc: string; className?: string }) {
   return (
-    <div className={`relative flex min-h-[320px] flex-col justify-between gap-6 overflow-hidden p-8 lg:min-h-[460px] ${className}`}
-      style={{ backgroundColor: "#1a1a1a", border: "1px solid rgba(255,255,255,0.06)", borderRadius: 20 }}>
-      <span className="flex items-center justify-center font-mono text-xl font-bold text-black"
-        style={{ width: 72, height: 72, borderRadius: 16, backgroundColor: "#FFE533" }} aria-hidden>
+    <div className={`relative flex min-h-[320px] flex-col justify-between gap-6 overflow-hidden border border-[#101418]/10 bg-white p-8 lg:min-h-[460px] ${className}`}>
+      <span className="flex items-center justify-center font-mono text-xl font-bold text-white"
+        style={{ width: 72, height: 72, borderRadius: 16, backgroundColor: "var(--brand)" }} aria-hidden>
         {String(n).padStart(2, "0")}
       </span>
       <div className="relative z-10 flex flex-col gap-3">
-        <h3 style={{ fontWeight: 600, fontSize: 26, lineHeight: 1.2, letterSpacing: "-0.6px", color: "#fff", margin: 0 }}>{title}</h3>
-        <p style={{ fontWeight: 400, fontSize: 18, lineHeight: 1.5, letterSpacing: "-0.3px", color: "rgba(255,255,255,0.65)", margin: 0 }}>{desc}</p>
+        <h3 style={{ fontWeight: 600, fontSize: 26, lineHeight: 1.2, letterSpacing: "-0.6px", color: "var(--ink)", margin: 0 }}>{title}</h3>
+        <p style={{ fontWeight: 400, fontSize: 18, lineHeight: 1.5, letterSpacing: "-0.3px", color: "rgba(16,20,24,0.65)", margin: 0 }}>{desc}</p>
       </div>
+    </div>
     </div>
   );
 }
