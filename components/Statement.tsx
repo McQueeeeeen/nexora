@@ -4,8 +4,8 @@ import { onRafScroll } from "./ui";
 
 const TEXT = "Поступление без случайностей — проверенные требования, один куратор, каждый документ под контролем.";
 
-// Стейтмент — эффект печати: буква за буквой, слово за словом.
-// Без прыжков и подъёмов: только проявление цветом и свечение фронта.
+// Единый эталон заливки текста (как в sticky-шагах): только цвет,
+// фронт подсвечен брендом со свечением. Без прыжков и прозрачностей.
 export default function Statement() {
   const ref = useRef<HTMLElement>(null);
   const [p, setP] = useState(0);
@@ -18,7 +18,6 @@ export default function Statement() {
       if (!ref.current) return;
       const r = ref.current.getBoundingClientRect();
       const vh = window.innerHeight;
-      // Старт, когда секция уже хорошо видна; финиш — почти ушла вверх.
       const start = vh * 0.8;
       const span = start + r.height * 0.55;
       setP(Math.max(0, Math.min(1, (start - r.top) / span)));
@@ -26,6 +25,7 @@ export default function Statement() {
   }, []);
 
   let gi = 0;
+  const BAND = 4 / total; // ширина светящегося фронта в долях текста
 
   return (
     <section ref={ref} className="relative w-full overflow-hidden py-[160px] lg:py-[260px]">
@@ -35,17 +35,17 @@ export default function Statement() {
             <Fragment key={i}>
               <span className="inline-block" style={{ whiteSpace: "nowrap" }}>
                 {w.split("").map((ch, c) => {
-                  const idx = gi++;
-                  const local = Math.max(0, Math.min(1, p * total - idx));
-                  const live = local > 0 && local < 1;
+                  const t = gi++ / total;
+                  const f = p;
+                  const filled = t < f;
+                  const frontier = !filled && f - t < BAND;
                   return (
                     <span
                       key={c}
+                      className="sticky-steps__char"
                       style={{
-                        opacity: 0.1 + local * 0.9,
-                        color: local >= 1 ? "var(--ink)" : local > 0 ? "var(--brand)" : "rgba(16,20,24,0.45)",
-                        textShadow: live ? "0 0 20px rgba(11,138,118,0.6)" : "none",
-                        willChange: "opacity,color",
+                        color: filled ? "var(--ink)" : frontier ? "var(--brand)" : "rgba(16,20,24,0.16)",
+                        textShadow: frontier ? "0 0 22px rgba(11,138,118,0.55)" : "none",
                       }}
                     >
                       {ch}

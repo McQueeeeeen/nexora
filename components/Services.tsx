@@ -63,15 +63,17 @@ export default function Services() {
                             {word.split("").map((ch, c) => {
                               const idx = gi++;
                               const t = idx / total;
-                              // Фронт заливки подсвечен брендом, как у эталона.
-                              const color = t < fill[i]
-                                ? (fill[i] - t < 0.07 ? "var(--brand)" : "#000")
-                                : undefined;
+                              // Фронт заливки подсвечен брендом со свечением — единый эталон.
+                              const filled = t < fill[i];
+                              const frontier = !filled && fill[i] - t < 0.07;
                               return (
                                 <span
                                   key={c}
                                   className="sticky-steps__char"
-                                  style={{ color }}
+                                  style={{
+                                    color: filled ? "#000" : frontier ? "var(--brand)" : undefined,
+                                    textShadow: frontier ? "0 0 18px rgba(11,138,118,0.45)" : "none",
+                                  }}
                                 >
                                   {ch}
                                 </span>
