@@ -35,20 +35,21 @@ export default function Hero() {
   const x = p * Math.max(1, n - 1); // 0..n-1, центры фраз в целых точках
   const active = Math.min(n - 1, Math.round(x));
 
-  // Точка на маршруте: двигаем напрямую в DOM, без ре-рендеров.
+  // Курсор на маршруте: позиция и разворот по касательной, напрямую в DOM.
   const pathRef = useRef<SVGPathElement>(null);
-  const dotRef = useRef<SVGCircleElement>(null);
-  const haloRef = useRef<SVGCircleElement>(null);
+  const cursorRef = useRef<SVGGElement>(null);
   const pRef = useRef(0);
   pRef.current = p;
   useEffect(() => onRafScroll(() => {
-    const path = pathRef.current, dot = dotRef.current, halo = haloRef.current;
-    if (!path || !dot || !halo) return;
+    const path = pathRef.current, cursor = cursorRef.current;
+    if (!path || !cursor) return;
     try {
+      const t = Math.max(0, Math.min(1, pRef.current));
       const len = path.getTotalLength();
-      const pt = path.getPointAtLength(len * Math.max(0, Math.min(1, pRef.current)));
-      dot.setAttribute("cx", pt.x.toFixed(1)); dot.setAttribute("cy", pt.y.toFixed(1));
-      halo.setAttribute("cx", pt.x.toFixed(1)); halo.setAttribute("cy", pt.y.toFixed(1));
+      const pt = path.getPointAtLength(len * t);
+      const ahead = path.getPointAtLength(Math.min(len, len * t + 2));
+      const ang = (Math.atan2(ahead.y - pt.y, ahead.x - pt.x) * 180) / Math.PI;
+      cursor.setAttribute("transform", `translate(${pt.x.toFixed(1)},${pt.y.toFixed(1)}) rotate(${ang.toFixed(1)})`);
     } catch { /* SVG ещё не готов */ }
   }), []);
 
@@ -75,6 +76,17 @@ export default function Hero() {
             </pattern>
           </defs>
           <rect width="1000" height="700" fill="url(#hero-grid)" />
+          {/* Уличная сеть — глубина как у эталона */}
+          <g fill="none" stroke="rgba(255,255,255,0.08)" strokeWidth="1.5">
+            <path d="M 60,120 C 220,100 420,140 620,110 S 900,90 1040,120" />
+            <path d="M -20,560 C 200,540 420,580 640,550 S 900,530 1030,560" />
+            <path d="M 420,-20 C 410,150 430,350 415,520 S 405,650 410,720" />
+            <path d="M 700,-20 C 690,180 710,380 695,550 S 688,660 692,720" />
+            <path d="M 200,430 C 350,470 500,455 660,480" strokeOpacity="0.6" />
+            <path d="M 520,320 C 640,340 760,330 900,350" strokeOpacity="0.6" />
+            <path d="M 150,250 C 300,230 480,250 640,230" strokeOpacity="0.5" />
+            <path d="M 850,-20 C 845,120 855,300 848,460" strokeOpacity="0.5" />
+          </g>
           <path d="M -20,470 C 180,450 320,470 500,440 S 800,380 1020,400"
             fill="none" stroke="#7DD3FC" strokeOpacity="0.12" strokeWidth="10" strokeLinecap="round" />
           {[
@@ -88,6 +100,8 @@ export default function Hero() {
             </g>
           ))}
           <path ref={pathRef} d={ROUTE} fill="none" stroke="rgba(255,255,255,0.14)" strokeWidth="2" />
+          <path d={ROUTE} fill="none" stroke="var(--brand-bright)" strokeOpacity="0.25" strokeWidth="9" strokeLinecap="round"
+            pathLength={100} style={{ strokeDasharray: 100, strokeDashoffset: 100 - p * 100 }} />
           <path d={ROUTE} fill="none" stroke="var(--brand-bright)" strokeWidth="3.5" strokeLinecap="round"
             pathLength={100} className="route-glow"
             style={{ strokeDasharray: 100, strokeDashoffset: 100 - p * 100 }} />
@@ -116,9 +130,15 @@ export default function Hero() {
             <text x="860" y="232" textAnchor="middle" fill="rgba(255,255,255,0.85)"
               fontSize="22" letterSpacing="4" fontFamily="var(--font-mono), monospace">БУДАПЕШТ</text>
           </g>
-          <circle ref={haloRef} cx="150" cy="430" r="14" fill="var(--brand-bright)" opacity="0.35" />
-          <circle ref={dotRef} cx="150" cy="430" r="7" fill="#fff" />
+          <g ref={cursorRef} transform="translate(150,430)">
+            <circle r="17" fill="none" stroke="var(--brand-bright)" strokeWidth="3" className="route-glow" />
+            <path d="M11,0 L-7,-8 L-3,0 L-7,8 Z" fill="#fff" />
+          </g>
         </svg>
+        <div className="tv5-fade pointer-events-none absolute right-6 top-24 text-right lg:right-12 lg:top-28" style={{ animationDelay: "1.8s" }}>
+          <div className="font-mono text-5xl font-bold tabular-nums text-white lg:text-7xl">28</div>
+          <div className="mt-1 font-mono text-[11px] uppercase tracking-[2px] text-white/60">вузов · 2 страны</div>
+        </div>
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/50 via-transparent to-black/70" />
         <div className="pointer-events-none absolute inset-0 px-6 lg:px-12">
           {heroPhrases.map((t, i) => {
