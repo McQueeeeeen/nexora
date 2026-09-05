@@ -79,7 +79,6 @@ export default function Intro() {
   const covering = phase === "cover";
   const logoOn = covering ? drop : !lift;
   const cols = [0, 1, 2, 3, 4].map((i) => (
-  const cols = [0, 1, 2, 3, 4].map((i) => (
     <div
       key={i}
       className="relative h-full"
