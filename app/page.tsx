@@ -11,6 +11,7 @@ import Reviews from "../components/Reviews";
 import Faq from "../components/Faq";
 import Contact from "../components/Contact";
 import MobileBar from "../components/MobileBar";
+import { faqs } from "./data";
 
 // Главная — витрина + агентство, как у эталона. Каталог вузов живёт на страницах стран.
 export default function Page() {
@@ -26,7 +27,7 @@ export default function Page() {
       <Steps />
       <Stats />
       <Reviews />
-      <Faq />
+      <Faq items={faqs.slice(0, 6)} more="/faq" />
       <Contact />
       <MobileBar />
     </main>

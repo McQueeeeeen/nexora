@@ -30,7 +30,7 @@ export default function FaqPage() {
           </p>
         </Reveal>
       </section>
-      <Faq title="Все вопросы" />
+      <Faq title="Все вопросы" cats />
       <Contact />
       <MobileBar />
     </main>

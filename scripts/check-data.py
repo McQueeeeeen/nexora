@@ -34,9 +34,9 @@ check("4 steps", len(re.findall(r'no: "Этап', SRC)) == 4)
 check("hero phrases", len(re.findall(r"^\s+\{ t: ", SRC, re.M)) == 3)
 check("country pages data", all(k in SRC for k in ["austria", "hungary", "servicesLocal", "faqsLocal", "whyPoints", "included"]))
 
-# Локальные FAQ обеих стран + глобальный: 6 + 6 + 6
+# Локальные FAQ обеих стран (по 6) + глобальный (10)
 _q = SRC.count('q: "')
-check("18 faq entries", _q == 18, f"found {_q}")
+check("22 faq entries", _q == 22, f"found {_q}")
 
 # Цены без обычных пробелов (иначе рвутся на строках)
 check("nbsp prices", "€1 450" not in SRC)
