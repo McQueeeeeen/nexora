@@ -136,7 +136,7 @@ export default function Header() {
             {anchors.map(([t, href]) => (
               <a key={t} href={href} onMouseEnter={() => poke(null)} className="mega-nav__bar-link text-sm font-medium"><Roll text={t} /></a>
             ))}
-            <a href="https://t.me/nexora_support" target="_blank" className="hidden text-sm font-semibold text-[#101418]/80 transition hover:text-[var(--brand)] xl:inline">
+            <a href="https://t.me/nexora_support" target="_blank" rel="noopener" className="hidden text-sm font-semibold text-[#101418]/80 transition hover:text-[var(--brand)] xl:inline">
               @nexora_support
             </a>
             <a href={contactHref} className="mp5-btn mp5-btn--primary rounded px-4 py-2 text-sm">Бесплатный аудит</a>

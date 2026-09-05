@@ -27,11 +27,11 @@ export default function Contact() {
                   </h3>
                   <p className="mt-4 text-lg text-white/60 lg:text-xl">Оценим шансы на грант, проверим дедлайны и составим план поступления.</p>
                   <div className="mt-8 space-y-3 text-sm text-white/80">
-                    <p>📍 <b>Вена:</b> Schottengasse 4, 1010 Wien</p>
-                    <p>📍 <b>Будапешт:</b> Váci utca 12, 1052 Budapest</p>
-                    <p>💬 <b>Telegram:</b> <a href="https://t.me/nexora_support" target="_blank" className="underline" style={{ color: YB }}>@nexora_support</a></p>
-                    <p>✉️ <b>Email:</b> <a href="mailto:admissions@nexora.eu" className="underline" style={{ color: YB }}>admissions@nexora.eu</a></p>
-                    <p>🕗 <b>На связи:</b> Пн–Вс, 8:00–18:00</p>
+                    <p><b>Вена:</b> Schottengasse 4, 1010 Wien</p>
+                    <p><b>Будапешт:</b> Váci utca 12, 1052 Budapest</p>
+                    <p><b>Telegram:</b> <a href="https://t.me/nexora_support" target="_blank" rel="noopener" className="underline" style={{ color: YB }}>@nexora_support</a></p>
+                    <p><b>Email:</b> <a href="mailto:admissions@nexora.eu" className="underline" style={{ color: YB }}>admissions@nexora.eu</a></p>
+                    <p><b>На связи:</b> Пн–Вс, 8:00–18:00</p>
                   </div>
                 </Reveal>
                 <Reveal className="flex flex-col gap-5 lg:flex-1">
@@ -98,8 +98,8 @@ export default function Contact() {
                 <a href={`${pre}#faq`} className="hover-underline transition hover:text-white">FAQ</a>
               </nav>
               <div className="flex flex-col gap-2 text-sm text-white/70">
-                <a href="https://www.google.com/maps/search/?api=1&query=Schottengasse+4+1010+Wien" target="_blank" className="hover-underline transition hover:text-white">📍 Schottengasse 4, 1010 Wien</a>
-                <a href="https://www.google.com/maps/search/?api=1&query=Váci+utca+12+1052+Budapest" target="_blank" className="hover-underline transition hover:text-white">📍 Váci utca 12, 1052 Budapest</a>
+                <a href="https://www.google.com/maps/search/?api=1&query=Schottengasse+4+1010+Wien" target="_blank" rel="noopener" className="hover-underline transition hover:text-white">Schottengasse 4, 1010 Wien</a>
+                <a href="https://www.google.com/maps/search/?api=1&query=Váci+utca+12+1052+Budapest" target="_blank" rel="noopener" className="hover-underline transition hover:text-white">Váci utca 12, 1052 Budapest</a>
               </div>
             </div>
             <div className="h-px bg-white/10" />
