@@ -73,7 +73,7 @@ export default function Intro() {
   }, []);
 
   if (phase === "done") return null;
-  const logo = <>NEXORA<span style={{ color: "var(--brand)" }}>.</span></>;
+  const logo = <>NEXORA<span style={{ color: "var(--accent)" }}>.</span></>;
   // Логотип движется вместе с колонками: гаснет со стартом подъёма,
   // при накрытии проявляется следом за колонками.
   const covering = phase === "cover";
@@ -122,7 +122,7 @@ export default function Intro() {
               transitionDelay: covering ? (drop ? ".3s" : "0s") : "0s",
             }}>
             <span className="text-3xl font-bold tracking-tight text-[#FBF9F5] sm:text-4xl">
-              NEXORA<span className="text-[#FBF9F5]/60">.</span>
+              NEXORA<span className="text-[var(--accent)]">.</span>
             </span>
           </div>
         </div>

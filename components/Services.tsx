@@ -59,8 +59,8 @@ export default function Services() {
           const t = idx / total;
           const filled = t < p;
           const frontier = !filled && p - t < 0.07;
-          const col = filled ? "#2A211D" : frontier ? "var(--brand)" : "";
-          const shadow = frontier ? "0 0 18px rgba(42,33,29,0.3)" : "none";
+          const col = filled ? "#2A211D" : frontier ? "var(--accent)" : "";
+          const shadow = frontier ? "0 0 20px var(--accent-glow)" : "none";
           const el = chars[idx];
           if (el.style.color !== col) el.style.color = col;
           if (el.style.textShadow !== shadow) el.style.textShadow = shadow;

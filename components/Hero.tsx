@@ -79,6 +79,9 @@ export default function Hero() {
         const st = heroCharStyle(t, metas[k], N, metas[k].l === 0);
         chars[k].style.opacity = st.opacity;
         chars[k].style.color = st.color;
+        if (chars[k].style.textShadow !== st.textShadow) {
+          chars[k].style.textShadow = st.textShadow;
+        }
       }
       // Карта выезжает поверх фото (smoothstep 0.22–0.42).
       const mq = Math.max(0, Math.min(1, (t - 0.22) / 0.2));

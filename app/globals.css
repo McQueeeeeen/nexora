@@ -1,6 +1,6 @@
 @import "tailwindcss";
 
-/* Палитра «тихая роскошь»: глубокий эспрессо + тёплый бежевый */
+/* Палитра «тихая роскошь»: глубокий эспрессо + тёплый бежевый + янтарная crema для подсветки */
 :root {
   --paper: #FBF9F5;
   --ink: #2A211D;
@@ -9,10 +9,13 @@
   --brand-deep: #1F1815;
   --brand-hover: #3E322C;
   --brand-bright: #FBF9F5;
+  --accent: #C88242; /* Тёплый карамельный янтарь / crema (подсветка текста и анимации) */
+  --accent-glow: rgba(200, 130, 66, 0.75);
+  --accent-bright: #E5B87A; /* Светлый янтарный для тёмных фонов */
   --espresso: #2A211D;
   --beige: #FBF9F5;
-  --mp5-yellow: var(--brand);
-  --mp5-yellow-hover: var(--brand-hover);
+  --mp5-yellow: var(--accent);
+  --mp5-yellow-hover: #B87333;
   --mp5-ink: var(--ink);
   --mp5-white: #ffffff;
   --mp5-dark: #2A211D;
@@ -45,8 +48,8 @@ body { overflow-x: clip; -webkit-tap-highlight-color: transparent; }
 }
 /* Якоря не уходят под фиксированную пилюлю-шапку */
 section[id], footer[id] { scroll-margin-top: 6em; }
-::selection { background: var(--brand); color: #FBF9F5; }
-:focus-visible { outline: 2px solid var(--brand); outline-offset: 3px; border-radius: 4px; }
+::selection { background: var(--accent); color: #FBF9F5; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
 .font-mono { font-family: var(--font-mono), ui-monospace, monospace; }
 /* Пуленепробиваемый контейнер: чистый CSS вместо сборки классов */
 .wrap { width: 100%; max-width: 1408px; margin-inline: auto; padding-inline: 24px; }
@@ -62,7 +65,7 @@ section[id], footer[id] { scroll-margin-top: 6em; }
 /* ---------- лоадер ---------- */
 .loader { z-index: 10000; color: var(--ink); width: 100%; height: 100dvh; position: fixed; inset: 0 0 auto; }
 .loader__bg { background-color: var(--paper); width: 100%; height: 100%; position: absolute; inset: 0; }
-.loader__bar { z-index: 1; transform-origin: 0%; background-color: var(--brand); width: 100%; height: .35em; position: absolute; inset: auto 0 0; transform: scaleX(0); }
+.loader__bar { z-index: 1; transform-origin: 0%; background-color: var(--accent); width: 100%; height: .35em; position: absolute; inset: auto 0 0; transform: scaleX(0); }
 .loader__container { z-index: 2; flex-flow: column; justify-content: center; align-items: center; width: 100%; height: 100%; display: flex; position: relative; }
 .loader__logo { font-weight: 700; letter-spacing: -.02em; font-size: 2rem; }
 .loader__text { text-transform: uppercase; font-family: var(--font-mono), ui-monospace, monospace; letter-spacing: .08em; color: var(--muted); font-size: .78rem; position: absolute; bottom: 3.5em; }
@@ -170,7 +173,7 @@ html.preloaded [data-load-wrap] { display: none !important; }
 .sticky-steps__sticky { align-items: center; width: 100%; min-height: 100dvh; display: flex; position: sticky; top: 0; }
 .sticky-steps__visual { aspect-ratio: 4/5; border-radius: 1.5em; width: 100%; position: relative; overflow: hidden; box-shadow: 0 24px 60px rgba(42, 33, 29, 0.15); }
 .sticky-steps__cover-image { object-fit: cover; width: 100%; height: 100%; position: absolute; top: 0; left: 0; }
-.sticky-steps__char { opacity: 1; color: #5a4f48; will-change: color; display: inline-block; }
+.sticky-steps__char { opacity: 1; color: rgba(42, 33, 29, 0.22); will-change: color, text-shadow; display: inline-block; }
 .sticky-steps__word { display: inline-block; white-space: nowrap; }
 @media screen and (min-width: 992px) {
   [data-sticky-steps-item-status] .sticky-steps__text { opacity: .55; transition: opacity .5s ease-in-out; }
@@ -203,7 +206,7 @@ html.preloaded [data-load-wrap] { display: none !important; }
 /* ---------- FAQ карточки и аккордеоны ---------- */
 .faq-item { transition: border-color .25s ease, background-color .25s ease, box-shadow .25s ease; }
 .faq-item button > span { transition: color .25s; }
-.faq-item:hover button > span { color: var(--brand); }
+.faq-item:hover button > span { color: var(--accent); }
 
 /* ---------- инпуты (дословно с эталона) ---------- */
 .input-glow { color: #FBF9F5; background-color: rgba(251, 249, 245, 0.08); border: 1px solid rgba(251, 249, 245, 0.15); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); transition: background-color .2s, border-color .2s; }
@@ -211,9 +214,9 @@ html.preloaded [data-load-wrap] { display: none !important; }
 .input-glow:hover, .input-glow:focus { background-color: rgba(251, 249, 245, 0.12); }
 .input-glow:focus { box-shadow: none; border-color: rgba(251, 249, 245, 0.35); outline: none; }
 
-/* ---------- подчёркивание ссылок эспрессо ---------- */
+/* ---------- подчёркивание ссылок янтарным акцентом ---------- */
 .hover-underline { position: relative; }
-.hover-underline:after { content: ""; background: var(--brand); width: 0; height: 2px; transition: width .3s; position: absolute; bottom: -4px; left: 0; }
+.hover-underline:after { content: ""; background: var(--accent); width: 0; height: 2px; transition: width .3s; position: absolute; bottom: -4px; left: 0; }
 .hover-underline:hover:after { width: 100%; }
 
 /* ---------- светлый инпут (поиск по вузам на бумаге) ---------- */
@@ -232,7 +235,7 @@ html.preloaded [data-load-wrap] { display: none !important; }
 .street-flow { stroke-dasharray: 3 9; animation: street-flow 30s linear infinite; }
 
 /* ---------- свечение линии маршрута ---------- */
-.route-glow { filter: drop-shadow(0 0 6px rgba(42, 33, 29, 0.35)); }
+.route-glow { filter: drop-shadow(0 0 8px rgba(200, 130, 66, 0.65)); }
 
 /* ---------- параллакс футера: на мобильных выкл ---------- */
 @media (max-width: 991px) {

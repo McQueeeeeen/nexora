@@ -104,7 +104,7 @@ function Panel({
         <span className="text-[11px] font-semibold uppercase tracking-[1px] text-[#2A211D]/60">{s.no}</span>
         <h3 className="text-[22px] font-normal leading-[1.1] tracking-[-0.6px] text-[#2A211D] lg:text-[32px]">{s.title}</h3>
         <span className="block h-[2px] w-16 bg-[#2A211D]/15">
-          <span data-step-bar className="block h-full bg-[#2A211D]" style={barStyle} />
+          <span data-step-bar className="block h-full bg-[var(--accent)]" style={barStyle} />
         </span>
       </div>
       <p className="max-w-[760px] text-base leading-[1.5] text-[#2A211D]/75 lg:col-span-8 lg:text-lg">{s.text}</p>

@@ -67,9 +67,9 @@ const HeroMap = memo(function HeroMap({ narrow, pathRef, drawA, drawB, budaRef, 
         </g>
       ))}
       <path ref={pathRef} d={ROUTE} fill="none" stroke="rgba(42,33,29,0.15)" strokeWidth="2" />
-      <path ref={drawA} d={ROUTE} fill="none" stroke="var(--brand)" strokeOpacity="0.2" strokeWidth="12" strokeLinecap="round"
-        pathLength={100} style={{ strokeDasharray: 100, strokeDashoffset: 100 }} />
-      <path ref={drawB} d={ROUTE} fill="none" stroke="var(--brand)" strokeWidth="4" strokeLinecap="round"
+      <path ref={drawA} d={ROUTE} fill="none" stroke="var(--accent)" strokeOpacity="0.28" strokeWidth="12" strokeLinecap="round"
+        className="route-glow" pathLength={100} style={{ strokeDasharray: 100, strokeDashoffset: 100 }} />
+      <path ref={drawB} d={ROUTE} fill="none" stroke="var(--accent)" strokeWidth="4" strokeLinecap="round"
         pathLength={100} style={{ strokeDasharray: 100, strokeDashoffset: 100 }} />
       {/* Промежуточный студенческий город маршрута — Дьёр (Венгрия) */}
       <g>
@@ -78,26 +78,26 @@ const HeroMap = memo(function HeroMap({ narrow, pathRef, drawA, drawB, budaRef, 
           fontSize="15" letterSpacing="1" fontFamily="var(--font-mono), monospace">Дьёр</text>
       </g>
       {/* Вена — столица программ в Австрии */}
-      <circle cx="180" cy="480" r="7" fill="var(--brand)">
+      <circle cx="180" cy="480" r="7" fill="var(--accent)">
         <animate attributeName="r" values="7;30" dur="2.4s" repeatCount="indefinite" />
         <animate attributeName="opacity" values="0.7;0" dur="2.4s" repeatCount="indefinite" />
       </circle>
-      <circle cx="180" cy="480" r="7" fill="var(--brand)" />
+      <circle cx="180" cy="480" r="7" fill="var(--accent)" />
       <text x="180" y="525" textAnchor="middle" fill="rgba(42,33,29,0.9)"
         fontSize="22" letterSpacing="2.5" fontFamily="var(--font-mono), monospace">ВЕНА</text>
       {/* Будапешт — столица программ в Венгрии */}
       <g ref={budaRef} style={{ opacity: 0 }}>
-        <circle cx="860" cy="250" r="7" fill="var(--brand)">
+        <circle cx="860" cy="250" r="7" fill="var(--accent)">
           <animate attributeName="r" values="7;30" dur="2.4s" begin="1.2s" repeatCount="indefinite" />
           <animate attributeName="opacity" values="0.7;0" dur="2.4s" begin="1.2s" repeatCount="indefinite" />
         </circle>
-        <circle cx="860" cy="250" r="7" fill="var(--brand)" />
+        <circle cx="860" cy="250" r="7" fill="var(--accent)" />
         <text x="860" y="210" textAnchor="middle" fill="rgba(42,33,29,0.9)"
           fontSize="22" letterSpacing="2.5" fontFamily="var(--font-mono), monospace">БУДАПЕШТ</text>
       </g>
       <g ref={cursorRef} transform="translate(180,480)">
-        <circle r="17" fill="none" stroke="var(--brand)" strokeWidth="3" />
-        <path d="M11,0 L-7,-8 L-3,0 L-7,8 Z" fill="var(--brand)" />
+        <circle r="17" fill="none" stroke="var(--accent)" strokeWidth="3" />
+        <path d="M11,0 L-7,-8 L-3,0 L-7,8 Z" fill="var(--accent)" />
       </g>
     </svg>
   );

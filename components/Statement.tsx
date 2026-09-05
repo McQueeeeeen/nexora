@@ -44,8 +44,8 @@ export default function Statement() {
         const t = k / total;
         const filled = t < p;
         const frontier = !filled && p - t < BAND;
-        const col = filled ? "var(--ink)" : frontier ? "var(--brand)" : "rgba(42,33,29,0.18)";
-        const shadow = frontier ? "0 0 22px rgba(42,33,29,0.3)" : "none";
+        const col = filled ? "var(--ink)" : frontier ? "var(--accent)" : "rgba(42,33,29,0.18)";
+        const shadow = frontier ? "0 0 24px var(--accent-glow)" : "none";
 
         if (el.style.color !== col) el.style.color = col;
         if (el.style.textShadow !== shadow) el.style.textShadow = shadow;

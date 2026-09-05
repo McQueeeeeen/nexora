@@ -39,26 +39,26 @@ export function buildHeroMetas(phrases: { t: string }[]): HeroCharMeta[] {
   return metas;
 }
 
-// Фраза 1 по тёмным фото: тёплый намёк → белый.
+// Фраза 1 по тёмным фото: янтарный акцент #E5B87A → белый.
 export const mixLight = (t: number) => {
-  const r = Math.round(238 + (255 - 238) * t);
-  const g = Math.round(228 + (255 - 228) * t);
-  const b = Math.round(218 + (255 - 218) * t);
+  const r = Math.round(229 + (255 - 229) * t);
+  const g = Math.round(184 + (255 - 184) * t);
+  const b = Math.round(122 + (255 - 122) * t);
   return `rgb(${r},${g},${b})`;
 };
 
-// Остальные фразы по светлой карте: тёплый оттенок → глубокий эспрессо #2A211D.
+// Остальные фразы по светлой карте: янтарная подсветка #C88242 → глубокий эспрессо #2A211D.
 export const mixInk = (t: number) => {
-  const r = Math.round(140 + (42 - 140) * t);
-  const g = Math.round(128 + (33 - 128) * t);
-  const b = Math.round(118 + (29 - 118) * t);
+  const r = Math.round(200 + (42 - 200) * t);
+  const g = Math.round(130 + (33 - 130) * t);
+  const b = Math.round(66 + (29 - 66) * t);
   return `rgb(${r},${g},${b})`;
 };
 
 /** Стиль одного символа hero-фразы в момент scrub-времени. */
 export function heroCharStyle(
   time: number, m: HeroCharMeta, total: number, light: boolean,
-): { opacity: string; color: string } {
+): { opacity: string; color: string; textShadow: string } {
   const e = 0.92 / total;
   const I = 0.55 * e, S = 0.2 * e, F = 0.25 * e;
   const h = 0.04 + m.l * e;
@@ -68,8 +68,15 @@ export function heroCharStyle(
   const cT = easeOut3(clamp01((time - (h + 3 * pd + m.j * pd)) / (14 * pd)));
   const oOut = !m.last ? easeIn2(clamp01((time - (h + I + S + m.j * fd)) / (4 * fd))) : 0;
   const op = oIn * (1 - oOut);
+  const glowing = op > 0.05 && cT < 0.6;
+  const shadow = glowing
+    ? light
+      ? "0 0 16px rgba(229,184,122,0.65)"
+      : "0 0 16px rgba(200,130,66,0.6)"
+    : "none";
   return {
     opacity: op < 0.01 ? "0" : op.toFixed(3),
     color: (light ? mixLight : mixInk)(cT),
+    textShadow: shadow,
   };
 }
