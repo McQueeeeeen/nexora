@@ -92,12 +92,10 @@ export default function Contact() {
               <div className="flex flex-col gap-5 lg:flex-row lg:gap-5">
                 <Reveal className="flex flex-col lg:flex-1">
                   <h3 className="text-[28px] font-normal leading-[1.05] tracking-[-1px] lg:text-[48px] lg:tracking-[-1.6px]">
-                    Персональная стратегия за 15 минут
+                    Персональная консультация — €10
                   </h3>
                   <p className="mt-4 text-lg text-[#101418]/60 lg:text-xl">Оценим шансы на грант, проверим дедлайны и составим план поступления.</p>
                   <div className="mt-8 space-y-3 text-sm text-[#101418]/80">
-                    <p><b>Вена:</b> Schottengasse 4, 1010 Wien</p>
-                    <p><b>Будапешт:</b> Váci utca 12, 1052 Budapest</p>
                     <p><b>Telegram:</b> <a href="https://t.me/nexora_support" target="_blank" rel="noopener" className="underline" style={{ color: Y }}>@nexora_support</a></p>
                     <p><b>Email:</b> <a href="mailto:admissions@nexora.eu" className="underline break-all" style={{ color: Y }}>admissions@nexora.eu</a></p>
                     <p><b>На связи:</b> Пн–Вс, 8:00–18:00</p>
@@ -108,7 +106,7 @@ export default function Contact() {
                     <div className="flex min-h-[300px] flex-col items-center justify-center text-center">
                       <span style={{ color: Y }}><CheckIcon className="h-14 w-14" /></span>
                       <h4 className="mt-4 text-2xl font-medium">Заявка принята</h4>
-                      <p className="mt-2 max-w-sm text-[#101418]/65">Свяжемся в течение 30 минут для бесплатной диагностики.</p>
+                      <p className="mt-2 max-w-sm text-[#101418]/65">Свяжемся в течение 30 минут, подтвердим время консультации (€10).</p>
                     </div>
                   ) : (
                     <form onSubmit={submit} className="flex flex-col gap-5">
@@ -154,7 +152,7 @@ export default function Contact() {
                           {failed && <p className="text-sm text-red-700">Не отправилось — проверьте соединение и попробуйте ещё раз.</p>}
                           <div className="flex gap-3">
                             <button type="button" onClick={() => setStep(0)} className="mp5-btn mp5-btn--outline flex items-center gap-2 rounded-xl px-6 text-base" style={{ height: 56 }}><ArrowIcon className="h-4 w-4 rotate-180" />Назад</button>
-                            <button type="submit" disabled={sending} className="mp5-btn mp5-btn--primary flex-1 rounded-xl text-base" style={{ height: 56 }}>{sending ? "Отправляем…" : "Записаться на аудит"}</button>
+                            <button type="submit" disabled={sending} className="mp5-btn mp5-btn--primary flex-1 rounded-xl text-base" style={{ height: 56 }}>{sending ? "Отправляем…" : "Записаться на консультацию"}</button>
                           </div>
                         </>
                       )}
@@ -169,7 +167,7 @@ export default function Contact() {
               <div className="flex h-full flex-col">
                 <div className="text-2xl font-bold text-[#101418]">NEXORA<span style={{ color: Y }}>.</span></div>
                 <p className="mt-3 font-mono text-xs uppercase text-[#101418]/50">Study abroad. Start here.</p>
-                <p className="mt-4 max-w-sm text-sm leading-relaxed text-[#101418]/60">Помогаем поступить в университеты Австрии и Венгрии: аудит, гранты, документы и ВНЖ под ключ.</p>
+                <p className="mt-4 max-w-sm text-sm leading-relaxed text-[#101418]/60">Помогаем поступить в университеты Австрии и Венгрии: консультация €10, гранты, документы и ВНЖ под ключ.</p>
                 <nav className="mt-auto flex flex-wrap gap-x-8 gap-y-3 pt-6 text-xl font-medium text-[#101418]/80">
                   <a href={`${pre}#services`} className="hover-underline transition hover:text-[#101418]">Программы</a>
                   <a href="/austria" className="hover-underline transition hover:text-[#101418]">Австрия</a>
@@ -187,11 +185,8 @@ export default function Contact() {
                   <p className="mt-2"><a href="mailto:admissions@nexora.eu" className="hover-underline break-all text-lg transition hover:text-[#101418]">admissions@nexora.eu</a></p>
                 </div>
                 <div>
-                  <span className="font-mono text-xs font-bold uppercase tracking-[1px] text-[#101418]/45">Адрес</span>
-                  <p className="mt-2 flex flex-col gap-1">
-                    <a href="https://www.google.com/maps/search/?api=1&query=Schottengasse+4+1010+Wien" target="_blank" rel="noopener" className="hover-underline w-fit transition hover:text-[#101418]">Schottengasse 4, 1010 Wien</a>
-                    <a href="https://www.google.com/maps/search/?api=1&query=Váci+utca+12+1052+Budapest" target="_blank" rel="noopener" className="hover-underline w-fit transition hover:text-[#101418]">Váci utca 12, 1052 Budapest</a>
-                  </p>
+                  <span className="font-mono text-xs font-bold uppercase tracking-[1px] text-[#101418]/45">Формат</span>
+                  <p className="mt-2 text-lg">100% удалённо, без офисов</p>
                 </div>
                 <div>
                   <span className="font-mono text-xs font-bold uppercase tracking-[1px] text-[#101418]/45">Часы</span>

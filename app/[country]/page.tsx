@@ -58,7 +58,7 @@ export default async function CountryPage({ params }: { params: Promise<{ countr
             <p className="max-w-[720px] text-base font-normal leading-[1.4] text-white lg:text-xl">{c.about}</p>
             <div className="flex flex-col gap-3 pt-2 sm:flex-row sm:gap-4">
               <Btn href="#database" className="h-[44px] w-full justify-center rounded-xl px-[18px] text-base sm:w-auto">Вузы страны</Btn>
-              <Btn href="#contact" ghost className="h-[44px] w-full justify-center rounded-xl px-[18px] text-base sm:w-auto">Бесплатный аудит</Btn>
+              <Btn href="#contact" ghost className="h-[44px] w-full justify-center rounded-xl px-[18px] text-base sm:w-auto">Консультация €10</Btn>
             </div>
           </Reveal>
         </div>

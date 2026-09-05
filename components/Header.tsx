@@ -180,7 +180,7 @@ export default function Header() {
             <a href="https://t.me/nexora_support" target="_blank" rel="noopener" className="hidden text-sm font-semibold text-[#101418]/80 transition hover:text-[var(--brand)] xl:inline">
               @nexora_support
             </a>
-            <a href={contactHref} className="mp5-btn mp5-btn--primary rounded px-4 py-2 text-sm">Бесплатный аудит</a>
+            <a href={contactHref} className="mp5-btn mp5-btn--primary rounded px-4 py-2 text-sm">Консультация €10</a>
           </div>
           <button className="mega-nav__burger ml-auto" onClick={() => (mobile ? closeMobile() : setMobile(true))} aria-label="Меню" aria-expanded={mobile}>
             <span className="mega-nav__burger-line" data-burger-line="top" />
@@ -211,7 +211,7 @@ export default function Header() {
                 {anchors.map(([t, href]) => (
                   <a key={t} href={href} onClick={closeMobile} className="border-b border-[#101418]/10 py-3 text-lg font-medium text-[#101418]">{t}</a>
                 ))}
-                <a href={contactHref} onClick={closeMobile} className="mp5-btn mp5-btn--primary mt-3 h-14 rounded-xl">Бесплатный аудит</a>
+                <a href={contactHref} onClick={closeMobile} className="mp5-btn mp5-btn--primary mt-3 h-14 rounded-xl">Консультация €10</a>
               </>
             ) : (
               <>

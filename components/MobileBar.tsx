@@ -31,7 +31,7 @@ export default function MobileBar() {
           Telegram
         </a>
         <a href="#contact" className="mp5-btn mp5-btn--primary h-12 flex-1 rounded-xl text-sm">
-          Бесплатный аудит
+          Консультация €10
         </a>
       </div>
     </div>

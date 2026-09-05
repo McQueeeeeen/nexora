@@ -26,7 +26,7 @@ export default function Cta() {
             </span>
           </div>
           <Btn href={`${pre}#contact`} className="mt-2 h-16 rounded-xl px-8 text-base" style={{ background: "#000", color: "#fff" }}>
-            Получить бесплатный аудит
+            Получить консультацию за €10
           </Btn>
         </div>
       </section>
