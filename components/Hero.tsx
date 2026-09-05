@@ -14,6 +14,8 @@ const pos = [
   "bottom:12%;left:50%;text-align:center;max-width:min(1000px,92vw)",
 ] as const;
 
+const CENTERED = 2; // фраза по центру (нужен translateX(-50%))
+
 function css(s: string): React.CSSProperties {
   const o: Record<string, string> = {};
   s.split(";").forEach((kv) => {
