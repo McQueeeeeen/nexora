@@ -120,11 +120,11 @@ export default function Contact() {
             <div className="h-px bg-white/10" />
             <Reveal>
             <div className="grid grid-cols-1 gap-10 lg:grid-cols-2 lg:gap-16">
-              <div>
+              <div className="flex h-full flex-col">
                 <div className="text-2xl font-bold text-[#101418]">NEXORA<span style={{ color: Y }}>.</span></div>
                 <p className="mt-3 font-mono text-xs uppercase text-[#101418]/50">Study abroad. Start here.</p>
                 <p className="mt-4 max-w-sm text-sm leading-relaxed text-[#101418]/60">Помогаем поступить в университеты Австрии и Венгрии: аудит, гранты, документы и ВНЖ под ключ.</p>
-                <nav className="mt-6 flex flex-wrap gap-x-8 gap-y-3 text-xl font-medium text-[#101418]/80">
+                <nav className="mt-auto flex flex-wrap gap-x-8 gap-y-3 pt-6 text-xl font-medium text-[#101418]/80">
                   <a href={`${pre}#services`} className="hover-underline transition hover:text-[#101418]">Программы</a>
                   <a href="/austria" className="hover-underline transition hover:text-[#101418]">Австрия</a>
                   <a href="/hungary" className="hover-underline transition hover:text-[#101418]">Венгрия</a>
