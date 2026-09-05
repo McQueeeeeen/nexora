@@ -65,6 +65,5 @@ function Card({ n, title, desc, className = "" }: { n: number; title: string; de
         <p style={{ fontWeight: 400, fontSize: 18, lineHeight: 1.5, letterSpacing: "-0.3px", color: "rgba(16,20,24,0.65)", margin: 0 }}>{desc}</p>
       </div>
     </div>
-    </div>
   );
 }
