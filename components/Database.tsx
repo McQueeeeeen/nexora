@@ -28,13 +28,18 @@ export default function Database({ initial = "AT", title = "Университе
         </div>
 
         <div className="mt-6 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+          {list.length === 0 && (
+            <p className="col-span-full rounded-2xl border border-dashed border-[#101418]/20 py-16 text-center text-[#101418]/60">
+              Ничего не найдено — попробуйте другой запрос или смените страну.
+            </p>
+          )}
           {list.map((u) => {
             const site = uniSites[u.name];
             return (
               <article key={u.name} className="card flex flex-col justify-between rounded-2xl border border-[#101418]/10 bg-white p-6">
                 <div>
                   <div className="flex items-center justify-between">
-                    <span className="rounded-full px-3 py-0.5 font-mono text-[11px] font-bold text-white" style={{ background: Y }}>{u.chance}</span>
+                    <span className="rounded-full px-3 py-0.5 font-mono text-[11px] font-bold text-white" style={{ background: Y }}>Шанс {u.chance}</span>
                     <span className="font-mono text-xs text-[#101418]/50">{u.city} · {u.rank}</span>
                   </div>
                   {site ? (

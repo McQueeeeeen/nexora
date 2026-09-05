@@ -92,7 +92,7 @@ export default function Contact() {
             <div className="h-px bg-white/10" />
             <div className="grid grid-cols-1 gap-10 lg:grid-cols-2 lg:gap-16">
               <div>
-                <div className="text-2xl font-bold">NEXORA<span style={{ color: YB }}>.</span></div>
+                <div className="text-2xl font-bold text-white">NEXORA<span style={{ color: YB }}>.</span></div>
                 <p className="mt-3 font-mono text-xs uppercase tracking-[2px] text-white/50">Study abroad. Start here.</p>
                 <p className="mt-4 max-w-sm text-sm leading-relaxed text-white/60">Помогаем поступить в университеты Австрии и Венгрии: аудит, гранты, документы и ВНЖ под ключ.</p>
                 <nav className="mt-6 flex flex-wrap gap-x-8 gap-y-3 text-xl font-medium text-white/80">
@@ -102,7 +102,7 @@ export default function Contact() {
                   <a href={`${pre}#faq`} className="hover-underline transition hover:text-white">FAQ</a>
                 </nav>
               </div>
-              <div className="flex flex-col gap-6">
+              <div className="flex flex-col gap-6 text-white/85">
                 <div>
                   <span className="font-mono text-xs font-bold uppercase tracking-[2px] text-white/40">Telegram</span>
                   <p className="mt-2"><a href="https://t.me/nexora_support" target="_blank" rel="noopener" className="hover-underline text-lg transition hover:text-white">@nexora_support</a></p>
