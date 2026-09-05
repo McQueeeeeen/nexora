@@ -1,6 +1,5 @@
 import type { Metadata, Viewport } from "next";
 import { Onest, Roboto_Mono } from "next/font/google";
-import { Analytics } from "@vercel/analytics/react";
 import "./globals.css";
 
 // Onest: гротеск с кириллицей (Geist её не имеет — русский сыпался в системный).
@@ -46,7 +45,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       <head>
         <link rel="preconnect" href="https://images.unsplash.com" />
       </head>
-      <body>{children}<Analytics /></body>
+      <body>{children}</body>
     </html>
   );
 }
