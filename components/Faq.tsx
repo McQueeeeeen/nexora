@@ -15,7 +15,7 @@ export default function Faq({ items = faqs, title = "Часто задаваем
         <div className="faq-list w-full lg:flex-1">
           {items.map((f, i) => (
             <div key={f.q} className="faq-item">
-              <button onClick={() => setOpen(open === i ? null : i)} className="flex w-full items-center justify-between gap-4 py-6 text-left lg:py-[30px]">
+              <button onClick={() => setOpen(open === i ? null : i)} aria-expanded={open === i} className="flex w-full items-center justify-between gap-4 py-6 text-left lg:py-[30px]">
                 <span className="text-[18px] font-normal leading-[1.3] tracking-[-0.4px] lg:text-[24px] lg:tracking-[-0.6px]">{f.q}</span>
                 <span className="flex h-[18px] w-[18px] shrink-0 items-center justify-center text-xl leading-none lg:h-[22px] lg:w-[22px]">
                   <svg viewBox="0 0 18 18" className="h-full w-full" style={{ transform: open === i ? "rotate(45deg)" : "none", transition: "transform .25s" }}>

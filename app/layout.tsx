@@ -1,5 +1,11 @@
 import type { Metadata, Viewport } from "next";
+import { Onest, Roboto_Mono } from "next/font/google";
+import { Analytics } from "@vercel/analytics/react";
 import "./globals.css";
+
+// Onest: гротеск с кириллицей (Geist её не имеет — русский сыпался в системный).
+const sans = Onest({ subsets: ["latin", "cyrillic"], weight: ["400", "500", "600", "700"], variable: "--font-sans" });
+const mono = Roboto_Mono({ subsets: ["latin", "cyrillic"], weight: ["500", "700"], variable: "--font-mono" });
 
 export const metadata: Metadata = {
   title: "Nexora Admissions — поступление в вузы Австрии и Венгрии",
@@ -36,8 +42,11 @@ export const viewport: Viewport = {
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="ru">
-      <body>{children}</body>
+    <html lang="ru" className={`${sans.variable} ${mono.variable}`}>
+      <head>
+        <link rel="preconnect" href="https://images.unsplash.com" />
+      </head>
+      <body>{children}<Analytics /></body>
     </html>
   );
 }

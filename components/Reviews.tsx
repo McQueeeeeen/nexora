@@ -13,7 +13,7 @@ export default function Reviews({ title, detailed = false }: { title?: string; d
   return (
     <section id="reviews" className="relative flex min-h-[80vh] items-center overflow-hidden bg-[#0c0c0c] py-24 lg:min-h-[100vh] lg:py-40">
       <img
-        src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&w=2000&q=80"
+        src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&w=1920&q=75"
         alt="" aria-hidden loading="lazy" decoding="async"
         className="absolute inset-0 h-full w-full scale-105 object-cover"
       />
