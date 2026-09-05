@@ -76,7 +76,7 @@ export default async function CountryPage({ params }: { params: Promise<{ countr
         <Reveal>
           <a href={other.href} className="card group flex items-center justify-between rounded-2xl border border-[#101418]/10 bg-white p-8 lg:p-10">
             <div>
-              <span className="font-mono text-xs uppercase tracking-[2px] text-[#101418]/50">Смотрите также</span>
+              <span className="font-mono text-xs uppercase tracking-[1px] text-[#101418]/50">Смотрите также</span>
               <h2 className="mt-3 text-3xl font-medium tracking-tight lg:text-5xl">{other.title}</h2>
               <p className="mt-2 text-sm text-[#101418]/60">{other.desc}</p>
             </div>

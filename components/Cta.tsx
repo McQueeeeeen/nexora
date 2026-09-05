@@ -13,7 +13,7 @@ export default function Cta() {
     <div className="relative" style={{ height: "200vh" }}>
       <section ref={ref} className="sticky top-0 flex h-screen w-full items-center justify-center overflow-hidden" style={{ background: "var(--brand)" }}>
         <div className="relative mx-auto flex w-full max-w-[1408px] flex-col items-center gap-6 px-6 text-center lg:px-12">
-          <span className="font-mono text-[11px] uppercase tracking-[2px] text-white/70" style={{ opacity: Math.min(1, v * 1.6), willChange: "opacity" }}>
+          <span className="font-mono text-[11px] uppercase tracking-[1px] text-white/70" style={{ opacity: Math.min(1, v * 1.6), willChange: "opacity" }}>
             Готовы, когда вы готовы
           </span>
           <div className="relative flex w-full items-center justify-center">

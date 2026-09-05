@@ -57,7 +57,7 @@ export function Reveal({ children, className = "" }: { children: React.ReactNode
 
 export function Tag({ children, dark = false }: { children: string; dark?: boolean }) {
   return (
-    <span className={`font-mono text-xs uppercase tracking-[2px] ${dark ? "text-white/60" : "text-[#5B6470]"}`}>{children}</span>
+    <span className={`font-mono text-xs uppercase tracking-[1px] ${dark ? "text-white/60" : "text-[#5B6470]"}`}>{children}</span>
   );
 }
 

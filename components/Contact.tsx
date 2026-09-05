@@ -136,22 +136,22 @@ export default function Contact() {
               </div>
               <div className="flex flex-col gap-6 text-[#101418]/85">
                 <div>
-                  <span className="font-mono text-xs font-bold uppercase tracking-[2px] text-[#101418]/45">Telegram</span>
+                  <span className="font-mono text-xs font-bold uppercase tracking-[1px] text-[#101418]/45">Telegram</span>
                   <p className="mt-2"><a href="https://t.me/nexora_support" target="_blank" rel="noopener" className="hover-underline text-lg transition hover:text-[#101418]">@nexora_support</a></p>
                 </div>
                 <div>
-                  <span className="font-mono text-xs font-bold uppercase tracking-[2px] text-[#101418]/45">Почта</span>
+                  <span className="font-mono text-xs font-bold uppercase tracking-[1px] text-[#101418]/45">Почта</span>
                   <p className="mt-2"><a href="mailto:admissions@nexora.eu" className="hover-underline break-all text-lg transition hover:text-[#101418]">admissions@nexora.eu</a></p>
                 </div>
                 <div>
-                  <span className="font-mono text-xs font-bold uppercase tracking-[2px] text-[#101418]/45">Адрес</span>
+                  <span className="font-mono text-xs font-bold uppercase tracking-[1px] text-[#101418]/45">Адрес</span>
                   <p className="mt-2 flex flex-col gap-1">
                     <a href="https://www.google.com/maps/search/?api=1&query=Schottengasse+4+1010+Wien" target="_blank" rel="noopener" className="hover-underline w-fit transition hover:text-[#101418]">Schottengasse 4, 1010 Wien</a>
                     <a href="https://www.google.com/maps/search/?api=1&query=Váci+utca+12+1052+Budapest" target="_blank" rel="noopener" className="hover-underline w-fit transition hover:text-[#101418]">Váci utca 12, 1052 Budapest</a>
                   </p>
                 </div>
                 <div>
-                  <span className="font-mono text-xs font-bold uppercase tracking-[2px] text-[#101418]/45">Часы</span>
+                  <span className="font-mono text-xs font-bold uppercase tracking-[1px] text-[#101418]/45">Часы</span>
                   <p className="mt-2 text-lg">Пн–Вс, 8:00–18:00</p>
                 </div>
               </div>

@@ -255,18 +255,20 @@ export default function Hero() {
           </g>
           <path d="M -20,470 C 180,450 320,470 500,440 S 800,380 1020,400"
             fill="none" stroke="#2D9CDB" strokeOpacity="0.25" strokeWidth="10" strokeLinecap="round" />
-          {[
-            { cx: 120, cy: 300, name: "Линц", lx: 132, ly: 305, anchor: undefined },
-            { cx: 60, cy: 470, name: "Инсбрук", lx: 60, ly: 498, anchor: "middle" },
-            { cx: 330, cy: 540, name: "Грац", lx: 342, ly: 545, anchor: undefined },
-            { cx: 800, cy: 540, name: "Сегед", lx: 812, ly: 545, anchor: undefined },
-            { cx: 880, cy: 430, name: "Дебрецен", lx: 830, ly: 462, anchor: undefined },
-            { cx: 700, cy: 580, name: "Печ", lx: 712, ly: 585, anchor: undefined },
-          ].map(({ cx, cy, name, lx, ly, anchor }) => (
+          {(
+            [
+              { cx: 120, cy: 300, name: "Линц", lx: 132, ly: 305 },
+              { cx: 60, cy: 470, name: "Инсбрук", lx: 60, ly: 498, anchor: "middle" },
+              { cx: 330, cy: 540, name: "Грац", lx: 342, ly: 545 },
+              { cx: 800, cy: 540, name: "Сегед", lx: 812, ly: 545 },
+              { cx: 880, cy: 430, name: "Дебрецен", lx: 830, ly: 462 },
+              { cx: 700, cy: 580, name: "Печ", lx: 712, ly: 585 },
+            ] as { cx: number; cy: number; name: string; lx: number; ly: number; anchor?: "middle" }[]
+          ).map(({ cx, cy, name, lx, ly, anchor }) => (
             <g key={name}>
               <circle cx={cx} cy={cy} r="4" fill="rgba(16,20,24,0.3)" />
               <text x={lx} y={ly} textAnchor={anchor} fill="rgba(16,20,24,0.45)"
-                fontSize="15" letterSpacing="2" fontFamily="var(--font-mono), monospace">{name}</text>
+                fontSize="15" letterSpacing="1" fontFamily="var(--font-mono), monospace">{name}</text>
             </g>
           ))}
           <path ref={pathRef} d={ROUTE} fill="none" stroke="rgba(16,20,24,0.15)" strokeWidth="2" />
@@ -280,7 +282,7 @@ export default function Hero() {
             <g key={name as string}>
               <circle cx={cx as number} cy={cy as number} r="5" fill="#F7F5EF" stroke="rgba(16,20,24,0.5)" strokeWidth="2" />
               <text x={cx as number} y={(cy as number) - 15} textAnchor="middle" fill="rgba(16,20,24,0.6)"
-                fontSize="15" letterSpacing="2" fontFamily="var(--font-mono), monospace">{name}</text>
+                fontSize="15" letterSpacing="1" fontFamily="var(--font-mono), monospace">{name}</text>
             </g>
           ))}
           <circle cx="150" cy="430" r="7" fill="var(--brand)">
@@ -289,7 +291,7 @@ export default function Hero() {
           </circle>
           <circle cx="150" cy="430" r="7" fill="var(--brand)" />
           <text x="150" y="474" textAnchor="middle" fill="rgba(16,20,24,0.85)"
-            fontSize="22" letterSpacing="4" fontFamily="var(--font-mono), monospace">ВЕНА</text>
+            fontSize="22" letterSpacing="2.5" fontFamily="var(--font-mono), monospace">ВЕНА</text>
           <g ref={budaRef} style={{ opacity: 0 }}>
             <circle cx="860" cy="270" r="7" fill="var(--brand)">
               <animate attributeName="r" values="7;30" dur="2.4s" begin="1.2s" repeatCount="indefinite" />
@@ -297,7 +299,7 @@ export default function Hero() {
             </circle>
             <circle cx="860" cy="270" r="7" fill="var(--brand)" />
             <text x="860" y="232" textAnchor="middle" fill="rgba(16,20,24,0.85)"
-              fontSize="22" letterSpacing="4" fontFamily="var(--font-mono), monospace">БУДАПЕШТ</text>
+              fontSize="22" letterSpacing="2.5" fontFamily="var(--font-mono), monospace">БУДАПЕШТ</text>
           </g>
           <g ref={cursorRef} transform="translate(150,430)">
             <circle r="17" fill="none" stroke="var(--brand)" strokeWidth="3" />

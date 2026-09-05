@@ -24,7 +24,7 @@ export default function Reviews({ title, detailed = false }: { title?: string; d
   return (
     <section id="reviews" className="relative flex min-h-[80vh] items-center overflow-hidden py-24 lg:min-h-[100vh] lg:py-40">
       <div className="relative mx-auto w-full max-w-[1100px] px-6 text-center lg:px-12">
-        <span className="inline-block rounded-full px-4 py-1.5 font-mono text-xs font-bold uppercase tracking-[2px] text-white" style={{ background: Y }}>Отзывы</span>
+        <span className="inline-block rounded-full px-4 py-1.5 font-mono text-xs font-bold uppercase tracking-[1px] text-white" style={{ background: Y }}>Отзывы</span>
         {title && <h2 className="mx-auto mt-6 max-w-[800px] text-balance text-3xl font-medium tracking-[-0.02em] lg:text-5xl">{title}</h2>}
         {detailed && (
           <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
@@ -43,7 +43,7 @@ export default function Reviews({ title, detailed = false }: { title?: string; d
             </span>
           )}
           <span className="text-[22px] font-medium sm:text-[26px] lg:text-[32px]">{q.author}</span>
-          <span className="font-mono text-[12px] uppercase tracking-[2.5px] text-[#101418]/60 lg:text-[13px]">{q.role}</span>
+          <span className="font-mono text-[12px] uppercase tracking-[1px] text-[#101418]/60 lg:text-[13px]">{q.role}</span>
         </div>
         <div className="mt-10 flex items-center justify-center gap-3">
           {quotes.map((_, d) => (
