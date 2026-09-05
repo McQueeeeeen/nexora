@@ -172,6 +172,7 @@ export default function Contact() {
                   <a href={`${pre}#services`} className="hover-underline transition hover:text-[#101418]">Программы</a>
                   <a href="/austria" className="hover-underline transition hover:text-[#101418]">Австрия</a>
                   <a href="/hungary" className="hover-underline transition hover:text-[#101418]">Венгрия</a>
+                  <a href="/blog" className="hover-underline transition hover:text-[#101418]">Блог</a>
                   <a href="/faq" className="hover-underline transition hover:text-[#101418]">FAQ</a>
                 </nav>
               </div>

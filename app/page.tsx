@@ -2,6 +2,7 @@ import Intro from "../components/Intro";
 import Header from "../components/Header";
 import Hero from "../components/Hero";
 import Statement from "../components/Statement";
+import Deadline from "../components/Deadline";
 import About from "../components/About";
 import Services from "../components/Services";
 import Cta from "../components/Cta";
@@ -21,6 +22,7 @@ export default function Page() {
       <Header />
       <Hero />
       <Statement />
+      <Deadline />
       <About />
       <Services />
       <Cta />
