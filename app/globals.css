@@ -202,6 +202,10 @@ html.preloaded [data-load-wrap] { display: none !important; }
 .grain { position: fixed; inset: 0; z-index: 9000; pointer-events: none; opacity: .05;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='0.6'/%3E%3C/svg%3E"); }
 
+/* ---------- бегущий пунктир улиц ---------- */
+@keyframes street-flow { to { stroke-dashoffset: -240; } }
+.street-flow { stroke-dasharray: 3 9; animation: street-flow 30s linear infinite; }
+
 /* ---------- рисующаяся линия маршрута ---------- */
 @keyframes route-draw { from { stroke-dashoffset: 100; } to { stroke-dashoffset: 0; } }
 .route-draw { stroke-dasharray: 100; animation: route-draw 2.2s ease-out both; }
@@ -218,6 +222,7 @@ html.preloaded [data-load-wrap] { display: none !important; }
   .tv5-fade { animation: none; }
   .route-draw { animation: none; stroke-dashoffset: 0; }
   .route-motion { display: none; }
+  .street-flow { animation: none; }
   .card:hover { transform: none; }
   .mp5-btn--primary:hover, .mp5-btn--secondary:hover { transform: none; }
   html { scroll-behavior: auto; }

@@ -86,6 +86,16 @@ export default function Hero() {
             <path d="M 520,320 C 640,340 760,330 900,350" strokeOpacity="0.6" />
             <path d="M 150,250 C 300,230 480,250 640,230" strokeOpacity="0.5" />
             <path d="M 850,-20 C 845,120 855,300 848,460" strokeOpacity="0.5" />
+            <path d="M -20,80 C 180,60 400,90 600,70 S 880,50 1030,80" strokeOpacity="0.45" />
+            <path d="M -20,620 C 220,600 460,630 700,610 S 920,595 1040,615" strokeOpacity="0.45" />
+            <path d="M 250,-20 C 260,160 245,340 255,520 S 260,660 258,720" strokeOpacity="0.4" />
+            <path d="M 560,-20 C 555,140 568,320 560,500 S 556,650 560,720" strokeOpacity="0.4" />
+            <path d="M 60,360 C 240,340 420,360 600,345 S 820,330 1010,350" strokeOpacity="0.5" />
+            <path d="M 950,80 C 940,240 955,420 945,600" strokeOpacity="0.4" />
+          </g>
+          <g fill="none" stroke="rgba(94,234,212,0.35)" strokeWidth="1.5">
+            <path className="street-flow" d="M 60,120 C 220,100 420,140 620,110 S 900,90 1040,120" />
+            <path className="street-flow" d="M -20,560 C 200,540 420,580 640,550 S 900,530 1030,560" />
           </g>
           <path d="M -20,470 C 180,450 320,470 500,440 S 800,380 1020,400"
             fill="none" stroke="#7DD3FC" strokeOpacity="0.12" strokeWidth="10" strokeLinecap="round" />
@@ -138,6 +148,31 @@ export default function Hero() {
         <div className="tv5-fade pointer-events-none absolute right-6 top-24 text-right lg:right-12 lg:top-28" style={{ animationDelay: "1.8s" }}>
           <div className="font-mono text-5xl font-bold tabular-nums text-white lg:text-7xl">28</div>
           <div className="mt-1 font-mono text-[11px] uppercase tracking-[2px] text-white/60">вузов · 2 страны</div>
+          <div className="mt-2 font-mono text-[10px] tracking-[1px] text-white/35">48.20°N 16.37°E → 47.49°N 19.04°E</div>
+        </div>
+        {/* Достопримечательности: парящие карточки поверх карты (десктоп) */}
+        <div aria-hidden className="pointer-events-none absolute inset-0 hidden lg:block">
+          {[
+            { img: "https://images.unsplash.com/photo-1516550893923-42d28e5677af?auto=format&fit=crop&w=800&q=75", label: "Вена", top: "30%", w: "w-60", a: 0.02, drift: 50 },
+            { img: "https://images.unsplash.com/photo-1541849546-216549ae216d?auto=format&fit=crop&w=800&q=75", label: "Будапешт", top: "55%", w: "w-64", a: 0.3, drift: 80 },
+          ].map((ph) => {
+            const e = Math.max(0, Math.min(1, (p - ph.a) / 0.18));
+            return (
+              <div key={ph.label} className={`absolute right-12 ${ph.w}`}
+                style={{
+                  top: ph.top, opacity: e < 0.02 ? 0 : e,
+                  transform: `translateY(${((1 - e) * 36 - p * ph.drift).toFixed(1)}px)`,
+                  willChange: "opacity,transform",
+                }}>
+                <div className="overflow-hidden rounded-2xl border border-white/15 shadow-2xl">
+                  <img src={ph.img} alt="" loading="lazy" decoding="async" className="aspect-[4/3] w-full object-cover" />
+                  <div className="bg-black/60 px-4 py-2 font-mono text-[11px] uppercase tracking-[2px] text-white/85 backdrop-blur-md">
+                    {ph.label}
+                  </div>
+                </div>
+              </div>
+            );
+          })}
         </div>
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/50 via-transparent to-black/70" />
         <div className="pointer-events-none absolute inset-0 px-6 lg:px-12">
