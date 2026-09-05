@@ -2,8 +2,9 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { heroPhrases } from "../app/data";
 
-// Hero: светлая карта (в гамме сайта) + фото-карточки + посимвольные фразы.
-// Ноль ре-рендеров при скролле: один rAF-цикл пишет всё напрямую в DOM.
+// Hero: сначала полноэкранные фото (кроссфейд под фразы), затем поверх
+// выезжает светлая карта с рисующейся линией и курсором. Фраза 1 —
+// белая по фото, остальные — чернила по карте. Ноль ре-рендеров при скролле.
 const ROUTE = "M 150,430 C 300,410 380,330 520,320 C 660,310 740,300 860,270";
 
 const pos = [
@@ -28,7 +29,14 @@ const easeOut2 = (x: number) => 1 - (1 - x) * (1 - x);
 const easeOut3 = (x: number) => 1 - (1 - x) * (1 - x) * (1 - x);
 const easeIn2 = (x: number) => x * x;
 const clamp01 = (x: number) => Math.max(0, Math.min(1, x));
-// Акцент → чернила (светлая тема): мятный след закрашивается в текст.
+// Фраза 1 по тёмным фото: акцент → белый.
+const mixLight = (t: number) => {
+  const r = Math.round(94 + (255 - 94) * t);
+  const g = Math.round(234 + (255 - 234) * t);
+  const b = Math.round(212 + (255 - 212) * t);
+  return `rgb(${r},${g},${b})`;
+};
+// Фразы 2–3 по светлой карте: акцент → чернила.
 const mixInk = (t: number) => {
   const r = Math.round(11 + (16 - 11) * t);
   const g = Math.round(138 + (20 - 138) * t);
@@ -62,12 +70,6 @@ function useCharMetas(): CharMeta[] {
   }, []);
 }
 
-const CARDS = [
-  { img: "https://images.unsplash.com/photo-1516550893923-42d28e5677af?auto=format&fit=crop&w=800&q=75", label: "Вена", top: "24%", a: 0.02, drift: 50 },
-  { img: "https://images.unsplash.com/photo-1541849546-216549ae216d?auto=format&fit=crop&w=800&q=75", label: "Будапешт", top: "44%", a: 0.22, drift: 70 },
-  { img: "https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=800&q=75", label: "Студенты", top: "64%", a: 0.42, drift: 90 },
-];
-
 export default function Hero() {
   const ref = useRef<HTMLDivElement>(null);
   const pathRef = useRef<SVGPathElement>(null);
@@ -75,6 +77,8 @@ export default function Hero() {
   const drawA = useRef<SVGPathElement>(null);
   const drawB = useRef<SVGPathElement>(null);
   const budaRef = useRef<SVGGElement>(null);
+  const mapRef = useRef<HTMLDivElement>(null);
+  const veilRef = useRef<HTMLDivElement>(null);
   const metas = useCharMetas();
 
   // На узких экранах карту показываем целиком, на широких — кинематографичный кроп.
@@ -91,16 +95,14 @@ export default function Hero() {
     const region = ref.current;
     if (!region) return;
     const chars = Array.from(region.querySelectorAll<HTMLElement>(".hero-char"));
-    const cards = Array.from(region.querySelectorAll<HTMLElement>("[data-hero-card]"));
-    const CARD_A = [0.02, 0.22, 0.42];
-    const CARD_D = [50, 70, 90];
+    const photos = Array.from(region.querySelectorAll<HTMLElement>("[data-hero-photo]"));
     const N = heroPhrases.length;
-    // Без движения: статичный первый кадр.
+    // Без движения: фото 1 + фраза 1, карта скрыта.
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
       chars.forEach((el, k) => {
         if (k < metas.length && metas[k].l === 0) {
           el.style.opacity = "1";
-          el.style.color = "rgb(16,20,24)";
+          el.style.color = "rgb(255,255,255)";
         }
       });
       return;
@@ -113,6 +115,7 @@ export default function Hero() {
       return total <= 0 ? 0 : Math.max(0, Math.min(1, -r.top / total));
     };
     const apply = (t: number) => {
+      const x = t * Math.max(1, N - 1);
       for (let k = 0; k < chars.length && k < metas.length; k++) {
         const el = chars[k];
         const m = metas[k];
@@ -126,21 +129,23 @@ export default function Hero() {
         const oOut = !m.last ? easeIn2(clamp01((t - (h + I + S + m.j * fd)) / (4 * fd))) : 0;
         const op = oIn * (1 - oOut);
         el.style.opacity = op < 0.01 ? "0" : op.toFixed(3);
-        el.style.color = mixInk(cT);
+        el.style.color = m.l === 0 ? mixLight(cT) : mixInk(cT);
       }
-      cards.forEach((card, i) => {
-        const a = [0.02, 0.22, 0.42][i] ?? 0;
-        const drift = [50, 70, 90][i] ?? 60;
-        const e = Math.max(0, Math.min(1, (t - a) / 0.18));
-        card.style.opacity = e < 0.02 ? "0" : e.toFixed(3);
-        card.style.transform = `translateY(${((1 - e) * 36 - t * drift).toFixed(1)}px)`;
+      // Карта выезжает поверх фото (smoothstep 0.22–0.42).
+      const mq = clamp01((t - 0.22) / 0.2);
+      const mapOp = mq * mq * (3 - 2 * mq);
+      const mapGone = 1 - mapOp;
+      photos.forEach((img, i) => {
+        const op = Math.max(0, Math.min(1, 1 - Math.abs(x - i))) * mapGone;
+        img.style.opacity = op < 0.01 ? "0" : op.toFixed(3);
       });
-      cards.forEach((card, i) => {
-        const a = CARD_A[i] ?? 0;
-        const e = Math.max(0, Math.min(1, (t - a) / 0.18));
-        card.style.opacity = e < 0.02 ? "0" : e.toFixed(3);
-        card.style.transform = `translateY(${((1 - e) * 36 - t * (CARD_D[i] ?? 60)).toFixed(1)}px)`;
-      });
+      const map = mapRef.current;
+      if (map) {
+        map.style.opacity = mapOp < 0.01 ? "0" : mapOp.toFixed(3);
+        map.style.visibility = mapOp <= 0 ? "hidden" : "visible";
+      }
+      const veil = veilRef.current;
+      if (veil) veil.style.opacity = mapGone < 0.01 ? "0" : mapGone.toFixed(3);
       const off = String(100 - t * 100);
       if (drawA.current) drawA.current.style.strokeDashoffset = off;
       if (drawB.current) drawB.current.style.strokeDashoffset = off;
@@ -180,7 +185,7 @@ export default function Hero() {
     };
   }, [metas]);
 
-  const renderWords = (text: string) => {
+  const renderWords = (text: string, light: boolean) => {
     const words: string[][] = [];
     let acc: string[] = [];
     text.split("").forEach((ch) => {
@@ -195,7 +200,7 @@ export default function Hero() {
       return (
         <span key={wi} className="hero-word">
           {w.map((ch, ci) => (
-            <span key={ci} className="hero-char" style={{ opacity: 0, color: mixInk(0) }}>{ch}</span>
+            <span key={ci} className="hero-char" style={{ opacity: 0, color: light ? mixLight(0) : mixInk(0) }}>{ch}</span>
           ))}
         </span>
       );
@@ -204,9 +209,24 @@ export default function Hero() {
 
   return (
     <div ref={ref} data-hero-region className="relative w-full" style={{ height: "320vh" }}>
-      <section className="sticky top-0 h-screen w-full overflow-hidden bg-[#F7F5EF]">
+      <section className="sticky top-0 h-screen w-full overflow-hidden bg-black">
+        {heroPhrases.map((ph, i) => (
+          <img
+            key={ph.img}
+            data-hero-photo
+            src={ph.img}
+            alt=""
+            aria-hidden
+            fetchPriority={i === 0 ? "high" : undefined}
+            loading={i === 0 ? "eager" : "lazy"}
+            decoding="async"
+            className="absolute inset-0 h-full w-full object-cover"
+            style={{ opacity: i === 0 ? 1 : 0 }}
+          />
+        ))}
+        <div ref={mapRef} className="absolute inset-0 bg-[#F7F5EF]" style={{ opacity: 0, visibility: "hidden" }}>
         <svg viewBox="0 0 1000 700" preserveAspectRatio={narrow ? "xMidYMid meet" : "xMidYMid slice"}
-          className="absolute inset-0 h-full w-full" role="img" aria-label="Карта маршрута Вена — Будапешт">
+          className="h-full w-full" role="img" aria-label="Карта маршрута Вена — Будапешт">
           <defs>
             <pattern id="hero-grid" width="50" height="50" patternUnits="userSpaceOnUse">
               <path d="M 50 0 L 0 0 0 50" fill="none" stroke="rgba(16,20,24,0.08)" strokeWidth="1" />
@@ -280,38 +300,29 @@ export default function Hero() {
             <path d="M11,0 L-7,-8 L-3,0 L-7,8 Z" fill="var(--brand)" />
           </g>
         </svg>
-        <div aria-hidden className="pointer-events-none absolute inset-0 hidden lg:block">
-          {heroPhrases.map((ph, i) => (
-            <div key={ph.label} data-hero-card className="absolute right-12 w-52"
-              style={{ top: `${24 + i * 20}%`, opacity: 0 }}>
-              <div className="overflow-hidden rounded-2xl border border-[#101418]/10 bg-white shadow-2xl">
-                <img src={ph.img} alt="" loading="lazy" decoding="async" className="aspect-[4/3] w-full object-cover" />
-                <div className="bg-white px-4 py-2 font-mono text-[11px] uppercase tracking-[2px] text-[#101418]/70">
-                  {ph.label}
-                </div>
-              </div>
-            </div>
-          ))}
         </div>
+        <div ref={veilRef} className="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/55 via-black/25 to-black/70" />
         <div className="pointer-events-none absolute inset-0 px-6 lg:px-12">
           {heroPhrases.map((ph, i) => {
             const Tag = i === 0 ? "h1" : "div";
+            const light = i === 0;
             return (
               <Tag
                 key={ph.t}
                 data-hero-phrase
                 aria-hidden={i === 0 ? undefined : true}
-                className="font-normal text-[#101418]"
+                className={light ? "font-normal text-white" : "font-normal text-[#101418]"}
                 style={{
                   position: "absolute",
                   fontSize: "clamp(29px,6.2vw,76px)",
                   lineHeight: 1.05,
                   letterSpacing: "-0.025em",
+                  ...(light ? { textShadow: "0 2px 18px rgba(0,0,0,0.9)" } : {}),
                   ...(i === 2 ? { transform: "translateX(-50%)" } : {}),
                   ...css(pos[i]),
                 }}
               >
-                {renderWords(ph.t)}
+                {renderWords(ph.t, light)}
               </Tag>
             );
           })}
