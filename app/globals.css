@@ -117,12 +117,12 @@ html.preloaded [data-load-wrap] { display: none !important; }
 .mega-nav__panel-feature-cta:before { content: ""; position: absolute; inset: 0; border-radius: 50%; background: #fff; transition: transform .4s cubic-bezier(.17,.67,.3,1.33); transform: scale(1.1); }
 .mega-nav__panel-feature:hover .mega-nav__panel-feature-cta:before { transform: scale(1.18); }
 .mega-nav__panel-feature-cta svg { position: relative; width: .75em; height: .75em; }
-.mega-nav__panel-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0 1em; align-content: start; padding: .25em; }
+.mega-nav__panel-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 1em; align-content: start; padding: .25em; }
 .mega-nav__panel-grid-label { grid-column: 1/-1; text-transform: uppercase; font-family: var(--font-mono), ui-monospace, monospace; letter-spacing: .08em; color: var(--muted); font-size: .7em; padding: 0 .75em .5em; }
-.mega-nav__panel-link { display: flex; align-items: center; gap: .5em; padding: .6em .75em; border-radius: .25em; color: var(--ink); text-decoration: none; transition: background-color .2s, color .2s; }
+.mega-nav__panel-link { display: flex; align-items: center; gap: .5em; min-width: 0; padding: .6em .75em; border-radius: .25em; color: var(--ink); text-decoration: none; transition: background-color .2s, color .2s; }
 .mega-nav__panel-link:hover { background-color: #0b8a7614; color: var(--brand); }
 .mega-nav__panel-link-body { display: flex; flex-direction: column; flex: 1; min-width: 0; }
-.mega-nav__panel-link-text { font-size: .98em; font-weight: 500; letter-spacing: -.01em; display: inline-flex; flex-wrap: wrap; }
+.mega-nav__panel-link-text { font-size: .98em; font-weight: 500; letter-spacing: -.01em; display: inline-flex; flex-wrap: wrap; min-width: 0; }
 .mega-nav__panel-link-char { display: inline-block; transition: transform .3s cubic-bezier(.16,1,.3,1); }
 .mega-nav__panel-link:hover .mega-nav__panel-link-char { transform: translateY(-2px); }
 .mega-nav__panel-link-desc { display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; opacity: 1; color: var(--muted); font-size: .82em; margin-top: .15em; }
