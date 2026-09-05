@@ -17,7 +17,11 @@ export default function Statement() {
       if (!ref.current) return;
       const r = ref.current.getBoundingClientRect();
       const vh = window.innerHeight;
-      setP(Math.max(0, Math.min(1, (vh * 0.9 - r.top) / (vh * 0.55))));
+      // Заливка идёт весь проход секции: старт — низ секции коснулся низа
+      // экрана, финиш — секция почти ушла вверх. Анимацию видно, пока скроллишь.
+      const start = vh * 0.95;
+      const total = start + r.height * 0.45;
+      setP(Math.max(0, Math.min(1, (start - r.top) / total)));
     });
   }, []);
 
