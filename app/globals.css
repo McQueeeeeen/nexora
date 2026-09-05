@@ -190,11 +190,14 @@ html.preloaded [data-load-wrap] { display: none !important; }
 .mp5-benefits-pin [data-step-panel] { transition: opacity .5s ease, transform .5s ease; will-change: opacity, transform; }
 .mp5-benefits-pin [data-step-bar] { transition: width .2s linear; }
 
-/* ---------- FAQ hairline-строки ---------- */
-.faq-item { transition: background-color .3s; background: transparent; border-bottom: 1px solid #1014181f; }
-.faq-item:first-child { border-top: 1px solid #1014181f; }
+/* ---------- scrollbar-hide для свайпа табов ---------- */
+.scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+.scrollbar-hide::-webkit-scrollbar { display: none; }
+
+/* ---------- FAQ карточки и аккордеоны ---------- */
+.faq-item { transition: border-color .25s ease, background-color .25s ease, box-shadow .25s ease; }
 .faq-item button > span { transition: color .25s; }
-.faq-item button:hover > span { color: var(--brand); }
+.faq-item:hover button > span { color: var(--brand); }
 
 /* ---------- инпуты (дословно с эталона) ---------- */
 .input-glow { color: #fff; background-color: #ffffff1a; border: 1px solid transparent; backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); transition: background-color .2s, border-color .2s; }

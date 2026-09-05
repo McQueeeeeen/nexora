@@ -10,7 +10,7 @@ export default function MobileBar() {
     const hero = document.querySelector("[data-hero-region]") as HTMLElement | null;
     const limit = hero
       ? hero.offsetTop + hero.offsetHeight - window.innerHeight
-      : Math.max(0.8 * window.innerHeight, 600);
+      : 120;
     setShow((prev) => {
       const v = window.scrollY > limit;
       return prev === v ? prev : v;
