@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Header from "../../components/Header";
 import Contact from "../../components/Contact";
 import MobileBar from "../../components/MobileBar";
-import { Reveal, wrap } from "../../components/ui";
+import { Reveal } from "../../components/ui";
 
 export const metadata: Metadata = {
   title: "Nexora Admissions — политика конфиденциальности",
@@ -24,7 +24,7 @@ export default function Privacy() {
   return (
     <main className="min-h-screen bg-[#F7F5EF] text-[#101418]">
       <Header />
-      <section className={`${wrap} pb-24 pt-40 lg:pt-48`}>
+      <section className="wrap pb-24 pt-40 lg:pt-48">
         <Reveal>
           <p className="font-mono text-xs uppercase tracking-[1px] text-[#101418]/50">Главная / Privacy</p>
           <h1 className="mt-4 max-w-[800px] text-balance text-4xl font-medium tracking-tight sm:text-5xl lg:text-6xl">

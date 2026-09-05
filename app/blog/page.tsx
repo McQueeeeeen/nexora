@@ -3,7 +3,7 @@ import Header from "../../components/Header";
 import Intro from "../../components/Intro";
 import Contact from "../../components/Contact";
 import MobileBar from "../../components/MobileBar";
-import { Reveal, wrap, ArrowIcon } from "../../components/ui";
+import { Reveal, ArrowIcon } from "../../components/ui";
 import { posts } from "./posts";
 
 export const metadata: Metadata = {
@@ -16,7 +16,7 @@ export default function Blog() {
     <main className="min-h-screen bg-[#F7F5EF] text-[#101418]">
       <Intro />
       <Header />
-      <section className={`${wrap} pb-4 pt-40 lg:pt-48`}>
+      <section className="wrap pb-4 pt-40 lg:pt-48">
         <Reveal>
           <p className="font-mono text-xs uppercase tracking-[1px] text-[#101418]/50">
             <a href="/" className="transition hover:text-[#101418]">Главная</a>
@@ -30,7 +30,7 @@ export default function Blog() {
           </p>
         </Reveal>
       </section>
-      <section className={`${wrap} grid grid-cols-1 gap-4 py-12 md:grid-cols-2 lg:grid-cols-3 lg:py-16`}>
+      <section className="wrap grid grid-cols-1 gap-4 py-12 md:grid-cols-2 lg:grid-cols-3 lg:py-16">
         {posts.map((p, i) => (
           <Reveal key={p.slug}>
             <a href={`/blog/${p.slug}`} className="card group flex h-full min-h-[280px] flex-col justify-between rounded-2xl border border-[#101418]/10 bg-white p-6 lg:p-8">

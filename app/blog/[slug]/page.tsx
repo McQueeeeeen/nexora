@@ -4,7 +4,7 @@ import Header from "../../../components/Header";
 import Intro from "../../../components/Intro";
 import Contact from "../../../components/Contact";
 import MobileBar from "../../../components/MobileBar";
-import { Reveal, wrap, Btn, ArrowIcon } from "../../../components/ui";
+import { Reveal, Btn, ArrowIcon } from "../../../components/ui";
 import { posts } from "../posts";
 
 export function generateStaticParams() {
@@ -28,7 +28,7 @@ export default async function Article({ params }: { params: Promise<{ slug: stri
     <main className="min-h-screen bg-[#F7F5EF] text-[#101418]">
       <Intro />
       <Header />
-      <article className={`${wrap} max-w-[860px] pb-8 pt-40 lg:pt-48`}>
+      <article className="wrap max-w-[860px] pb-8 pt-40 lg:pt-48">
         <Reveal>
           <p className="font-mono text-xs uppercase tracking-[1px] text-[#101418]/50">
             <a href="/" className="transition hover:text-[#101418]">Главная</a>

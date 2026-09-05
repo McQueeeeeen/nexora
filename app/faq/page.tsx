@@ -4,7 +4,7 @@ import Intro from "../../components/Intro";
 import Faq from "../../components/Faq";
 import Contact from "../../components/Contact";
 import MobileBar from "../../components/MobileBar";
-import { Reveal, wrap } from "../../components/ui";
+import { Reveal } from "../../components/ui";
 import { faqs } from "../data";
 
 export const metadata: Metadata = {
@@ -57,7 +57,7 @@ export default function FaqPage() {
       />
       <Intro />
       <Header />
-      <section className={`${wrap} pb-2 pt-36 lg:pt-44`}>
+      <section className="wrap pb-2 pt-36 lg:pt-44">
         <Reveal>
           <nav aria-label="Breadcrumb" className="pb-3">
             <ol className="flex flex-wrap items-center gap-2 font-mono text-xs uppercase tracking-[-0.3px] text-[#101418]/50 lg:text-sm">

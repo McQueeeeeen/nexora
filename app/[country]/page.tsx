@@ -13,7 +13,7 @@ import Faq from "../../components/Faq";
 import Contact from "../../components/Contact";
 import SafeImage from "../../components/SafeImage";
 import MobileBar from "../../components/MobileBar";
-import { Btn, Reveal, wrap, ArrowIcon } from "../../components/ui";
+import { Btn, Reveal, ArrowIcon } from "../../components/ui";
 import { countries, uniLinks, type Country } from "../data";
 
 // Статический экспорт: пререндерим обе страны (как city pages у эталона).
@@ -73,7 +73,7 @@ export default async function CountryPage({ params }: { params: Promise<{ countr
       <CtaBand img={c.ctaImg} title={c.ctaTitle} sub={c.ctaSub} />
       <Faq items={c.faqsLocal} title={c.faqTitle} />
 
-      <section className={`${wrap} pb-24`}>
+      <section className="wrap pb-24">
         <Reveal>
           <a href={other.href} className="card group flex items-center justify-between rounded-2xl border border-[#101418]/10 bg-white p-8 lg:p-10">
             <div>
