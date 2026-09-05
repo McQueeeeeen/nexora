@@ -4,3 +4,5 @@ out/
 .pnpm-store/
 .DS_Store
 *.log
+.vercel
+.env*

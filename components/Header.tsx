@@ -29,12 +29,20 @@ function Roll({ text }: { text: string }) {
 }
 
 // Буквы прыгают при ховере, как panel-link-char у эталона.
+// Слова — в неразрывных обёртках, иначе строка не гнётся и режется краем.
 function Chars({ text }: { text: string }) {
   return (
     <>
-      {text.split("").map((c, i) => (
-        <span key={i} className="mega-nav__panel-link-char" style={{ transitionDelay: `${Math.min(i, 9) * 18}ms` }}>
-          {c === " " ? " " : c}
+      {text.split(" ").map((word, w, arr) => (
+        <span key={w}>
+          <span className="inline-block" style={{ whiteSpace: "nowrap" }}>
+            {word.split("").map((c, i) => (
+              <span key={i} className="mega-nav__panel-link-char" style={{ transitionDelay: `${Math.min(i, 9) * 18}ms` }}>
+                {c}
+              </span>
+            ))}
+          </span>
+          {w < arr.length - 1 ? " " : null}
         </span>
       ))}
     </>
