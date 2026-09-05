@@ -1,6 +1,6 @@
 import { memo, type RefObject } from "react";
 
-const ROUTE = "M 150,430 C 300,410 380,330 520,320 C 660,310 740,300 860,270";
+const ROUTE = "M 180,480 C 320,480 440,430 580,390 C 700,350 780,300 860,250";
 
 interface Props {
   narrow: boolean;
@@ -13,6 +13,8 @@ interface Props {
 
 // Презентационная SVG-карта hero. Вся анимация — снаружи через ref'ы,
 // поэтому memo: ре-рендер только при смене narrow.
+// Верхний левый угол карты (x: 0..550, y: 0..460) намеренно оставлен свободным от меток,
+// чтобы заголовок никогда не соприкасался с названиями городов.
 const HeroMap = memo(function HeroMap({ narrow, pathRef, drawA, drawB, budaRef, cursorRef }: Props) {
   return (
     <svg viewBox="0 0 1000 700" preserveAspectRatio={narrow ? "xMidYMid meet" : "xMidYMid slice"}
@@ -43,22 +45,25 @@ const HeroMap = memo(function HeroMap({ narrow, pathRef, drawA, drawB, budaRef, 
         <path className="street-flow" d="M 60,120 C 220,100 420,140 620,110 S 900,90 1040,120" />
         <path className="street-flow" d="M -20,560 C 200,540 420,580 640,550 S 900,530 1030,560" />
       </g>
-      <path d="M -20,470 C 180,450 320,470 500,440 S 800,380 1020,400"
-        fill="none" stroke="#2D9CDB" strokeOpacity="0.25" strokeWidth="10" strokeLinecap="round" />
+      {/* Дунай (Danube River): плавное русло от Австрии к Будапешту */}
+      <path d="M -20,500 C 180,480 360,460 560,405 S 840,230 1020,280"
+        fill="none" stroke="#2D9CDB" strokeOpacity="0.22" strokeWidth="10" strokeLinecap="round" />
+      {/* Университетские города Австрии и Венгрии (размещены вне зоны заголовка) */}
       {(
         [
-          { cx: 120, cy: 300, name: "Линц", lx: 132, ly: 305 },
-          { cx: 60, cy: 470, name: "Инсбрук", lx: 60, ly: 498, anchor: "middle" },
-          { cx: 330, cy: 540, name: "Грац", lx: 342, ly: 545 },
-          { cx: 800, cy: 540, name: "Сегед", lx: 812, ly: 545 },
-          { cx: 880, cy: 430, name: "Дебрецен", lx: 830, ly: 462 },
-          { cx: 700, cy: 580, name: "Печ", lx: 712, ly: 585 },
+          { cx: 70, cy: 500, name: "Линц", lx: 70, ly: 530, anchor: "middle" },
+          { cx: 60, cy: 620, name: "Инсбрук", lx: 60, ly: 645, anchor: "middle" },
+          { cx: 260, cy: 620, name: "Грац", lx: 260, ly: 645, anchor: "middle" },
+          { cx: 620, cy: 570, name: "Печ", lx: 620, ly: 595, anchor: "middle" },
+          { cx: 780, cy: 540, name: "Сегед", lx: 780, ly: 565, anchor: "middle" },
+          { cx: 920, cy: 390, name: "Дебрецен", lx: 920, ly: 415, anchor: "middle" },
+          { cx: 890, cy: 150, name: "Мишкольц", lx: 890, ly: 175, anchor: "middle" },
         ] as { cx: number; cy: number; name: string; lx: number; ly: number; anchor?: "middle" }[]
       ).map(({ cx, cy, name, lx, ly, anchor }) => (
         <g key={name}>
           <circle cx={cx} cy={cy} r="4" fill="rgba(16,20,24,0.3)" />
           <text x={lx} y={ly} textAnchor={anchor} fill="rgba(16,20,24,0.45)"
-            fontSize="15" letterSpacing="1" fontFamily="var(--font-mono), monospace">{name}</text>
+            fontSize="14" letterSpacing="1" fontFamily="var(--font-mono), monospace">{name}</text>
         </g>
       ))}
       <path ref={pathRef} d={ROUTE} fill="none" stroke="rgba(16,20,24,0.15)" strokeWidth="2" />
@@ -66,32 +71,31 @@ const HeroMap = memo(function HeroMap({ narrow, pathRef, drawA, drawB, budaRef, 
         pathLength={100} style={{ strokeDasharray: 100, strokeDashoffset: 100 }} />
       <path ref={drawB} d={ROUTE} fill="none" stroke="var(--brand)" strokeWidth="5" strokeLinecap="round"
         pathLength={100} style={{ strokeDasharray: 100, strokeDashoffset: 100 }} />
-      {[
-        [284, 394, "Братислава"], [615, 312, "Дьёр"],
-      ].map(([cx, cy, name]) => (
-        <g key={name as string}>
-          <circle cx={cx as number} cy={cy as number} r="5" fill="#F7F5EF" stroke="rgba(16,20,24,0.5)" strokeWidth="2" />
-          <text x={cx as number} y={(cy as number) - 15} textAnchor="middle" fill="rgba(16,20,24,0.6)"
-            fontSize="15" letterSpacing="1" fontFamily="var(--font-mono), monospace">{name}</text>
-        </g>
-      ))}
-      <circle cx="150" cy="430" r="7" fill="var(--brand)">
+      {/* Промежуточный студенческий город маршрута — Дьёр (Венгрия) */}
+      <g>
+        <circle cx={580} cy={390} r="5" fill="#F7F5EF" stroke="rgba(16,20,24,0.5)" strokeWidth="2" />
+        <text x={580} y={365} textAnchor="middle" fill="rgba(16,20,24,0.6)"
+          fontSize="15" letterSpacing="1" fontFamily="var(--font-mono), monospace">Дьёр</text>
+      </g>
+      {/* Вена — столица программ в Австрии */}
+      <circle cx="180" cy="480" r="7" fill="var(--brand)">
         <animate attributeName="r" values="7;30" dur="2.4s" repeatCount="indefinite" />
         <animate attributeName="opacity" values="0.7;0" dur="2.4s" repeatCount="indefinite" />
       </circle>
-      <circle cx="150" cy="430" r="7" fill="var(--brand)" />
-      <text x="150" y="474" textAnchor="middle" fill="rgba(16,20,24,0.85)"
+      <circle cx="180" cy="480" r="7" fill="var(--brand)" />
+      <text x="180" y="525" textAnchor="middle" fill="rgba(16,20,24,0.85)"
         fontSize="22" letterSpacing="2.5" fontFamily="var(--font-mono), monospace">ВЕНА</text>
+      {/* Будапешт — столица программ в Венгрии */}
       <g ref={budaRef} style={{ opacity: 0 }}>
-        <circle cx="860" cy="270" r="7" fill="var(--brand)">
+        <circle cx="860" cy="250" r="7" fill="var(--brand)">
           <animate attributeName="r" values="7;30" dur="2.4s" begin="1.2s" repeatCount="indefinite" />
           <animate attributeName="opacity" values="0.7;0" dur="2.4s" begin="1.2s" repeatCount="indefinite" />
         </circle>
-        <circle cx="860" cy="270" r="7" fill="var(--brand)" />
-        <text x="860" y="232" textAnchor="middle" fill="rgba(16,20,24,0.85)"
+        <circle cx="860" cy="250" r="7" fill="var(--brand)" />
+        <text x="860" y="210" textAnchor="middle" fill="rgba(16,20,24,0.85)"
           fontSize="22" letterSpacing="2.5" fontFamily="var(--font-mono), monospace">БУДАПЕШТ</text>
       </g>
-      <g ref={cursorRef} transform="translate(150,430)">
+      <g ref={cursorRef} transform="translate(180,480)">
         <circle r="17" fill="none" stroke="var(--brand)" strokeWidth="3" />
         <path d="M11,0 L-7,-8 L-3,0 L-7,8 Z" fill="var(--brand)" />
       </g>

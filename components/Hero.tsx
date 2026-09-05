@@ -8,10 +8,11 @@ import { splitWords, buildHeroMetas, heroCharStyle, mixLight, mixInk } from "./h
 // Hero: сначала полноэкранные фото (кроссфейд под фразы), затем поверх
 // выезжает светлая карта с рисующейся линией и курсором. Фраза 1 —
 // белая по фото, остальные — чернила по карте. Ноль ре-рендеров при скролле.
+// Все три фразы зафиксированы в верхне-левой зоне чтения, не задевая города и линию карты.
 const pos = [
-  "top:14%;left:5%;text-align:left;max-width:min(720px,90vw)",
-  "top:13%;left:5%;text-align:left;max-width:min(900px,66vw)",
-  "bottom:12%;left:50%;text-align:center;max-width:min(1000px,92vw)",
+  "top:15%;left:5%;text-align:left",
+  "top:15%;left:5%;text-align:left",
+  "top:15%;left:5%;text-align:left",
 ] as const;
 
 function css(s: string): React.CSSProperties {
@@ -184,14 +185,13 @@ export default function Hero() {
                 key={ph.t}
                 data-hero-phrase
                 aria-hidden={i === 0 ? undefined : true}
-                className={light ? "font-normal text-white" : "font-normal text-[#101418]"}
+                className={`font-normal max-w-[90vw] md:max-w-[72vw] lg:max-w-[56vw] xl:max-w-[820px] ${light ? "text-white" : "text-[#101418]"}`}
                 style={{
                   position: "absolute",
-                  fontSize: "clamp(29px,6.2vw,76px)",
-                  lineHeight: 1.05,
+                  fontSize: "clamp(28px,5.6vw,72px)",
+                  lineHeight: 1.06,
                   letterSpacing: "-0.025em",
                   ...(light ? { textShadow: "0 2px 18px rgba(0,0,0,0.9)" } : {}),
-                  ...(i === 2 ? { transform: "translateX(-50%)" } : {}),
                   ...css(pos[i]),
                 }}
               >
