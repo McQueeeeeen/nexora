@@ -1,6 +1,7 @@
 "use client";
 import { Fragment, useEffect, useRef, useState } from "react";
 import { services } from "../app/data";
+import SafeImage from "./SafeImage";
 
 // Направления — дословный sticky-steps эталона: список с гэпом 30dvh,
 // залипшее медиа справа, статус active через observer, посимвольная заливка h2.
@@ -90,7 +91,7 @@ export default function Services() {
                 <div className="sticky-steps__media">
                   <div className="sticky-steps__sticky">
                     <div className="sticky-steps__visual">
-                      <img src={s.img} alt={s.title} loading="lazy" decoding="async" className="sticky-steps__cover-image" />
+                      <SafeImage src={s.img} alt={s.title} className="sticky-steps__cover-image" />
                     </div>
                   </div>
                 </div>

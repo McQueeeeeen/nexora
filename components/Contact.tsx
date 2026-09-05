@@ -8,8 +8,47 @@ import { Y, useViewportProgress, Reveal, ArrowIcon, CheckIcon } from "./ui";
 export default function Contact() {
   const [sent, setSent] = useState(false);
   const [step, setStep] = useState(0);
+  const [sending, setSending] = useState(false);
+  const [failed, setFailed] = useState(false);
+  const [agreed, setAgreed] = useState(false);
+  const [form, setForm] = useState({ name: "", phone: "", email: "", country: "", about: "" });
   const [ref, p] = useViewportProgress<HTMLDivElement>();
   const pre = usePathname() === "/" ? "" : "/";
+
+  const set = (k: keyof typeof form) => (e: React.ChangeEvent<HTMLInputElement>) =>
+    setForm((f) => ({ ...f, [k]: e.target.value }));
+
+  // Отправка через FormSubmit на admissions@nexora.eu (без бэкенда и ключей).
+  // Первое письмо требует клика-подтверждения из ящика (активация FormSubmit).
+  const submit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (sending) return;
+    setSending(true);
+    setFailed(false);
+    try {
+      const res = await fetch("https://formsubmit.co/ajax/admissions@nexora.eu", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        body: JSON.stringify({
+          _subject: `NEXORA — заявка: ${form.name || "без имени"}`,
+          _template: "table",
+          _captcha: "true",
+          _honey: "",
+          Имя: form.name,
+          Телефон: form.phone,
+          Email: form.email || "—",
+          "Страна и уровень": form.country || "—",
+          "О себе": form.about || "—",
+        }),
+      });
+      if (!res.ok) throw new Error(String(res.status));
+      setSent(true);
+    } catch {
+      setFailed(true);
+    } finally {
+      setSending(false);
+    }
+  };
 
   // Сглаживание как у эталона (lerp .18 к цели каждый кадр).
   const [sv, setSv] = useState(0);
@@ -72,7 +111,7 @@ export default function Contact() {
                       <p className="mt-2 max-w-sm text-[#101418]/65">Свяжемся в течение 30 минут для бесплатной диагностики.</p>
                     </div>
                   ) : (
-                    <form onSubmit={(e) => { e.preventDefault(); setSent(true); }} className="flex flex-col gap-5">
+                    <form onSubmit={submit} className="flex flex-col gap-5">
                       <div className="flex gap-1.5" aria-hidden>
                         {[0, 1].map((d) => (
                           <span key={d} className="h-1.5 rounded-full transition-all" style={d <= step ? { width: 32, background: Y } : { width: 8, background: "rgba(16,20,24,0.15)" }} />
@@ -82,33 +121,40 @@ export default function Contact() {
                         <>
                           <div className="flex flex-col gap-5 lg:flex-row lg:gap-2.5">
                             <div className="flex flex-1 flex-col gap-2">
-                              <label className="font-mono text-xs font-bold uppercase text-[#101418]/45">Ваше имя<span style={{ color: Y }}> *</span></label>
-                              <input required placeholder="Иван Иванов" className="input-light h-14 rounded-[10px] px-4 text-base" />
+                              <label htmlFor="nx-name" className="font-mono text-xs font-bold uppercase text-[#101418]/45">Ваше имя<span style={{ color: Y }}> *</span></label>
+                              <input id="nx-name" required value={form.name} onChange={set("name")} placeholder="Иван Иванов" autoComplete="name" className="input-light h-14 rounded-[10px] px-4 text-base" />
                             </div>
                             <div className="flex flex-1 flex-col gap-2">
-                              <label className="font-mono text-xs font-bold uppercase text-[#101418]/45">Телефон<span style={{ color: Y }}> *</span></label>
-                              <input required type="tel" inputMode="tel" autoComplete="tel" placeholder="+7 (999) 000-00-00" className="input-light h-14 rounded-[10px] px-4 text-base" />
+                              <label htmlFor="nx-phone" className="font-mono text-xs font-bold uppercase text-[#101418]/45">Телефон<span style={{ color: Y }}> *</span></label>
+                              <input id="nx-phone" required value={form.phone} onChange={set("phone")} type="tel" inputMode="tel" autoComplete="tel" placeholder="+7 (999) 000-00-00" className="input-light h-14 rounded-[10px] px-4 text-base" />
                             </div>
                           </div>
                           <div className="flex flex-col gap-2">
-                            <label className="font-mono text-xs font-bold uppercase text-[#101418]/45">Email</label>
-                            <input type="email" inputMode="email" autoComplete="email" placeholder="you@email.com" pattern="[^@\s]+@[^@\s]+\.[^@\s]+" className="input-light h-14 rounded-[10px] px-4 text-base" />
+                            <label htmlFor="nx-email" className="font-mono text-xs font-bold uppercase text-[#101418]/45">Email</label>
+                            <input id="nx-email" value={form.email} onChange={set("email")} type="email" inputMode="email" autoComplete="email" placeholder="you@email.com" pattern="[^@\s]+@[^@\s]+\.[^@\s]+" className="input-light h-14 rounded-[10px] px-4 text-base" />
                           </div>
                           <button type="button" onClick={(e) => { const f = e.currentTarget.form; if (f && !f.reportValidity()) return; setStep(1); }} className="mp5-btn mp5-btn--primary w-full rounded-xl text-base" style={{ height: 56 }}>Продолжить</button>
                         </>
                       ) : (
                         <>
                           <div className="flex flex-col gap-2">
-                            <label className="font-mono text-xs font-bold uppercase text-[#101418]/45">Страна и уровень</label>
-                            <input placeholder="Например: Бакалавриат в Австрии" className="input-light h-14 rounded-[10px] px-4 text-base" />
+                            <label htmlFor="nx-country" className="font-mono text-xs font-bold uppercase text-[#101418]/45">Страна и уровень</label>
+                            <input id="nx-country" value={form.country} onChange={set("country")} placeholder="Например: Бакалавриат в Австрии" className="input-light h-14 rounded-[10px] px-4 text-base" />
                           </div>
                           <div className="flex flex-col gap-2">
-                            <label className="font-mono text-xs font-bold uppercase text-[#101418]/45">О себе (оценки, язык)</label>
-                            <input placeholder="Например: GPA 4.5, английский B2" className="input-light h-14 rounded-[10px] px-4 text-base" />
+                            <label htmlFor="nx-about" className="font-mono text-xs font-bold uppercase text-[#101418]/45">О себе (оценки, язык)</label>
+                            <input id="nx-about" value={form.about} onChange={set("about")} placeholder="Например: GPA 4.5, английский B2" className="input-light h-14 rounded-[10px] px-4 text-base" />
                           </div>
+                          <label className="flex cursor-pointer items-start gap-3 text-xs leading-relaxed text-[#101418]/60">
+                            <input type="checkbox" required checked={agreed} onChange={(e) => setAgreed(e.target.checked)} className="mt-0.5 h-4 w-4 shrink-0 accent-[#0B8A76]" />
+                            <span>Соглашаюсь на обработку персональных данных для связи по заявке. <a href="/privacy" className="underline">Политика конфиденциальности</a>.</span>
+                          </label>
+                          {/* honeypot против спам-ботов */}
+                          <input type="text" name="_honey" tabIndex={-1} autoComplete="off" className="hidden" aria-hidden value="" readOnly />
+                          {failed && <p className="text-sm text-red-700">Не отправилось — проверьте соединение и попробуйте ещё раз.</p>}
                           <div className="flex gap-3">
                             <button type="button" onClick={() => setStep(0)} className="mp5-btn mp5-btn--outline flex items-center gap-2 rounded-xl px-6 text-base" style={{ height: 56 }}><ArrowIcon className="h-4 w-4 rotate-180" />Назад</button>
-                            <button type="submit" className="mp5-btn mp5-btn--primary flex-1 rounded-xl text-base" style={{ height: 56 }}>Записаться на аудит</button>
+                            <button type="submit" disabled={sending} className="mp5-btn mp5-btn--primary flex-1 rounded-xl text-base" style={{ height: 56 }}>{sending ? "Отправляем…" : "Записаться на аудит"}</button>
                           </div>
                         </>
                       )}
@@ -117,7 +163,7 @@ export default function Contact() {
                 </Reveal>
               </div>
             </div>
-            <div className="h-px bg-white/10" />
+            <div className="h-px bg-[#101418]/10" />
             <Reveal>
             <div className="grid grid-cols-1 gap-10 lg:grid-cols-2 lg:gap-16">
               <div className="flex h-full flex-col">
@@ -154,10 +200,11 @@ export default function Contact() {
               </div>
             </div>
             </Reveal>
-            <div className="h-px bg-white/10" />
+            <div className="h-px bg-[#101418]/10" />
             <Reveal>
             <div className="flex flex-col gap-5 text-[13px] text-[#101418]/50 lg:flex-row lg:items-center">
               <span>© 2026 Nexora Admissions. Правила приёма актуальны на сезон 2026/2027.</span>
+              <a href="/privacy" className="hover-underline w-fit transition hover:text-[#101418] lg:ml-auto">Privacy policy</a>
             </div>
             </Reveal>
           </div>

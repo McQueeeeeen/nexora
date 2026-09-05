@@ -240,6 +240,7 @@ html.preloaded [data-load-wrap] { display: none !important; }
 /* ---------- уважение к reduced-motion ---------- */
 @media (prefers-reduced-motion: reduce) {
   .tv5-fade { animation: none; }
+  .grain { display: none; }
   .route-draw { animation: none; stroke-dashoffset: 0; }
   .route-motion { display: none; }
   .street-flow { animation: none; }

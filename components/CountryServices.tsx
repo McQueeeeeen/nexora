@@ -1,5 +1,6 @@
 import type { CountryInfo } from "../app/data";
 import { wrap, Tag, Reveal, ArrowIcon } from "./ui";
+import SafeImage from "./SafeImage";
 
 // Услуги страны — полноэкранные карточки с водяным номером, как у эталона.
 export default function CountryServices({ c }: { c: CountryInfo }) {
@@ -22,7 +23,7 @@ export default function CountryServices({ c }: { c: CountryInfo }) {
                 <span aria-hidden className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 select-none font-light text-[100px] leading-[1.2] tracking-[-4.92px] text-white/[0.07] lg:text-[164px]">
                   {i + 1}
                 </span>
-                <img src={s.img} alt="" aria-hidden loading="lazy" decoding="async" className="absolute inset-0 h-full w-full object-cover" />
+                <SafeImage src={s.img} alt="" className="absolute inset-0 h-full w-full object-cover" />
                 <div className="absolute inset-0 bg-black/20" />
                 <div className="relative z-10 overflow-hidden p-5 pb-16 lg:p-8 lg:pb-20">
                   <div className="absolute inset-0" style={{ background: "linear-gradient(to bottom, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0.4) 55%, transparent 100%)" }} />

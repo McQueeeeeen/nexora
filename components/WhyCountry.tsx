@@ -2,6 +2,7 @@
 import { useEffect, useRef, useState } from "react";
 import type { CountryInfo } from "../app/data";
 import { wrap, Tag, Reveal, onRafScroll } from "./ui";
+import SafeImage from "./SafeImage";
 
 // «Почему страна» — полноэкранный фон с параллаксом и оверлеем, как у эталона.
 export default function WhyCountry({ c }: { c: CountryInfo }) {
@@ -19,7 +20,7 @@ export default function WhyCountry({ c }: { c: CountryInfo }) {
   return (
     <section ref={ref} className="relative flex min-h-[720px] items-stretch overflow-hidden py-[40px] lg:min-h-[860px] lg:py-[60px]">
       <div className="absolute inset-x-0 -bottom-[200px] -top-[200px] will-change-transform" style={{ transform: `translate3d(0, ${y}px, 0)` }}>
-        <img src={c.whyImg} alt={c.name} loading="lazy" decoding="async" className="h-full w-full object-cover" />
+        <SafeImage src={c.whyImg} alt={c.name} className="h-full w-full object-cover" />
       </div>
       <div className="absolute inset-0 bg-black/50" />
       <div className={`${wrap} relative flex w-full flex-col justify-between gap-10 lg:gap-16`}>

@@ -1,6 +1,7 @@
 "use client";
 import { steps } from "../app/data";
 import { useScrollProgress } from "./ui";
+import SafeImage from "./SafeImage";
 
 // Процесс — белый benefits-pin эталона: залипшая колода со скруглённым верхом,
 // сверху стопка картинок, снизу сменяющиеся панели шагов с прогресс-баром.
@@ -17,7 +18,7 @@ export default function Steps() {
         <div className="relative w-full overflow-hidden">
           {steps.map((s, i) => (
             <div key={s.img} className="absolute inset-0" style={{ opacity: i === cur ? 1 : 0, transform: `scale(${i === cur ? 1 : 1.06})`, transition: "opacity .5s ease, transform .6s ease", willChange: "opacity,transform" }}>
-              <img src={s.img} alt={s.title} loading="lazy" decoding="async" className="absolute h-full w-full object-cover" />
+              <SafeImage src={s.img} alt={s.title} className="absolute h-full w-full object-cover" />
               <div className="absolute inset-0 bg-gradient-to-t from-black/35 via-transparent to-transparent" />
             </div>
           ))}

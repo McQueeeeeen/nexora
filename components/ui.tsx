@@ -7,14 +7,43 @@ export const wrap = "wrap";
 export const Y = "var(--brand)";
 export const YB = "var(--brand-bright)";
 
+/** Единая шина скролла: один слушатель + один rAF на всё приложение.
+ *  Сигнатура как у старого onRafScroll — места вызовов не меняются. */
+const scrollSubs = new Set<() => void>();
+let scrollRaf = 0;
+let scrollListening = false;
+
+function scrollFlush() {
+  scrollRaf = 0;
+  scrollSubs.forEach((fn) => {
+    try { fn(); } catch { /* один подписчик не должен ронять остальных */ }
+  });
+}
+
+function scrollKick() {
+  if (!scrollRaf) scrollRaf = requestAnimationFrame(scrollFlush);
+}
+
+function scrollEnsure() {
+  if (scrollListening) return;
+  scrollListening = true;
+  window.addEventListener("scroll", scrollKick, { passive: true });
+}
+
 /** Скролл через rAF: один пересчёт на кадр, без дерганий. */
 export function onRafScroll(fn: () => void) {
-  let raf = 0;
-  const loop = () => { raf = 0; fn(); };
-  const onScroll = () => { if (!raf) raf = requestAnimationFrame(loop); };
-  window.addEventListener("scroll", onScroll, { passive: true });
-  onScroll();
-  return () => { window.removeEventListener("scroll", onScroll); if (raf) cancelAnimationFrame(raf); };
+  scrollSubs.add(fn);
+  scrollEnsure();
+  scrollKick();
+  return () => {
+    scrollSubs.delete(fn);
+    if (scrollSubs.size === 0 && scrollListening) {
+      scrollListening = false;
+      window.removeEventListener("scroll", scrollKick);
+      if (scrollRaf) cancelAnimationFrame(scrollRaf);
+      scrollRaf = 0;
+    }
+  };
 }
 
 /** Прогресс 0..1 прохождения высокого блока (пин-эффекты эталона). */

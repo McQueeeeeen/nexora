@@ -1,12 +1,12 @@
 "use client";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { heroPhrases } from "../app/data";
+import HeroMap from "./HeroMap";
+import { splitWords, buildHeroMetas, heroCharStyle, mixLight, mixInk } from "./hero-anim";
 
 // Hero: сначала полноэкранные фото (кроссфейд под фразы), затем поверх
 // выезжает светлая карта с рисующейся линией и курсором. Фраза 1 —
 // белая по фото, остальные — чернила по карте. Ноль ре-рендеров при скролле.
-const ROUTE = "M 150,430 C 300,410 380,330 520,320 C 660,310 740,300 860,270";
-
 const pos = [
   "top:14%;left:5%;text-align:left;max-width:min(720px,90vw)",
   "top:13%;left:5%;text-align:left;max-width:min(900px,66vw)",
@@ -25,51 +25,6 @@ function css(s: string): React.CSSProperties {
   return o as React.CSSProperties;
 }
 
-const easeOut2 = (x: number) => 1 - (1 - x) * (1 - x);
-const easeOut3 = (x: number) => 1 - (1 - x) * (1 - x) * (1 - x);
-const easeIn2 = (x: number) => x * x;
-const clamp01 = (x: number) => Math.max(0, Math.min(1, x));
-// Фраза 1 по тёмным фото: акцент → белый.
-const mixLight = (t: number) => {
-  const r = Math.round(94 + (255 - 94) * t);
-  const g = Math.round(234 + (255 - 234) * t);
-  const b = Math.round(212 + (255 - 212) * t);
-  return `rgb(${r},${g},${b})`;
-};
-// Фразы 2–3 по светлой карте: акцент → чернила.
-const mixInk = (t: number) => {
-  const r = Math.round(11 + (16 - 11) * t);
-  const g = Math.round(138 + (20 - 138) * t);
-  const b = Math.round(118 + (24 - 118) * t);
-  return `rgb(${r},${g},${b})`;
-};
-
-interface CharMeta { l: number; j: number; C: number; last: boolean }
-
-// Плоский порядок символов = порядок в DOM (слова + пробелы-разделители).
-function useCharMetas(): CharMeta[] {
-  return useMemo(() => {
-    const metas: CharMeta[] = [];
-    const N = heroPhrases.length;
-    heroPhrases.forEach((ph, l) => {
-      const C = ph.t.length;
-      let gi = 0;
-      const words: string[][] = [];
-      let acc: string[] = [];
-      ph.t.split("").forEach((ch) => {
-        if (ch === " ") { if (acc.length) { words.push(acc); acc = []; } words.push([" "]); }
-        else acc.push(ch);
-      });
-      if (acc.length) words.push(acc);
-      words.forEach((w) => {
-        if (w.length === 1 && w[0] === " ") metas.push({ l, j: gi++, C, last: l === N - 1 });
-        else w.forEach(() => { metas.push({ l, j: gi++, C, last: l === N - 1 }); });
-      });
-    });
-    return metas;
-  }, []);
-}
-
 export default function Hero() {
   const ref = useRef<HTMLDivElement>(null);
   const pathRef = useRef<SVGPathElement>(null);
@@ -79,7 +34,7 @@ export default function Hero() {
   const budaRef = useRef<SVGGElement>(null);
   const mapRef = useRef<HTMLDivElement>(null);
   const veilRef = useRef<HTMLDivElement>(null);
-  const metas = useCharMetas();
+  const metas = useMemo(() => buildHeroMetas(heroPhrases), []);
 
   // На узких экранах карту показываем целиком, на широких — кинематографичный кроп.
   const [narrow, setNarrow] = useState(false);
@@ -96,6 +51,8 @@ export default function Hero() {
     if (!region) return;
     const chars = Array.from(region.querySelectorAll<HTMLElement>(".hero-char"));
     const photos = Array.from(region.querySelectorAll<HTMLElement>("[data-hero-photo]"));
+    const map = mapRef.current;
+    const veil = veilRef.current;
     const N = heroPhrases.length;
     // Без движения: фото 1 + фраза 1, карта скрыта.
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
@@ -117,34 +74,22 @@ export default function Hero() {
     const apply = (t: number) => {
       const x = t * Math.max(1, N - 1);
       for (let k = 0; k < chars.length && k < metas.length; k++) {
-        const el = chars[k];
-        const m = metas[k];
-        const e = 0.92 / N;
-        const I = 0.55 * e, S = 0.2 * e, F = 0.25 * e;
-        const h = 0.04 + m.l * e;
-        const pd = (0.5 * I) / m.C;
-        const fd = F / m.C;
-        const oIn = easeOut2(clamp01((t - (h + m.j * pd)) / (8 * pd)));
-        const cT = easeOut3(clamp01((t - (h + 3 * pd + m.j * pd)) / (14 * pd)));
-        const oOut = !m.last ? easeIn2(clamp01((t - (h + I + S + m.j * fd)) / (4 * fd))) : 0;
-        const op = oIn * (1 - oOut);
-        el.style.opacity = op < 0.01 ? "0" : op.toFixed(3);
-        el.style.color = m.l === 0 ? mixLight(cT) : mixInk(cT);
+        const st = heroCharStyle(t, metas[k], N, metas[k].l === 0);
+        chars[k].style.opacity = st.opacity;
+        chars[k].style.color = st.color;
       }
       // Карта выезжает поверх фото (smoothstep 0.22–0.42).
-      const mq = clamp01((t - 0.22) / 0.2);
+      const mq = Math.max(0, Math.min(1, (t - 0.22) / 0.2));
       const mapOp = mq * mq * (3 - 2 * mq);
       const mapGone = 1 - mapOp;
       photos.forEach((img, i) => {
         const op = Math.max(0, Math.min(1, 1 - Math.abs(x - i))) * mapGone;
         img.style.opacity = op < 0.01 ? "0" : op.toFixed(3);
       });
-      const map = mapRef.current;
       if (map) {
         map.style.opacity = mapOp < 0.01 ? "0" : mapOp.toFixed(3);
         map.style.visibility = mapOp <= 0 ? "hidden" : "visible";
       }
-      const veil = veilRef.current;
       if (veil) veil.style.opacity = mapGone < 0.01 ? "0" : mapGone.toFixed(3);
       const off = String(100 - t * 100);
       if (drawA.current) drawA.current.style.strokeDashoffset = off;
@@ -186,14 +131,7 @@ export default function Hero() {
   }, [metas]);
 
   const renderWords = (text: string, light: boolean) => {
-    const words: string[][] = [];
-    let acc: string[] = [];
-    text.split("").forEach((ch) => {
-      if (ch === " ") { if (acc.length) { words.push(acc); acc = []; } words.push([" "]); }
-      else acc.push(ch);
-    });
-    if (acc.length) words.push(acc);
-    return words.map((w, wi) => {
+    return splitWords(text).map((w, wi) => {
       if (w.length === 1 && w[0] === " ") {
         return <span key={wi} className="hero-char" style={{ opacity: 0 }}> </span>;
       }
@@ -225,87 +163,14 @@ export default function Hero() {
           />
         ))}
         <div ref={mapRef} className="absolute inset-0 bg-[#F7F5EF]" style={{ opacity: 0, visibility: "hidden" }}>
-        <svg viewBox="0 0 1000 700" preserveAspectRatio={narrow ? "xMidYMid meet" : "xMidYMid slice"}
-          className="h-full w-full" role="img" aria-label="Карта маршрута Вена — Будапешт">
-          <defs>
-            <pattern id="hero-grid" width="50" height="50" patternUnits="userSpaceOnUse">
-              <path d="M 50 0 L 0 0 0 50" fill="none" stroke="rgba(16,20,24,0.08)" strokeWidth="1" />
-            </pattern>
-          </defs>
-          <rect width="1000" height="700" fill="url(#hero-grid)" />
-          <g fill="none" stroke="rgba(16,20,24,0.1)" strokeWidth="1.5">
-            <path d="M 60,120 C 220,100 420,140 620,110 S 900,90 1040,120" />
-            <path d="M -20,560 C 200,540 420,580 640,550 S 900,530 1030,560" />
-            <path d="M 420,-20 C 410,150 430,350 415,520 S 405,650 410,720" />
-            <path d="M 700,-20 C 690,180 710,380 695,550 S 688,660 692,720" />
-            <path d="M 200,430 C 350,470 500,455 660,480" strokeOpacity="0.6" />
-            <path d="M 520,320 C 640,340 760,330 900,350" strokeOpacity="0.6" />
-            <path d="M 150,250 C 300,230 480,250 640,230" strokeOpacity="0.5" />
-            <path d="M 850,-20 C 845,120 855,300 848,460" strokeOpacity="0.5" />
-            <path d="M -20,80 C 180,60 400,90 600,70 S 880,50 1030,80" strokeOpacity="0.45" />
-            <path d="M -20,620 C 220,600 460,630 700,610 S 920,595 1040,615" strokeOpacity="0.45" />
-            <path d="M 250,-20 C 260,160 245,340 255,520 S 260,660 258,720" strokeOpacity="0.4" />
-            <path d="M 560,-20 C 555,140 568,320 560,500 S 556,650 560,720" strokeOpacity="0.4" />
-            <path d="M 60,360 C 240,340 420,360 600,345 S 820,330 1010,350" strokeOpacity="0.5" />
-            <path d="M 950,80 C 940,240 955,420 945,600" strokeOpacity="0.4" />
-          </g>
-          <g fill="none" stroke="rgba(11,138,118,0.4)" strokeWidth="1.5">
-            <path className="street-flow" d="M 60,120 C 220,100 420,140 620,110 S 900,90 1040,120" />
-            <path className="street-flow" d="M -20,560 C 200,540 420,580 640,550 S 900,530 1030,560" />
-          </g>
-          <path d="M -20,470 C 180,450 320,470 500,440 S 800,380 1020,400"
-            fill="none" stroke="#2D9CDB" strokeOpacity="0.25" strokeWidth="10" strokeLinecap="round" />
-          {(
-            [
-              { cx: 120, cy: 300, name: "Линц", lx: 132, ly: 305 },
-              { cx: 60, cy: 470, name: "Инсбрук", lx: 60, ly: 498, anchor: "middle" },
-              { cx: 330, cy: 540, name: "Грац", lx: 342, ly: 545 },
-              { cx: 800, cy: 540, name: "Сегед", lx: 812, ly: 545 },
-              { cx: 880, cy: 430, name: "Дебрецен", lx: 830, ly: 462 },
-              { cx: 700, cy: 580, name: "Печ", lx: 712, ly: 585 },
-            ] as { cx: number; cy: number; name: string; lx: number; ly: number; anchor?: "middle" }[]
-          ).map(({ cx, cy, name, lx, ly, anchor }) => (
-            <g key={name}>
-              <circle cx={cx} cy={cy} r="4" fill="rgba(16,20,24,0.3)" />
-              <text x={lx} y={ly} textAnchor={anchor} fill="rgba(16,20,24,0.45)"
-                fontSize="15" letterSpacing="1" fontFamily="var(--font-mono), monospace">{name}</text>
-            </g>
-          ))}
-          <path ref={pathRef} d={ROUTE} fill="none" stroke="rgba(16,20,24,0.15)" strokeWidth="2" />
-          <path ref={drawA} d={ROUTE} fill="none" stroke="var(--brand)" strokeOpacity="0.25" strokeWidth="12" strokeLinecap="round"
-            pathLength={100} style={{ strokeDasharray: 100, strokeDashoffset: 100 }} />
-          <path ref={drawB} d={ROUTE} fill="none" stroke="var(--brand)" strokeWidth="5" strokeLinecap="round"
-            pathLength={100} style={{ strokeDasharray: 100, strokeDashoffset: 100 }} />
-          {[
-            [284, 394, "Братислава"], [615, 312, "Дьёр"],
-          ].map(([cx, cy, name]) => (
-            <g key={name as string}>
-              <circle cx={cx as number} cy={cy as number} r="5" fill="#F7F5EF" stroke="rgba(16,20,24,0.5)" strokeWidth="2" />
-              <text x={cx as number} y={(cy as number) - 15} textAnchor="middle" fill="rgba(16,20,24,0.6)"
-                fontSize="15" letterSpacing="1" fontFamily="var(--font-mono), monospace">{name}</text>
-            </g>
-          ))}
-          <circle cx="150" cy="430" r="7" fill="var(--brand)">
-            <animate attributeName="r" values="7;30" dur="2.4s" repeatCount="indefinite" />
-            <animate attributeName="opacity" values="0.7;0" dur="2.4s" repeatCount="indefinite" />
-          </circle>
-          <circle cx="150" cy="430" r="7" fill="var(--brand)" />
-          <text x="150" y="474" textAnchor="middle" fill="rgba(16,20,24,0.85)"
-            fontSize="22" letterSpacing="2.5" fontFamily="var(--font-mono), monospace">ВЕНА</text>
-          <g ref={budaRef} style={{ opacity: 0 }}>
-            <circle cx="860" cy="270" r="7" fill="var(--brand)">
-              <animate attributeName="r" values="7;30" dur="2.4s" begin="1.2s" repeatCount="indefinite" />
-              <animate attributeName="opacity" values="0.7;0" dur="2.4s" begin="1.2s" repeatCount="indefinite" />
-            </circle>
-            <circle cx="860" cy="270" r="7" fill="var(--brand)" />
-            <text x="860" y="232" textAnchor="middle" fill="rgba(16,20,24,0.85)"
-              fontSize="22" letterSpacing="2.5" fontFamily="var(--font-mono), monospace">БУДАПЕШТ</text>
-          </g>
-          <g ref={cursorRef} transform="translate(150,430)">
-            <circle r="17" fill="none" stroke="var(--brand)" strokeWidth="3" />
-            <path d="M11,0 L-7,-8 L-3,0 L-7,8 Z" fill="var(--brand)" />
-          </g>
-        </svg>
+          <HeroMap
+            narrow={narrow}
+            pathRef={pathRef}
+            drawA={drawA}
+            drawB={drawB}
+            budaRef={budaRef}
+            cursorRef={cursorRef}
+          />
         </div>
         <div ref={veilRef} className="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/55 via-black/25 to-black/70" />
         <div className="pointer-events-none absolute inset-0 px-6 lg:px-12">
