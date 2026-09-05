@@ -43,7 +43,7 @@ export default async function CountryPage({ params }: { params: Promise<{ countr
       <Intro />
       <Header />
 
-      <section className="relative h-screen min-h-[720px] overflow-hidden bg-black lg:min-h-[900px]">
+      <section data-hero-region className="relative h-screen min-h-[720px] overflow-hidden bg-black lg:min-h-[900px]">
         <img src={c.heroImg} alt={c.name} fetchPriority="high" className="absolute inset-0 h-full w-full object-cover object-[25%_center] lg:object-center" />
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/50 via-black/20 to-black/70" />
         <div className="wrap relative flex h-full items-end pb-8 lg:pb-[72px]">

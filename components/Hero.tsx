@@ -1,10 +1,11 @@
 "use client";
-import { useEffect, useRef, useState } from "react";
+import { Fragment, useEffect, useRef, useState } from "react";
 import { heroPhrases } from "../app/data";
-import { useScrollProgress, onRafScroll } from "./ui";
+import { useSmoothScrollProgress, onRafScroll } from "./ui";
 
-// Hero 1-в-1 с эталоном: высокий регион + залипший фулскрин + фразы,
-// больше ничего. Фон — живая карта вместо их видео.
+// Hero 1-в-1 с эталоном: высокий регион + залипший фулскрин, фразы
+// анимируются ПОСИМВОЛЬНО (opacity + цвет акцент→белый, без движения),
+// сглаженный scrub. Фон — живая карта вместо их видео.
 const ROUTE = "M 150,430 C 300,410 380,330 520,320 C 660,310 740,300 860,270";
 
 const pos = [
@@ -12,8 +13,6 @@ const pos = [
   "top:13%;left:5%;text-align:left;max-width:min(900px,66vw)",
   "bottom:12%;left:50%;text-align:center;max-width:min(1000px,92vw)",
 ] as const;
-
-const CENTERED = 2; // фраза по центру (нужен translateX(-50%))
 
 function css(s: string): React.CSSProperties {
   const o: Record<string, string> = {};
@@ -27,11 +26,87 @@ function css(s: string): React.CSSProperties {
   return o as React.CSSProperties;
 }
 
+const easeOut2 = (x: number) => 1 - (1 - x) * (1 - x);
+const easeOut3 = (x: number) => 1 - (1 - x) * (1 - x) * (1 - x);
+const easeIn2 = (x: number) => x * x;
+const clamp01 = (x: number) => Math.max(0, Math.min(1, x));
+// Акцент → белый, как жёлтый → белый у эталона.
+const mixBrand = (t: number) => {
+  const r = Math.round(94 + (255 - 94) * t);
+  const g = Math.round(234 + (255 - 234) * t);
+  const b = Math.round(212 + (255 - 212) * t);
+  return `rgb(${r},${g},${b})`;
+};
+
+// Дословная формула фраз эталона: слот e=0.92/N, появление, окраска, уход.
+function Phrase({ text, index, total, time, centered, style }: {
+  text: string; index: number; total: number; time: number; centered?: boolean; style: React.CSSProperties;
+}) {
+  const e = 0.92 / total;
+  const I = 0.55 * e, S = 0.2 * e, F = 0.25 * e;
+  const h = 0.04 + index * e;
+  // Плоский список символов (включая пробелы — как querySelectorAll у эталона).
+  const chars = text.split("");
+  const C = chars.length;
+  const pd = (0.5 * I) / C;
+  const fd = F / C;
+  // Группируем в слова, чтобы не рвать переносы (пробелы — отдельно).
+  const words: string[][] = [];
+  let cur: string[] = [];
+  const flush = () => { if (cur.length) { words.push(cur); cur = []; } };
+  chars.forEach((ch) => { if (ch === " ") { flush(); words.push([" "]); } else cur.push(ch); });
+  flush();
+  let gi = 0;
+  const Tag = index === Math.min(total - 1, Math.round(time * Math.max(1, total - 1))) ? "h1" : "div";
+  return (
+    <Tag data-hero-phrase aria-hidden={Tag === "h1" ? undefined : true}
+      className="font-normal text-white"
+      style={{
+        position: "absolute",
+        fontSize: "clamp(29px,6.2vw,76px)",
+        lineHeight: 1.05,
+        letterSpacing: "-0.025em",
+        textShadow: "0 2px 24px rgba(0,0,0,0.85), 0 1px 3px rgba(0,0,0,0.6)",
+        ...(centered ? { transform: "translateX(-50%)" } : {}),
+        ...style,
+      }}>
+      {words.map((w, wi) => {
+        if (w.length === 1 && w[0] === " ") {
+          const j = gi++;
+          return <Char key={wi} ch=" " j={j} />;
+        }
+        return (
+          <span key={wi} className="hero-word">
+            {w.map((ch, ci) => {
+              const j = gi++;
+              return <Char key={ci} ch={ch} j={j} />;
+            })}
+          </span>
+        );
+      })}
+    </Tag>
+  );
+
+  function Char({ ch, j }: { ch: string; j: number }) {
+    const oIn = easeOut2(clamp01((time - (h + j * pd)) / (8 * pd)));
+    const cT = easeOut3(clamp01((time - (h + 3 * pd + j * pd)) / (14 * pd)));
+    const oOut = index < total - 1 ? easeIn2(clamp01((time - (h + I + S + j * fd)) / (4 * fd))) : 0;
+    const opacity = oIn * (1 - oOut);
+    return (
+      <span className="hero-char" style={{
+        display: "inline-block",
+        opacity: opacity < 0.01 ? 0 : opacity,
+        color: mixBrand(cT),
+        willChange: "opacity",
+      }}>
+        {ch}
+      </span>
+    );
+  }
+}
+
 export default function Hero() {
-  const [ref, p] = useScrollProgress<HTMLDivElement>();
-  const n = heroPhrases.length;
-  const x = p * Math.max(1, n - 1); // 0..n-1, центры фраз в целых точках
-  const active = Math.min(n - 1, Math.round(x));
+  const [ref, p] = useSmoothScrollProgress<HTMLDivElement>(0.2);
 
   // Курсор на маршруте: позиция и разворот по касательной, напрямую в DOM.
   const pathRef = useRef<SVGPathElement>(null);
@@ -144,59 +219,10 @@ export default function Hero() {
         </svg>
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-black/55" />
         <div className="pointer-events-none absolute inset-0 px-6 lg:px-12">
-          {heroPhrases.map((t, i) => {
-            const d = x - i; // <0 — фраза ещё впереди, >0 — уже ушла
-            const opacity = Math.max(0, Math.min(1, 1 - Math.abs(d)));
-            const drift = -d * 44; // входящая снизу (+), уходящая вверх (−)
-            const transform = `${i === CENTERED ? "translateX(-50%) " : ""}translateY(${drift.toFixed(1)}px)`;
-            const Tag = i === active ? "h1" : "div";
-            return (
-              <Tag
-                key={t}
-                data-hero-phrase
-                aria-hidden={i === active ? undefined : true}
-                className="font-normal text-white"
-                style={{
-                  position: "absolute",
-                  fontSize: "clamp(29px,6.2vw,76px)",
-                  lineHeight: 1.05,
-                  letterSpacing: "-0.025em",
-                  textShadow: "0 2px 24px rgba(0,0,0,0.85), 0 1px 3px rgba(0,0,0,0.6)",
-                  opacity: opacity < 0.01 ? 0 : opacity,
-                  transform,
-                  willChange: "opacity,transform",
-                  ...css(pos[i]),
-                }}
-              >
-                {t}
-              </Tag>
-            );
-          })}
-        </div>
-        {/* Достопримечательности и учёба: парящие фото-карточки поверх карты */}
-        <div aria-hidden className="pointer-events-none absolute inset-0 hidden lg:block">
-          {[
-            { img: "https://images.unsplash.com/photo-1516550893923-42d28e5677af?auto=format&fit=crop&w=800&q=75", label: "Вена", top: "24%", a: 0.02, drift: 50 },
-            { img: "https://images.unsplash.com/photo-1541849546-216549ae216d?auto=format&fit=crop&w=800&q=75", label: "Будапешт", top: "44%", a: 0.22, drift: 70 },
-            { img: "https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=800&q=75", label: "Студенты", top: "64%", a: 0.42, drift: 90 },
-          ].map((ph) => {
-            const e = Math.max(0, Math.min(1, (p - ph.a) / 0.18));
-            return (
-              <div key={ph.label} className="absolute right-12 w-52"
-                style={{
-                  top: ph.top, opacity: e < 0.02 ? 0 : e,
-                  transform: `translateY(${((1 - e) * 36 - p * ph.drift).toFixed(1)}px)`,
-                  willChange: "opacity,transform",
-                }}>
-                <div className="overflow-hidden rounded-2xl border border-white/15 shadow-2xl">
-                  <img src={ph.img} alt="" loading="lazy" decoding="async" className="aspect-[4/3] w-full object-cover" />
-                  <div className="bg-black/60 px-4 py-2 font-mono text-[11px] uppercase tracking-[2px] text-white/85 backdrop-blur-md">
-                    {ph.label}
-                  </div>
-                </div>
-              </div>
-            );
-          })}
+          {heroPhrases.map((t, i) => (
+            <Phrase key={t} text={t} index={i} total={heroPhrases.length} time={p}
+              centered={i === CENTERED} style={css(pos[i])} />
+          ))}
         </div>
       </section>
     </div>

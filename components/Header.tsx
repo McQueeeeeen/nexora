@@ -1,5 +1,5 @@
 "use client";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
 import { nav, services, uniLinks } from "../app/data";
 import { ArrowIcon } from "./ui";
@@ -104,6 +104,31 @@ export default function Header() {
 
   const closeMobile = () => { setMobile(false); setView(null); };
 
+  // Прячем шапку при скролле вниз, показываем при скролле вверх —
+  // дословно логика эталона (в hero-зоне всегда видна).
+  const navRef = useRef<HTMLElement>(null);
+  const [hidden, setHidden] = useState(false);
+  useEffect(() => {
+    let prev = window.scrollY;
+    let acc = 0;
+    const show = (v: boolean) => setHidden(!v);
+    const onScroll = () => {
+      const y = window.scrollY;
+      const hero = document.querySelector("[data-hero-region]") as HTMLElement | null;
+      if (hero && y <= hero.offsetTop + hero.offsetHeight - window.innerHeight) {
+        acc = 0; show(true); prev = y; return;
+      }
+      if (y <= 32) { acc = 0; show(true); }
+      else if (y > prev) { acc = 0; show(false); }
+      else { acc += prev - y; if (acc >= 80) show(true); }
+      prev = y;
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  const visible = !hidden || open !== null || mobile;
+
   // Закрытие с задержкой: курсор успевает дойти от кнопки до панели через мост.
   const timer = useRef(0);
   const poke = (k: Panel) => { window.clearTimeout(timer.current); setOpen(k); };
@@ -113,7 +138,12 @@ export default function Header() {
   };
 
   return (
-    <nav className="mega-nav" data-mp5-mobile-open={mobile}>
+    <nav ref={navRef} className="mega-nav" data-mp5-mobile-open={mobile}
+      style={{
+        transform: visible ? "translateY(0)" : "translateY(-110%)",
+        opacity: visible ? 1 : 0,
+        pointerEvents: visible ? undefined : "none",
+      }}>
       <div className="mega-nav__bar" onMouseLeave={scheduleClose}>
         <div className="mega-nav__container">
           <a href="/" className="text-xl font-bold tracking-tight text-[#101418]">NEXORA<span style={{ color: "var(--brand)" }}>.</span></a>
