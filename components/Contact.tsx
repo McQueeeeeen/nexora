@@ -1,19 +1,47 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import { YB, useViewportProgress, Reveal, ArrowIcon, CheckIcon } from "./ui";
 
-// Контакты + футер в параллакс-обёртке эталона.
-// Форма из 2 шагов: дотсы, Continue, Email — как у эталона.
+// Контакты + футер: параллакс дословно по формуле эталона (проценты,
+// сглаживание lerp, вуаль .85), появление блоков, кнопка наверх.
 export default function Contact() {
   const [sent, setSent] = useState(false);
   const [step, setStep] = useState(0);
   const [ref, p] = useViewportProgress<HTMLDivElement>();
   const pre = usePathname() === "/" ? "" : "/";
 
+  // Сглаживание как у эталона (lerp .18 к цели каждый кадр).
+  const [sv, setSv] = useState(0);
+  useEffect(() => {
+    let raf = 0;
+    const tick = () => {
+      raf = 0;
+      setSv((prev) => {
+        const next = prev + (p - prev) * 0.18;
+        const v = Math.abs(p - next) < 0.0005 ? p : next;
+        if (v !== p) raf = requestAnimationFrame(tick);
+        return v;
+      });
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [p]);
+
+  const [top, setTop] = useState(false);
+  useEffect(() => {
+    const onScroll = () => setTop((prev) => {
+      const v = window.scrollY > window.innerHeight * 1.5;
+      return prev === v ? prev : v;
+    });
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
   return (
     <div ref={ref} data-footer-parallax style={{ position: "relative", overflow: "hidden" }}>
-      <div data-footer-parallax-inner style={{ transform: `translateY(${(1 - p) * 90}px)`, willChange: "transform" }}>
+      <div data-footer-parallax-inner style={{ transform: `translateY(${(-75 * (1 - sv)).toFixed(2)}%)`, willChange: "transform" }}>
         <footer id="contact" className="relative overflow-hidden bg-[#101418] px-4 pb-[76px] pt-16 lg:px-12 lg:pb-10 lg:pt-20">
           <div aria-hidden className="pointer-events-none absolute inset-0"
             style={{ background: "radial-gradient(60% 45% at 85% 0%, rgba(94,234,212,0.12), transparent 70%), radial-gradient(50% 40% at 10% 100%, rgba(94,234,212,0.08), transparent 70%)" }} />
@@ -90,6 +118,7 @@ export default function Contact() {
               </div>
             </div>
             <div className="h-px bg-white/10" />
+            <Reveal>
             <div className="grid grid-cols-1 gap-10 lg:grid-cols-2 lg:gap-16">
               <div>
                 <div className="text-2xl font-bold text-white">NEXORA<span style={{ color: YB }}>.</span></div>
@@ -124,14 +153,22 @@ export default function Contact() {
                 </div>
               </div>
             </div>
+            </Reveal>
             <div className="h-px bg-white/10" />
+            <Reveal>
             <div className="flex flex-col gap-5 text-[13px] text-white/50 lg:flex-row lg:items-center">
               <span>© 2026 Nexora Admissions. Правила приёма актуальны на сезон 2026/2027.</span>
             </div>
+            </Reveal>
           </div>
         </footer>
       </div>
-      <div data-footer-parallax-dark aria-hidden style={{ position: "absolute", inset: 0, width: "100%", height: "100%", opacity: (1 - p) * 0.55, pointerEvents: "none", backgroundColor: "#0c0c0c" }} />
+      <div data-footer-parallax-dark aria-hidden style={{ position: "absolute", inset: 0, width: "100%", height: "100%", opacity: (0.85 * (1 - sv)).toFixed(3), pointerEvents: "none", backgroundColor: "#0c0c0c" }} />
+      <button onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })} aria-label="Наверх"
+        className="fixed bottom-24 right-4 z-40 hidden h-14 w-14 items-center justify-center rounded-full border border-[#101418]/10 bg-white/85 shadow-xl backdrop-blur-md transition-all duration-300 hover:scale-110 lg:bottom-8 lg:right-8 lg:flex"
+        style={{ opacity: top ? 1 : 0, pointerEvents: top ? "auto" : "none" }}>
+        <span aria-hidden><ArrowIcon className="h-5 w-5 -rotate-90 text-[#101418]" /></span>
+      </button>
     </div>
   );
 }
