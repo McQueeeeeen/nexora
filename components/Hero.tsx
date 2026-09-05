@@ -1,11 +1,10 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
-import { usePathname } from "next/navigation";
 import { heroPhrases } from "../app/data";
-import { useScrollProgress, Btn, onRafScroll } from "./ui";
+import { useScrollProgress, onRafScroll } from "./ui";
 
-// Hero как у эталона: тёмная карта, линия маршрута рисуется скроллом,
-// точка едет по пути (getPointAtLength), фразы кроссфейдятся с дрейфом.
+// Hero 1-в-1 с эталоном: высокий регион + залипший фулскрин + фразы,
+// больше ничего. Фон — живая карта вместо их видео.
 const ROUTE = "M 150,430 C 300,410 380,330 520,320 C 660,310 740,300 860,270";
 
 const pos = [
@@ -30,7 +29,6 @@ function css(s: string): React.CSSProperties {
 
 export default function Hero() {
   const [ref, p] = useScrollProgress<HTMLDivElement>();
-  const pre = usePathname() === "/" ? "" : "/";
   const n = heroPhrases.length;
   const x = p * Math.max(1, n - 1); // 0..n-1, центры фраз в целых точках
   const active = Math.min(n - 1, Math.round(x));
@@ -76,7 +74,6 @@ export default function Hero() {
             </pattern>
           </defs>
           <rect width="1000" height="700" fill="url(#hero-grid)" />
-          {/* Уличная сеть — глубина как у эталона */}
           <g fill="none" stroke="rgba(255,255,255,0.08)" strokeWidth="1.5">
             <path d="M 60,120 C 220,100 420,140 620,110 S 900,90 1040,120" />
             <path d="M -20,560 C 200,540 420,580 640,550 S 900,530 1030,560" />
@@ -145,36 +142,7 @@ export default function Hero() {
             <path d="M11,0 L-7,-8 L-3,0 L-7,8 Z" fill="#fff" />
           </g>
         </svg>
-        <div className="tv5-fade pointer-events-none absolute right-6 top-24 text-right lg:right-12 lg:top-28" style={{ animationDelay: "1.8s" }}>
-          <div className="font-mono text-5xl font-bold tabular-nums text-white lg:text-7xl">28</div>
-          <div className="mt-1 font-mono text-[11px] uppercase tracking-[2px] text-white/60">вузов · 2 страны</div>
-          <div className="mt-2 font-mono text-[10px] tracking-[1px] text-white/35">48.20°N 16.37°E → 47.49°N 19.04°E</div>
-        </div>
-        {/* Достопримечательности: парящие карточки поверх карты (десктоп) */}
-        <div aria-hidden className="pointer-events-none absolute inset-0 hidden lg:block">
-          {[
-            { img: "https://images.unsplash.com/photo-1516550893923-42d28e5677af?auto=format&fit=crop&w=800&q=75", label: "Вена", top: "30%", w: "w-60", a: 0.02, drift: 50 },
-            { img: "https://images.unsplash.com/photo-1541849546-216549ae216d?auto=format&fit=crop&w=800&q=75", label: "Будапешт", top: "55%", w: "w-64", a: 0.3, drift: 80 },
-          ].map((ph) => {
-            const e = Math.max(0, Math.min(1, (p - ph.a) / 0.18));
-            return (
-              <div key={ph.label} className={`absolute right-12 ${ph.w}`}
-                style={{
-                  top: ph.top, opacity: e < 0.02 ? 0 : e,
-                  transform: `translateY(${((1 - e) * 36 - p * ph.drift).toFixed(1)}px)`,
-                  willChange: "opacity,transform",
-                }}>
-                <div className="overflow-hidden rounded-2xl border border-white/15 shadow-2xl">
-                  <img src={ph.img} alt="" loading="lazy" decoding="async" className="aspect-[4/3] w-full object-cover" />
-                  <div className="bg-black/60 px-4 py-2 font-mono text-[11px] uppercase tracking-[2px] text-white/85 backdrop-blur-md">
-                    {ph.label}
-                  </div>
-                </div>
-              </div>
-            );
-          })}
-        </div>
-        <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/50 via-transparent to-black/70" />
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-black/55" />
         <div className="pointer-events-none absolute inset-0 px-6 lg:px-12">
           {heroPhrases.map((t, i) => {
             const d = x - i; // <0 — фраза ещё впереди, >0 — уже ушла
@@ -204,13 +172,6 @@ export default function Hero() {
               </Tag>
             );
           })}
-        </div>
-        <div className="absolute bottom-8 left-0 right-0 px-6 lg:px-12">
-          <div className="tv5-fade mx-auto flex w-full max-w-[1408px] flex-wrap items-center gap-4" style={{ animationDelay: "1.5s" }}>
-            <span className="mr-auto hidden font-mono text-xs uppercase tracking-[2px] text-white/70 sm:inline">Приёмная кампания 2026/2027</span>
-            <Btn href={`${pre}#contact`} className="h-14 rounded-xl px-8 text-base">Получить стратегию поступления</Btn>
-            <Btn href="/austria" ghost className="h-14 rounded-xl px-8 text-base">Страны и вузы</Btn>
-          </div>
         </div>
       </section>
     </div>
