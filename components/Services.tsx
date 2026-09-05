@@ -47,7 +47,7 @@ export default function Services() {
         }
         if (r.top > vh) {
           chars.forEach((c) => {
-            if (c.style.color !== "") c.style.color = "";
+            if (c.style.color !== "rgba(42, 33, 29, 0.22)") c.style.color = "rgba(42, 33, 29, 0.22)";
             if (c.style.textShadow !== "none") c.style.textShadow = "none";
           });
           return;
@@ -55,12 +55,23 @@ export default function Services() {
 
         const p = Math.max(0, Math.min(1, 1 - (r.top - vh * 0.15) / (vh * 0.6)));
         const total = chars.length;
+        const BAND = Math.max(0.06, 4 / total);
         for (let idx = 0; idx < total; idx++) {
           const t = idx / total;
-          const filled = t < p;
-          const frontier = !filled && p - t < 0.07;
-          const col = filled ? "#2A211D" : frontier ? "var(--accent)" : "";
-          const shadow = frontier ? "0 0 20px var(--accent-glow)" : "none";
+          let col: string;
+          let shadow: string;
+
+          if (p >= 1 || t < p - BAND) {
+            col = "#2A211D";
+            shadow = "none";
+          } else if (p > 0 && t <= p) {
+            col = "var(--accent)";
+            shadow = "0 0 20px var(--accent-glow)";
+          } else {
+            col = "rgba(42, 33, 29, 0.22)";
+            shadow = "none";
+          }
+
           const el = chars[idx];
           if (el.style.color !== col) el.style.color = col;
           if (el.style.textShadow !== shadow) el.style.textShadow = shadow;
@@ -95,7 +106,7 @@ export default function Services() {
                         <Fragment key={w}>
                           <span className="sticky-steps__word">
                             {word.split("").map((ch, c) => (
-                              <span key={c} className="sticky-steps__char">
+                              <span key={c} className="sticky-steps__char" style={{ color: "rgba(42, 33, 29, 0.22)" }}>
                                 {ch}
                               </span>
                             ))}

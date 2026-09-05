@@ -28,7 +28,7 @@ export default function Reviews({ title, detailed = false }: { title?: string; d
         {detailed && (
           <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
             <span className="font-mono text-xl font-bold text-[#2A211D]">4.9/5</span>
-            <span className="text-[#2A211D]"><Stars /></span>
+            <span className="text-[var(--accent)]"><Stars /></span>
             <span className="font-mono text-xs uppercase tracking-[-0.48px] text-[#2A211D]/50">312+ отличных отзывов</span>
           </div>
         )}
@@ -52,7 +52,7 @@ export default function Reviews({ title, detailed = false }: { title?: string; d
               aria-label={`Отзыв ${d + 1}`}
               className="relative h-2 rounded transition-all duration-300 after:absolute after:-inset-3 after:content-['']"
               style={d === i
-                ? { width: 28, background: "#2A211D" }
+                ? { width: 28, background: "var(--accent)" }
                 : { width: 8, background: "rgba(42,33,29,0.2)" }}
             />
           ))}

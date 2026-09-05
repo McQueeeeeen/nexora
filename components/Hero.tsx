@@ -136,15 +136,24 @@ export default function Hero() {
     };
   }, [metas]);
 
-  const renderWords = (text: string, light: boolean) => {
+  const renderWords = (text: string, phraseIdx: number, light: boolean) => {
     return splitWords(text).map((w, wi) => {
       if (w.length === 1 && w[0] === " ") {
-        return <span key={wi} className="hero-char" style={{ opacity: 0 }}> </span>;
+        return <span key={wi} className="hero-char" style={{ opacity: phraseIdx === 0 ? 1 : 0 }}> </span>;
       }
       return (
         <span key={wi} className="hero-word">
           {w.map((ch, ci) => (
-            <span key={ci} className="hero-char" style={{ opacity: 0, color: light ? mixLight(0) : mixInk(0) }}>{ch}</span>
+            <span
+              key={ci}
+              className="hero-char"
+              style={{
+                opacity: phraseIdx === 0 ? 1 : 0,
+                color: phraseIdx === 0 ? (light ? "rgb(255,255,255)" : "rgb(42,33,29)") : (light ? mixLight(0) : mixInk(0)),
+              }}
+            >
+              {ch}
+            </span>
           ))}
         </span>
       );
@@ -198,7 +207,7 @@ export default function Hero() {
                   ...css(pos[i]),
                 }}
               >
-                {renderWords(ph.t, light)}
+                {renderWords(ph.t, i, light)}
               </Tag>
             );
           })}

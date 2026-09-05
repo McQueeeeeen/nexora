@@ -61,18 +61,19 @@ export function heroCharStyle(
 ): { opacity: string; color: string; textShadow: string } {
   const e = 0.92 / total;
   const I = 0.55 * e, S = 0.2 * e, F = 0.25 * e;
-  const h = 0.04 + m.l * e;
+  const isFirst = m.l === 0;
+  const h = isFirst ? 0 : 0.04 + m.l * e;
   const pd = (0.5 * I) / m.C;
   const fd = F / m.C;
-  const oIn = easeOut2(clamp01((time - (h + m.j * pd)) / (8 * pd)));
-  const cT = easeOut3(clamp01((time - (h + 3 * pd + m.j * pd)) / (14 * pd)));
+  const oIn = isFirst ? 1 : easeOut2(clamp01((time - (h + m.j * pd)) / (8 * pd)));
+  const cT = isFirst ? 1 : easeOut3(clamp01((time - (h + 3 * pd + m.j * pd)) / (14 * pd)));
   const oOut = !m.last ? easeIn2(clamp01((time - (h + I + S + m.j * fd)) / (4 * fd))) : 0;
   const op = oIn * (1 - oOut);
-  const glowing = op > 0.05 && cT < 0.6;
+  const glowing = op > 0.05 && cT < 0.65;
   const shadow = glowing
     ? light
-      ? "0 0 16px rgba(229,184,122,0.65)"
-      : "0 0 16px rgba(200,130,66,0.6)"
+      ? "0 0 16px rgba(229,184,122,0.7)"
+      : "0 0 18px rgba(200,130,66,0.75)"
     : "none";
   return {
     opacity: op < 0.01 ? "0" : op.toFixed(3),
