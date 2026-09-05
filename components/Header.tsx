@@ -111,7 +111,7 @@ export default function Header() {
   };
   const anchors = nav
     .filter(([, href]) => href !== "#services" && href !== "#database")
-    .map(([t, href]) => [t, `${pre}${href}`] as const);
+    .map(([t, href]) => [t, href.startsWith("/") ? href : `${pre}${href}`] as const);
 
   const closeMobile = () => { setMobile(false); setView(null); };
 
