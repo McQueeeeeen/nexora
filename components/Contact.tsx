@@ -42,7 +42,10 @@ export default function Contact() {
   return (
     <div ref={ref} data-footer-parallax style={{ position: "relative", overflow: "hidden" }}>
       <div data-footer-parallax-inner style={{ transform: `translateY(${(-75 * (1 - sv)).toFixed(2)}%)`, willChange: "transform" }}>
-        <footer id="contact" className="relative overflow-hidden bg-[#101418] px-4 pb-[76px] pt-16 lg:px-12 lg:pb-10 lg:pt-20">
+        <footer id="contact" className="relative overflow-hidden bg-[#101418] px-4 pb-[76px] pt-28 lg:px-12 lg:pb-10 lg:pt-32">
+          {/* Тающая кромка: светлая страница плавно вливается в тёмный футер */}
+          <div aria-hidden className="pointer-events-none absolute inset-x-0 top-0 h-28 lg:h-32"
+            style={{ background: "linear-gradient(to bottom, #F7F5EF, rgba(247,245,239,0))" }} />
           <div aria-hidden className="pointer-events-none absolute inset-0"
             style={{ background: "radial-gradient(60% 45% at 85% 0%, rgba(94,234,212,0.12), transparent 70%), radial-gradient(50% 40% at 10% 100%, rgba(94,234,212,0.08), transparent 70%)" }} />
           <div className="relative mx-auto flex max-w-[1408px] flex-col gap-8">
