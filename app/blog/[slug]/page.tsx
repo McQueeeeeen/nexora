@@ -15,7 +15,11 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const { slug } = await params;
   const post = posts.find((p) => p.slug === slug);
   if (!post) return {};
-  return { title: `Nexora Admissions — ${post.title}`, description: post.excerpt };
+  return {
+    title: `Nexora Admissions — ${post.title}`,
+    description: post.excerpt,
+    alternates: { canonical: `/blog/${post.slug}` },
+  };
 }
 
 export default async function Article({ params }: { params: Promise<{ slug: string }> }) {
@@ -24,8 +28,65 @@ export default async function Article({ params }: { params: Promise<{ slug: stri
   if (!post) notFound();
   const others = posts.filter((p) => p.slug !== slug).slice(0, 2);
 
+  const postJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    headline: post.title,
+    description: post.excerpt,
+    datePublished: "2026-09-01",
+    author: {
+      "@type": "Organization",
+      name: "Nexora Admissions",
+    },
+    publisher: {
+      "@type": "Organization",
+      name: "Nexora Admissions",
+      logo: {
+        "@type": "ImageObject",
+        url: "https://nexora-eight-opal.vercel.app/icon.svg",
+      },
+    },
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": `https://nexora-eight-opal.vercel.app/blog/${slug}`,
+    },
+  };
+
+  const breadcrumbsJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Главная",
+        item: "https://nexora-eight-opal.vercel.app",
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "Блог",
+        item: "https://nexora-eight-opal.vercel.app/blog",
+      },
+      {
+        "@type": "ListItem",
+        position: 3,
+        name: post.title,
+        item: `https://nexora-eight-opal.vercel.app/blog/${slug}`,
+      },
+    ],
+  };
+
   return (
     <main className="min-h-screen bg-[#F7F5EF] text-[#101418]">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(postJsonLd) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbsJsonLd) }}
+      />
       <Intro />
       <Header />
       <article className="wrap max-w-[860px] pb-8 pt-40 lg:pt-48">

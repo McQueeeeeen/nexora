@@ -8,6 +8,8 @@ const sans = Manrope({ subsets: ["latin", "cyrillic"], weight: ["400", "500", "6
 const mono = Roboto_Mono({ subsets: ["latin", "cyrillic"], weight: ["500", "700"], variable: "--font-mono" });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://nexora-eight-opal.vercel.app"),
+  alternates: { canonical: "/" },
   title: "Nexora Admissions — поступление в вузы Австрии и Венгрии",
   description:
     "Академический аудит, гранты Stipendium Hungaricum и OeAD, зачисление в университеты Вены и Будапешта без риска отказа. Персональная стратегия поступления за 15 минут.",
@@ -40,11 +42,31 @@ export const viewport: Viewport = {
   themeColor: "#F7F5EF",
 };
 
+const orgJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "EducationalOrganization",
+  name: "Nexora Admissions",
+  url: "https://nexora-eight-opal.vercel.app",
+  logo: "https://nexora-eight-opal.vercel.app/icon.svg",
+  description: "Академический аудит, гранты Stipendium Hungaricum и OeAD, зачисление в университеты Вены и Будапешта без риска отказа.",
+  email: "admissions@nexora.eu",
+  sameAs: ["https://t.me/nexora_support"],
+  address: {
+    "@type": "PostalAddress",
+    addressCountry: "AT",
+    addressLocality: "Vienna",
+  },
+};
+
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="ru" className={`${sans.variable} ${mono.variable}`}>
       <head>
         <link rel="preconnect" href="https://images.unsplash.com" />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(orgJsonLd) }}
+        />
       </head>
       <body>{children}<div className="grain" aria-hidden /></body>
     </html>

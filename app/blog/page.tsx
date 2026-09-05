@@ -9,11 +9,35 @@ import { posts } from "./posts";
 export const metadata: Metadata = {
   title: "Nexora Admissions — блог о поступлении",
   description: "Гайды: грант Stipendium Hungaricum, подготовительное отделение VWU, нострификация документов.",
+  alternates: { canonical: "/blog" },
 };
 
 export default function Blog() {
+  const breadcrumbsJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Главная",
+        item: "https://nexora-eight-opal.vercel.app",
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "Блог",
+        item: "https://nexora-eight-opal.vercel.app/blog",
+      },
+    ],
+  };
+
   return (
     <main className="min-h-screen bg-[#F7F5EF] text-[#101418]">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbsJsonLd) }}
+      />
       <Intro />
       <Header />
       <section className="wrap pb-4 pt-40 lg:pt-48">

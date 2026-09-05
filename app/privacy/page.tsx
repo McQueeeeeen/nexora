@@ -7,6 +7,7 @@ import { Reveal } from "../../components/ui";
 export const metadata: Metadata = {
   title: "Nexora Admissions — политика конфиденциальности",
   description: "Какие данные собирает Nexora Admissions через форму заявки и как они используются.",
+  alternates: { canonical: "/privacy" },
 };
 
 // Базовый текст политики (не юрконсультация — отдать юристу на вычитку

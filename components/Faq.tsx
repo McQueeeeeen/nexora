@@ -1,7 +1,7 @@
 "use client";
 import { useState, useMemo } from "react";
 import { faqs, faqCats } from "../app/data";
-import { wrap, Reveal } from "./ui";
+import { wrap, Reveal, ExtIcon } from "./ui";
 
 interface FaqItem {
   q: string;
@@ -96,7 +96,8 @@ export default function Faq({
           href={more}
           className="hover-underline mt-4 inline-flex items-center gap-2 font-mono text-sm font-bold uppercase tracking-[1px] text-[var(--brand)] transition"
         >
-          Смотреть все вопросы в FAQ ↗
+          <span>Смотреть все вопросы в FAQ</span>
+          <ExtIcon className="h-4 w-4" />
         </a>
       )}
     </div>

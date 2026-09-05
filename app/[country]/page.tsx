@@ -22,11 +22,13 @@ export function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ country: string }> }): Promise<Metadata> {
-  const c = countries[(await params).country];
+  const slug = (await params).country;
+  const c = countries[slug];
   if (!c) return {};
   return {
     title: `Nexora Admissions — учёба в стране: ${c.name}`,
     description: `${c.tagline} ${c.about}`,
+    alternates: { canonical: `/${slug}` },
   };
 }
 
@@ -39,8 +41,31 @@ export default async function CountryPage({ params }: { params: Promise<{ countr
   const otherSlug = slug === "austria" ? "hungary" : "austria";
   const other = uniLinks.find((u) => u.href === `/${otherSlug}`)!;
 
+  const breadcrumbsJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Главная",
+        item: "https://nexora-eight-opal.vercel.app",
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: c.name,
+        item: `https://nexora-eight-opal.vercel.app/${slug}`,
+      },
+    ],
+  };
+
   return (
     <main className="min-h-screen bg-[#F7F5EF] text-[#101418]">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbsJsonLd) }}
+      />
       <Intro />
       <Header />
 
