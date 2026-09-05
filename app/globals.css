@@ -83,7 +83,7 @@ html.preloaded [data-load-wrap] { display: none !important; }
 .mega-nav__bar-link.is--dropdown { gap: .4em; }
 .mega-nav__bar-link-icon { width: 1em; height: 1em; transition: transform .2s; }
 .mega-nav__bar-link.is--dropdown[aria-expanded="true"] .mega-nav__bar-link-icon { transform: rotate(180deg); }
-.mega-nav__dropdown { position: absolute; top: calc(100% + .75em); left: 50%; transform: translateX(-50%) translateY(-6px) scale(.98); width: 660px; max-width: calc(100vw - 2em); opacity: 0; visibility: hidden; pointer-events: none; transition: opacity .25s ease, transform .25s ease; z-index: 5; }
+.mega-nav__dropdown { position: absolute; top: 100%; padding-top: .75em; left: 50%; transform: translateX(-50%) translateY(-6px) scale(.98); width: 660px; max-width: calc(100vw - 2em); opacity: 0; visibility: hidden; pointer-events: none; transition: opacity .25s ease, transform .25s ease; z-index: 5; }
 .mega-nav__dropdown.is--open { opacity: 1; visibility: visible; pointer-events: auto; transform: translateX(-50%); }
 .mega-nav__dropdown-panel { display: none; background: #fff; border: 1px solid #1014181a; border-radius: .9em; overflow: hidden; box-shadow: 0 24px 60px #10141826; }
 .mega-nav__dropdown-panel[data-panel-state="active"] { display: block; animation: dropdown-in .3s ease both; }

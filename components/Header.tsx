@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { usePathname } from "next/navigation";
 import { nav, services, uniLinks } from "../app/data";
 import { ArrowIcon } from "./ui";
@@ -104,16 +104,24 @@ export default function Header() {
 
   const closeMobile = () => { setMobile(false); setView(null); };
 
+  // Закрытие с задержкой: курсор успевает дойти от кнопки до панели через мост.
+  const timer = useRef(0);
+  const poke = (k: Panel) => { window.clearTimeout(timer.current); setOpen(k); };
+  const scheduleClose = () => {
+    window.clearTimeout(timer.current);
+    timer.current = window.setTimeout(() => setOpen(null), 140);
+  };
+
   return (
     <nav className="mega-nav" data-mp5-mobile-open={mobile}>
-      <div className="mega-nav__bar" onMouseLeave={() => setOpen(null)}>
+      <div className="mega-nav__bar" onMouseLeave={scheduleClose}>
         <div className="mega-nav__container">
           <a href="/" className="text-xl font-bold tracking-tight text-[#101418]">NEXORA<span style={{ color: "var(--brand)" }}>.</span></a>
           <div className="mega-nav__desktop-links ml-auto items-center gap-8">
             {(Object.keys(parents) as Exclude<Panel, null>[]).map((k) => (
               <button
                 key={k}
-                onMouseEnter={() => setOpen(k)}
+                onMouseEnter={() => poke(k)}
                 onClick={() => setOpen(open === k ? null : k)}
                 aria-expanded={open === k}
                 aria-haspopup="true"
@@ -126,7 +134,7 @@ export default function Header() {
               </button>
             ))}
             {anchors.map(([t, href]) => (
-              <a key={t} href={href} onMouseEnter={() => setOpen(null)} className="mega-nav__bar-link text-sm font-medium"><Roll text={t} /></a>
+              <a key={t} href={href} onMouseEnter={() => poke(null)} className="mega-nav__bar-link text-sm font-medium"><Roll text={t} /></a>
             ))}
             <a href="https://t.me/nexora_support" target="_blank" className="hidden text-sm font-semibold text-[#101418]/80 transition hover:text-[var(--brand)] xl:inline">
               @nexora_support
@@ -140,7 +148,8 @@ export default function Header() {
         </div>
 
         {/* Десктоп-dropdown: панели лежат стопкой, видна активная */}
-        <div className={`mega-nav__dropdown ${open ? "is--open" : ""}`} aria-hidden={!open}>
+        <div className={`mega-nav__dropdown ${open ? "is--open" : ""}`} aria-hidden={!open}
+          onMouseEnter={() => window.clearTimeout(timer.current)} onMouseLeave={scheduleClose}>
           {(Object.keys(parents) as Exclude<Panel, null>[]).map((k) => (
             <div key={k} data-panel-state={open === k ? "active" : ""} className="mega-nav__dropdown-panel">
               <Panel {...panels[k]} />
