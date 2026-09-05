@@ -1,9 +1,10 @@
 import type { Metadata, Viewport } from "next";
-import { Onest, Roboto_Mono } from "next/font/google";
+import { Manrope, Roboto_Mono } from "next/font/google";
 import "./globals.css";
 
-// Onest: гротеск с кириллицей (Geist её не имеет — русский сыпался в системный).
-const sans = Onest({ subsets: ["latin", "cyrillic"], weight: ["400", "500", "600", "700"], variable: "--font-sans" });
+// Manrope: геометрический гротеск с quirks в духе Geist/Liter из гайда,
+// но с полной кириллицей (шрифты гайда — латиница, русский в них не рендерится).
+const sans = Manrope({ subsets: ["latin", "cyrillic"], weight: ["400", "500", "600", "700", "800"], variable: "--font-sans" });
 const mono = Roboto_Mono({ subsets: ["latin", "cyrillic"], weight: ["500", "700"], variable: "--font-mono" });
 
 export const metadata: Metadata = {
