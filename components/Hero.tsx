@@ -69,6 +69,7 @@ export default function Hero() {
   const drawA = useRef<SVGPathElement>(null);
   const drawB = useRef<SVGPathElement>(null);
   const budaRef = useRef<SVGGElement>(null);
+  const mapRef = useRef<HTMLDivElement>(null);
   const metas = useCharMetas();
 
   // На узких экранах карту показываем целиком, на широких — кинематографичный кроп.
@@ -106,6 +107,10 @@ export default function Hero() {
     };
     const apply = (t: number) => {
       const x = t * Math.max(1, N - 1);
+      // Карта выезжает поверх фото: сначала фотографии, потом карта.
+      const mq = clamp01((t - 0.22) / 0.2);
+      const mapOp = mq * mq * (3 - 2 * mq);
+      const mapGone = 1 - mapOp;
       for (let k = 0; k < chars.length && k < metas.length; k++) {
         const el = chars[k];
         const m = metas[k];
@@ -122,9 +127,14 @@ export default function Hero() {
         el.style.color = mixBrand(cT);
       }
       photos.forEach((img, i) => {
-        const op = Math.max(0, Math.min(1, 1 - Math.abs(x - i)));
+        const op = Math.max(0, Math.min(1, 1 - Math.abs(x - i))) * mapGone;
         img.style.opacity = op < 0.01 ? "0" : op.toFixed(3);
       });
+      const map = mapRef.current;
+      if (map) {
+        map.style.opacity = mapOp < 0.01 ? "0" : mapOp.toFixed(3);
+        map.style.visibility = mapOp <= 0 ? "hidden" : "visible";
+      }
       const off = String(100 - t * 100);
       if (drawA.current) drawA.current.style.strokeDashoffset = off;
       if (drawB.current) drawB.current.style.strokeDashoffset = off;
@@ -203,8 +213,9 @@ export default function Hero() {
             style={{ opacity: i === 0 ? 1 : 0 }}
           />
         ))}
+        <div ref={mapRef} className="absolute inset-0" style={{ opacity: 0, visibility: "hidden" }}>
         <svg viewBox="0 0 1000 700" preserveAspectRatio={narrow ? "xMidYMid meet" : "xMidYMid slice"}
-          className="absolute inset-0 h-full w-full" role="img" aria-label="Карта маршрута Вена — Будапешт">
+          className="h-full w-full" role="img" aria-label="Карта маршрута Вена — Будапешт">
           <defs>
             <pattern id="hero-grid" width="50" height="50" patternUnits="userSpaceOnUse">
               <path d="M 50 0 L 0 0 0 50" fill="none" stroke="rgba(255,255,255,0.06)" strokeWidth="1" />
@@ -278,6 +289,7 @@ export default function Hero() {
             <path d="M11,0 L-7,-8 L-3,0 L-7,8 Z" fill="#fff" />
           </g>
         </svg>
+        </div>
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/55 via-black/25 to-black/70" />
         <div className="pointer-events-none absolute inset-0 px-6 lg:px-12">
           {heroPhrases.map((ph, i) => {
