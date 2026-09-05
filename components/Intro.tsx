@@ -74,6 +74,11 @@ export default function Intro() {
 
   if (phase === "done") return null;
   const logo = <>NEXORA<span style={{ color: "var(--brand)" }}>.</span></>;
+  // Логотип движется вместе с колонками: гаснет со стартом подъёма,
+  // при накрытии проявляется следом за колонками.
+  const covering = phase === "cover";
+  const logoOn = covering ? drop : !lift;
+  const cols = [0, 1, 2, 3, 4].map((i) => (
   const cols = [0, 1, 2, 3, 4].map((i) => (
     <div
       key={i}
@@ -111,7 +116,12 @@ export default function Intro() {
       {phase !== "load" && (
         <div aria-hidden className="pointer-events-none fixed inset-0 overflow-clip" style={{ zIndex: 9999 }}>
           <div className="absolute inset-0 flex">{cols}</div>
-          <div className="absolute inset-0 flex items-center justify-center">
+          <div className="absolute inset-0 flex items-center justify-center"
+            style={{
+              opacity: logoOn ? 1 : 0,
+              transition: "opacity .35s ease",
+              transitionDelay: covering ? (drop ? ".3s" : "0s") : "0s",
+            }}>
             <span className="text-3xl font-bold tracking-tight text-[#101418] sm:text-4xl">
               NEXORA<span className="text-white">.</span>
             </span>
