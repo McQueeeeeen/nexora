@@ -49,9 +49,9 @@ export const agency = {
 };
 
 export const heroPhrases = [
-  { t: "Поступление в вузы Европы — от первой консультации до визы.", img: "https://images.unsplash.com/photo-1541339907198-e08756dedf3f?auto=format&fit=crop&w=1920&q=75" },
-  { t: "Гранты, дедлайны и зачисление без риска отказа.", img: "https://images.unsplash.com/photo-1562774053-701939374585?auto=format&fit=crop&w=1920&q=75" },
-  { t: "Австрия и Венгрия — один куратор на весь путь.", img: "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=1920&q=75" },
+  "Поступление в вузы Европы — от первой консультации до визы.",
+  "Гранты, дедлайны и зачисление без риска отказа.",
+  "Австрия и Венгрия — один куратор на весь путь.",
 ];
 
 export const services = [
