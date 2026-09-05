@@ -1,7 +1,7 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
-import { Y, useViewportProgress, Reveal, ArrowIcon, CheckIcon } from "./ui";
+import { Y, onRafScroll, Reveal, ArrowIcon, CheckIcon } from "./ui";
 
 // Контакты + футер: параллакс дословно по формуле эталона (проценты,
 // сглаживание lerp, вуаль .85), появление блоков, кнопка наверх.
@@ -12,7 +12,9 @@ export default function Contact() {
   const [failed, setFailed] = useState(false);
   const [agreed, setAgreed] = useState(false);
   const [form, setForm] = useState({ name: "", phone: "", email: "", country: "", about: "" });
-  const [ref, p] = useViewportProgress<HTMLDivElement>();
+  const containerRef = useRef<HTMLDivElement>(null);
+  const innerRef = useRef<HTMLDivElement>(null);
+  const darkRef = useRef<HTMLDivElement>(null);
   const pre = usePathname() === "/" ? "" : "/";
 
   const set = (k: keyof typeof form) => (e: React.ChangeEvent<HTMLInputElement>) =>
@@ -50,37 +52,59 @@ export default function Contact() {
     }
   };
 
-  // Сглаживание как у эталона (lerp .18 к цели каждый кадр).
-  const [sv, setSv] = useState(0);
+  // Сглаживание как у эталона (lerp .18 к цели каждый кадр) — напрямую в DOM без ре-рендеров React.
   useEffect(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    if (window.innerWidth < 992) return;
+
+    let cur = 0;
+    let target = 0;
     let raf = 0;
+
+    const compute = () => {
+      if (!containerRef.current) return 0;
+      const r = containerRef.current.getBoundingClientRect();
+      return Math.max(0, Math.min(1, (window.innerHeight - r.top) / window.innerHeight));
+    };
+
     const tick = () => {
       raf = 0;
-      setSv((prev) => {
-        const next = prev + (p - prev) * 0.18;
-        const v = Math.abs(p - next) < 0.0005 ? p : next;
-        if (v !== p) raf = requestAnimationFrame(tick);
-        return v;
-      });
+      target = compute();
+      const next = cur + (target - cur) * 0.18;
+      cur = Math.abs(target - next) < 0.0005 ? target : next;
+      if (innerRef.current) {
+        innerRef.current.style.transform = `translateY(${(-75 * (1 - cur)).toFixed(2)}%)`;
+      }
+      if (darkRef.current) {
+        darkRef.current.style.opacity = (0.85 * (1 - cur)).toFixed(3);
+      }
+      if (cur !== target) {
+        raf = requestAnimationFrame(tick);
+      }
     };
-    raf = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(raf);
-  }, [p]);
+
+    const unsub = onRafScroll(() => {
+      if (!raf) raf = requestAnimationFrame(tick);
+    });
+    tick();
+
+    return () => {
+      unsub();
+      if (raf) cancelAnimationFrame(raf);
+    };
+  }, []);
 
   const [top, setTop] = useState(false);
   useEffect(() => {
-    const onScroll = () => setTop((prev) => {
+    return onRafScroll(() => {
       const v = window.scrollY > window.innerHeight * 1.5;
-      return prev === v ? prev : v;
+      setTop((prev) => (prev === v ? prev : v));
     });
-    window.addEventListener("scroll", onScroll, { passive: true });
-    onScroll();
-    return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
   return (
-    <div ref={ref} data-footer-parallax style={{ position: "relative", overflow: "hidden" }}>
-      <div data-footer-parallax-inner style={{ transform: `translateY(${(-75 * (1 - sv)).toFixed(2)}%)`, willChange: "transform" }}>
+    <div ref={containerRef} data-footer-parallax style={{ position: "relative", overflow: "hidden" }}>
+      <div ref={innerRef} data-footer-parallax-inner style={{ transform: "translateY(-75%)", willChange: "transform" }}>
         <footer id="contact" className="relative overflow-hidden px-4 pb-[76px] pt-20 lg:px-12 lg:pb-10 lg:pt-24">
           <div aria-hidden className="pointer-events-none absolute inset-0"
             style={{ background: "radial-gradient(60% 45% at 85% 0%, rgba(94,234,212,0.12), transparent 70%), radial-gradient(50% 40% at 10% 100%, rgba(94,234,212,0.08), transparent 70%)" }} />
@@ -206,7 +230,7 @@ export default function Contact() {
           </div>
         </footer>
       </div>
-      <div data-footer-parallax-dark aria-hidden style={{ position: "absolute", inset: 0, width: "100%", height: "100%", opacity: (0.85 * (1 - sv)).toFixed(3), pointerEvents: "none", backgroundColor: "#F7F5EF" }} />
+      <div ref={darkRef} data-footer-parallax-dark aria-hidden style={{ position: "absolute", inset: 0, width: "100%", height: "100%", opacity: "0.85", pointerEvents: "none", backgroundColor: "#F7F5EF" }} />
       <button onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })} aria-label="Наверх"
         className="fixed bottom-24 right-4 z-40 hidden h-14 w-14 items-center justify-center rounded-full border border-[#101418]/10 bg-white/85 shadow-xl backdrop-blur-md transition-all duration-300 hover:scale-110 lg:bottom-8 lg:right-8 lg:flex"
         style={{ opacity: top ? 1 : 0, pointerEvents: top ? "auto" : "none" }}>

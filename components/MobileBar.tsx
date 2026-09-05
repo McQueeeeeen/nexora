@@ -6,16 +6,19 @@ import { onRafScroll } from "./ui";
 export default function MobileBar() {
   const [show, setShow] = useState(false);
 
-  useEffect(() => onRafScroll(() => {
-    const hero = document.querySelector("[data-hero-region]") as HTMLElement | null;
-    const limit = hero
-      ? hero.offsetTop + hero.offsetHeight - window.innerHeight
-      : 120;
-    setShow((prev) => {
-      const v = window.scrollY > limit;
-      return prev === v ? prev : v;
+  useEffect(() => {
+    let heroEl: HTMLElement | null = null;
+    return onRafScroll(() => {
+      if (!heroEl) heroEl = document.querySelector("[data-hero-region]");
+      const limit = heroEl
+        ? heroEl.offsetTop + heroEl.offsetHeight - window.innerHeight
+        : 120;
+      setShow((prev) => {
+        const v = window.scrollY > limit;
+        return prev === v ? prev : v;
+      });
     });
-  }), []);
+  }, []);
 
   return (
     <div className="fixed inset-x-0 bottom-0 z-40 px-4 pb-[calc(0.9rem+env(safe-area-inset-bottom))] pt-6 transition-transform duration-300 ease-out lg:hidden"

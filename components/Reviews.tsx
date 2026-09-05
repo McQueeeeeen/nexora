@@ -11,15 +11,14 @@ export default function Reviews({ title, detailed = false }: { title?: string; d
   const initials = q.author.split(" ").map((w) => w[0]).join("");
 
   const go = (d: number) => {
-    setI(d);
     window.clearTimeout(timer.current);
-    timer.current = window.setTimeout(() => setI((v) => (v + 1) % quotes.length), 6500);
+    setI(d);
   };
 
   useEffect(() => {
     timer.current = window.setTimeout(() => setI((v) => (v + 1) % quotes.length), 6500);
     return () => window.clearTimeout(timer.current);
-  }, []);
+  }, [i]);
 
   return (
     <section id="reviews" className="relative flex min-h-[80vh] items-center overflow-hidden py-24 lg:min-h-[100vh] lg:py-40">

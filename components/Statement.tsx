@@ -1,31 +1,59 @@
 "use client";
-import { Fragment, useEffect, useRef, useState } from "react";
+import { Fragment, useEffect, useRef } from "react";
 import { onRafScroll } from "./ui";
 
 const TEXT = "Поступление без случайностей — проверенные требования, один куратор, каждый документ под контролем.";
 
 // Единый эталон заливки текста (как в sticky-шагах): только цвет,
-// фронт подсвечен брендом со свечением. Без прыжков и прозрачностей.
+// фронт подсвечен брендом со свечением. Ноль ре-рендеров React при скролле.
 export default function Statement() {
   const ref = useRef<HTMLElement>(null);
-  const [p, setP] = useState(0);
+  const charsRef = useRef<HTMLSpanElement[]>([]);
   const words = TEXT.split(" ");
   const total = TEXT.length;
+  const BAND = 4 / total;
 
   useEffect(() => {
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) { setP(1); return; }
+    const chars = charsRef.current;
+    if (!chars.length) return;
+
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      chars.forEach((c) => {
+        c.style.color = "var(--ink)";
+        c.style.textShadow = "none";
+      });
+      return;
+    }
+
+    let lastP = -1;
+
     return onRafScroll(() => {
       if (!ref.current) return;
       const r = ref.current.getBoundingClientRect();
       const vh = window.innerHeight;
       const start = vh * 0.8;
       const span = start + r.height * 0.55;
-      setP(Math.max(0, Math.min(1, (start - r.top) / span)));
-    });
-  }, []);
+      const p = Math.max(0, Math.min(1, (start - r.top) / span));
 
-  let gi = 0;
-  const BAND = 4 / total; // ширина светящегося фронта в долях текста
+      if (Math.abs(p - lastP) < 0.002) return;
+      lastP = p;
+
+      for (let k = 0; k < chars.length; k++) {
+        const el = chars[k];
+        if (!el) continue;
+        const t = k / total;
+        const filled = t < p;
+        const frontier = !filled && p - t < BAND;
+        const col = filled ? "var(--ink)" : frontier ? "var(--brand)" : "rgba(16,20,24,0.16)";
+        const shadow = frontier ? "0 0 22px rgba(11,138,118,0.55)" : "none";
+
+        if (el.style.color !== col) el.style.color = col;
+        if (el.style.textShadow !== shadow) el.style.textShadow = shadow;
+      }
+    });
+  }, [total, BAND]);
+
+  let idx = 0;
 
   return (
     <section ref={ref} className="relative w-full overflow-hidden py-[160px] lg:py-[260px]">
@@ -35,17 +63,17 @@ export default function Statement() {
             <Fragment key={i}>
               <span className="inline-block" style={{ whiteSpace: "nowrap" }}>
                 {w.split("").map((ch, c) => {
-                  const t = gi++ / total;
-                  const f = p;
-                  const filled = t < f;
-                  const frontier = !filled && f - t < BAND;
+                  const currIdx = idx++;
                   return (
                     <span
                       key={c}
+                      ref={(el) => {
+                        if (el) charsRef.current[currIdx] = el;
+                      }}
                       className="sticky-steps__char"
                       style={{
-                        color: filled ? "var(--ink)" : frontier ? "var(--brand)" : "rgba(16,20,24,0.16)",
-                        textShadow: frontier ? "0 0 22px rgba(11,138,118,0.55)" : "none",
+                        color: "rgba(16,20,24,0.16)",
+                        transition: "color 0.1s ease",
                       }}
                     >
                       {ch}
@@ -61,3 +89,4 @@ export default function Statement() {
     </section>
   );
 }
+

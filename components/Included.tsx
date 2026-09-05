@@ -1,22 +1,41 @@
 "use client";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import type { CountryInfo } from "../app/data";
-import { wrap, Tag, Reveal, useScrollProgress } from "./ui";
+import { wrap, Tag, Reveal, onRafScroll } from "./ui";
 
 // «Что включено» — тёмные карточки с жёлтой иконкой. На мобильных —
 // снэп-карусель, на десктопе — горизонтальный пин, как у эталона.
+// Ноль ре-рендеров React при скролле.
 export default function Included({ c }: { c: CountryInfo }) {
-  const [pinRef, p] = useScrollProgress<HTMLDivElement>();
+  const pinRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
-  const [max, setMax] = useState(0);
 
   useEffect(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    let max = 0;
     const measure = () => {
-      if (trackRef.current) setMax(Math.max(0, trackRef.current.scrollWidth - window.innerWidth + 96));
+      if (trackRef.current) max = Math.max(0, trackRef.current.scrollWidth - window.innerWidth + 96);
     };
     measure();
-    window.addEventListener("resize", measure);
-    return () => window.removeEventListener("resize", measure);
+    window.addEventListener("resize", measure, { passive: true });
+
+    let lastX = -999999;
+    const unsub = onRafScroll(() => {
+      if (!pinRef.current || !trackRef.current) return;
+      const r = pinRef.current.getBoundingClientRect();
+      const total = r.height - window.innerHeight;
+      const p = total <= 0 ? 0 : Math.max(0, Math.min(1, -r.top / total));
+      const x = -p * max;
+      if (Math.abs(x - lastX) < 0.5) return;
+      lastX = x;
+      trackRef.current.style.transform = `translate3d(${x.toFixed(1)}px,0,0)`;
+    });
+
+    return () => {
+      window.removeEventListener("resize", measure);
+      unsub();
+    };
   }, []);
 
   return (
@@ -44,7 +63,7 @@ export default function Included({ c }: { c: CountryInfo }) {
       <div ref={pinRef} className="relative hidden lg:block" style={{ height: "220vh" }}>
         <div className="sticky top-0 flex h-screen flex-col justify-center overflow-hidden">
           <div ref={trackRef} className="flex w-max gap-5 pl-[max(48px,calc((100vw-1408px)/2+48px))]"
-            style={{ transform: `translate3d(${(-p * max).toFixed(1)}px,0,0)`, willChange: "transform" }}>
+            style={{ transform: "translate3d(0,0,0)", willChange: "transform" }}>
             {c.included.map((it, i) => <Card key={it.title} n={i + 1} title={it.title} desc={it.desc} className="w-[380px] shrink-0" />)}
           </div>
         </div>

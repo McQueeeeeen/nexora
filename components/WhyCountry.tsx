@@ -1,25 +1,33 @@
 "use client";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import type { CountryInfo } from "../app/data";
 import { wrap, Tag, Reveal, onRafScroll } from "./ui";
 import SafeImage from "./SafeImage";
 
 // «Почему страна» — полноэкранный фон с параллаксом и оверлеем, как у эталона.
+// Ноль ре-рендеров React при скролле.
 export default function WhyCountry({ c }: { c: CountryInfo }) {
   const ref = useRef<HTMLElement>(null);
-  const [y, setY] = useState(0);
+  const bgRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => onRafScroll(() => {
-    if (!ref.current) return;
-    const r = ref.current.getBoundingClientRect();
-    const d = r.top + r.height / 2 - window.innerHeight / 2;
-    const v = Math.max(-120, Math.min(120, Math.round(-d * 0.12)));
-    setY((prev) => (prev === v ? prev : v));
-  }), []);
+  useEffect(() => {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    let lastY = -999999;
+    return onRafScroll(() => {
+      if (!ref.current || !bgRef.current) return;
+      const r = ref.current.getBoundingClientRect();
+      const d = r.top + r.height / 2 - window.innerHeight / 2;
+      const v = Math.max(-120, Math.min(120, Math.round(-d * 0.12)));
+      if (v === lastY) return;
+      lastY = v;
+      bgRef.current.style.transform = `translate3d(0, ${v}px, 0)`;
+    });
+  }, []);
 
   return (
     <section ref={ref} className="relative flex min-h-[720px] items-stretch overflow-hidden py-[40px] lg:min-h-[860px] lg:py-[60px]">
-      <div className="absolute inset-x-0 -bottom-[200px] -top-[200px] will-change-transform" style={{ transform: `translate3d(0, ${y}px, 0)` }}>
+      <div ref={bgRef} className="absolute inset-x-0 -bottom-[200px] -top-[200px] will-change-transform" style={{ transform: "translate3d(0, 0, 0)" }}>
         <SafeImage src={c.whyImg} alt={c.name} className="h-full w-full object-cover" />
       </div>
       <div className="absolute inset-0 bg-black/50" />

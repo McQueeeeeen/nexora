@@ -2,6 +2,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { heroPhrases } from "../app/data";
 import HeroMap from "./HeroMap";
+import { onRafScroll } from "./ui";
 import { splitWords, buildHeroMetas, heroCharStyle, mixLight, mixInk } from "./hero-anim";
 
 // Hero: сначала полноэкранные фото (кроссфейд под фразы), затем поверх
@@ -102,7 +103,8 @@ export default function Hero() {
       const path = pathRef.current, cursor = cursorRef.current;
       if (path && cursor) {
         try {
-          const len = path.getTotalLength();
+          if (!cachedLen) cachedLen = path.getTotalLength();
+          const len = cachedLen;
           const pt = path.getPointAtLength(len * t);
           const ahead = path.getPointAtLength(Math.min(len, len * t + 2));
           const ang = (Math.atan2(ahead.y - pt.y, ahead.x - pt.x) * 180) / Math.PI;
@@ -110,6 +112,7 @@ export default function Hero() {
         } catch { /* SVG ещё не готов */ }
       }
     };
+    let cachedLen = 0;
     const tick = () => {
       raf = 0;
       const goal = compute();
@@ -121,11 +124,10 @@ export default function Hero() {
       }
       if (v !== goal) raf = requestAnimationFrame(tick);
     };
-    const onScroll = () => { if (!raf) raf = requestAnimationFrame(tick); };
-    window.addEventListener("scroll", onScroll, { passive: true });
-    onScroll();
+    const unsub = onRafScroll(() => { if (!raf) raf = requestAnimationFrame(tick); });
+    tick();
     return () => {
-      window.removeEventListener("scroll", onScroll);
+      unsub();
       if (raf) cancelAnimationFrame(raf);
     };
   }, [metas]);

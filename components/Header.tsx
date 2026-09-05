@@ -2,7 +2,7 @@
 import { useEffect, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
 import { nav, services, uniLinks } from "../app/data";
-import { ArrowIcon } from "./ui";
+import { ArrowIcon, onRafScroll } from "./ui";
 
 type Panel = "services" | "unis" | null;
 
@@ -130,20 +130,20 @@ export default function Header() {
   useEffect(() => {
     let prev = window.scrollY;
     let acc = 0;
-    const show = (v: boolean) => setHidden(!v);
-    const onScroll = () => {
+    let heroEl: HTMLElement | null = null;
+    const show = (v: boolean) => setHidden((prevHidden) => (prevHidden === !v ? prevHidden : !v));
+
+    return onRafScroll(() => {
       const y = window.scrollY;
-      const hero = document.querySelector("[data-hero-region]") as HTMLElement | null;
-      if (hero && y <= hero.offsetTop + hero.offsetHeight - window.innerHeight) {
+      if (!heroEl) heroEl = document.querySelector("[data-hero-region]");
+      if (heroEl && y <= heroEl.offsetTop + heroEl.offsetHeight - window.innerHeight) {
         acc = 0; show(true); prev = y; return;
       }
       if (y <= 32) { acc = 0; show(true); }
       else if (y > prev) { acc = 0; show(false); }
       else { acc += prev - y; if (acc >= 80) show(true); }
       prev = y;
-    };
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
+    });
   }, []);
 
   const visible = !hidden || open !== null || mobile;

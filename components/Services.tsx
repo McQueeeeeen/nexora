@@ -1,42 +1,77 @@
 "use client";
 import { Fragment, useEffect, useRef, useState } from "react";
 import { services } from "../app/data";
+import { onRafScroll } from "./ui";
 import SafeImage from "./SafeImage";
 
 // Направления — дословный sticky-steps эталона: список с гэпом 30dvh,
 // залипшее медиа справа, статус active через observer, посимвольная заливка h2.
+// Ноль ре-рендеров React при скролле.
 export default function Services() {
   const listRef = useRef<HTMLDivElement>(null);
   const [active, setActive] = useState(0);
-  const [fill, setFill] = useState<number[]>(services.map(() => 0));
 
   useEffect(() => {
-    const items = Array.from(listRef.current?.querySelectorAll("[data-sticky-steps-item]") ?? []);
+    const items = Array.from(listRef.current?.querySelectorAll<HTMLElement>("[data-sticky-steps-item]") ?? []);
     const io = new IntersectionObserver(
       (es) => es.forEach((e) => e.isIntersecting && setActive(items.indexOf(e.target as HTMLElement))),
       { rootMargin: "-45% 0px -45% 0px" }
     );
     items.forEach((el) => io.observe(el));
 
-    // Замер через rAF — один пересчёт на кадр, плавно.
-    let raf = 0;
-    const onScroll = () => {
-      if (raf) return;
-      raf = requestAnimationFrame(() => {
-        raf = 0;
-        setFill((prev) => {
-          const next = items.map((el) => {
-            const r = (el as HTMLElement).getBoundingClientRect();
-            const p = 1 - Math.max(0, Math.min(1, (r.top - window.innerHeight * 0.15) / (window.innerHeight * 0.6)));
-            return Math.round(Math.max(0, Math.min(1, p)) * 100) / 100;
-          });
-          return next.every((v, j) => v === prev[j]) ? prev : next;
+    const charGroups = items.map((item) => Array.from(item.querySelectorAll<HTMLElement>(".sticky-steps__char")));
+
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      charGroups.forEach((group) => {
+        group.forEach((c) => {
+          c.style.color = "#000";
+          c.style.textShadow = "none";
         });
       });
+      return () => io.disconnect();
+    }
+
+    const unsub = onRafScroll(() => {
+      const vh = window.innerHeight;
+      items.forEach((item, i) => {
+        const chars = charGroups[i];
+        if (!chars || !chars.length) return;
+        const r = item.getBoundingClientRect();
+
+        if (r.bottom < 0) {
+          chars.forEach((c) => {
+            if (c.style.color !== "#000") c.style.color = "#000";
+            if (c.style.textShadow !== "none") c.style.textShadow = "none";
+          });
+          return;
+        }
+        if (r.top > vh) {
+          chars.forEach((c) => {
+            if (c.style.color !== "") c.style.color = "";
+            if (c.style.textShadow !== "none") c.style.textShadow = "none";
+          });
+          return;
+        }
+
+        const p = Math.max(0, Math.min(1, 1 - (r.top - vh * 0.15) / (vh * 0.6)));
+        const total = chars.length;
+        for (let idx = 0; idx < total; idx++) {
+          const t = idx / total;
+          const filled = t < p;
+          const frontier = !filled && p - t < 0.07;
+          const col = filled ? "#000" : frontier ? "var(--brand)" : "";
+          const shadow = frontier ? "0 0 18px rgba(11,138,118,0.45)" : "none";
+          const el = chars[idx];
+          if (el.style.color !== col) el.style.color = col;
+          if (el.style.textShadow !== shadow) el.style.textShadow = shadow;
+        }
+      });
+    });
+
+    return () => {
+      io.disconnect();
+      unsub();
     };
-    window.addEventListener("scroll", onScroll, { passive: true });
-    onScroll();
-    return () => { io.disconnect(); window.removeEventListener("scroll", onScroll); if (raf) cancelAnimationFrame(raf); };
   }, []);
 
   return (
@@ -55,31 +90,15 @@ export default function Services() {
                   <span className="sticky-steps__eyebrow">{s.no}</span>
                   <h2 data-step-h2 className="sticky-steps__h2">
                     {(() => {
-                      let gi = 0; // сквозной индекс символа для порога заливки
-                      const total = s.title.length;
                       const words = s.title.split(" ");
                       return words.map((word, w) => (
                         <Fragment key={w}>
                           <span className="sticky-steps__word">
-                            {word.split("").map((ch, c) => {
-                              const idx = gi++;
-                              const t = idx / total;
-                              // Фронт заливки подсвечен брендом со свечением — единый эталон.
-                              const filled = t < fill[i];
-                              const frontier = !filled && fill[i] - t < 0.07;
-                              return (
-                                <span
-                                  key={c}
-                                  className="sticky-steps__char"
-                                  style={{
-                                    color: filled ? "#000" : frontier ? "var(--brand)" : undefined,
-                                    textShadow: frontier ? "0 0 18px rgba(11,138,118,0.45)" : "none",
-                                  }}
-                                >
-                                  {ch}
-                                </span>
-                              );
-                            })}
+                            {word.split("").map((ch, c) => (
+                              <span key={c} className="sticky-steps__char">
+                                {ch}
+                              </span>
+                            ))}
                           </span>
                           {w < words.length - 1 ? " " : null}
                         </Fragment>
