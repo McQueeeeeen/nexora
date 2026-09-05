@@ -12,7 +12,8 @@ export function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
-  const post = posts.find((p) => p.slug === (await params).slug);
+  const { slug } = await params;
+  const post = posts.find((p) => p.slug === slug);
   if (!post) return {};
   return { title: `Nexora Admissions — ${post.title}`, description: post.excerpt };
 }
