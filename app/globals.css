@@ -206,9 +206,7 @@ html.preloaded [data-load-wrap] { display: none !important; }
 @keyframes street-flow { to { stroke-dashoffset: -240; } }
 .street-flow { stroke-dasharray: 3 9; animation: street-flow 30s linear infinite; }
 
-/* ---------- рисующаяся линия маршрута ---------- */
-@keyframes route-draw { from { stroke-dashoffset: 100; } to { stroke-dashoffset: 0; } }
-.route-draw { stroke-dasharray: 100; animation: route-draw 2.2s ease-out both; }
+/* ---------- свечение линии маршрута ---------- */
 .route-glow { filter: drop-shadow(0 0 6px #5eead4cc); }
 
 /* ---------- параллакс футера: на мобильных выкл ---------- */

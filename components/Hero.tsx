@@ -173,6 +173,31 @@ export default function Hero() {
             );
           })}
         </div>
+        {/* Достопримечательности и учёба: парящие фото-карточки поверх карты */}
+        <div aria-hidden className="pointer-events-none absolute inset-0 hidden lg:block">
+          {[
+            { img: "https://images.unsplash.com/photo-1516550893923-42d28e5677af?auto=format&fit=crop&w=800&q=75", label: "Вена", top: "24%", a: 0.02, drift: 50 },
+            { img: "https://images.unsplash.com/photo-1541849546-216549ae216d?auto=format&fit=crop&w=800&q=75", label: "Будапешт", top: "44%", a: 0.22, drift: 70 },
+            { img: "https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=800&q=75", label: "Студенты", top: "64%", a: 0.42, drift: 90 },
+          ].map((ph) => {
+            const e = Math.max(0, Math.min(1, (p - ph.a) / 0.18));
+            return (
+              <div key={ph.label} className="absolute right-12 w-52"
+                style={{
+                  top: ph.top, opacity: e < 0.02 ? 0 : e,
+                  transform: `translateY(${((1 - e) * 36 - p * ph.drift).toFixed(1)}px)`,
+                  willChange: "opacity,transform",
+                }}>
+                <div className="overflow-hidden rounded-2xl border border-white/15 shadow-2xl">
+                  <img src={ph.img} alt="" loading="lazy" decoding="async" className="aspect-[4/3] w-full object-cover" />
+                  <div className="bg-black/60 px-4 py-2 font-mono text-[11px] uppercase tracking-[2px] text-white/85 backdrop-blur-md">
+                    {ph.label}
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
       </section>
     </div>
   );
