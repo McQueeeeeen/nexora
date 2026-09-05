@@ -1,15 +1,16 @@
 "use client";
-import { useEffect, useRef, useState } from "react";
+import { Fragment, useEffect, useRef, useState } from "react";
 import { onRafScroll } from "./ui";
 
 const TEXT = "Поступление без случайностей — проверенные требования, один куратор, каждый документ под контролем.";
 
-// Стейтмент как у эталона: заливка тянется за скроллом сплошной волной —
-// три слоя одного текста (тусклый + чернила с клипом + размытое свечение
-// узкой полосой у фронта). Без дискретных переключений по словам.
+// Стейтмент: слова появляются одно за другим по мере скролла —
+// каждое всплывает снизу, наливается цветом, фронт подсвечен свечением.
 export default function Statement() {
   const ref = useRef<HTMLElement>(null);
   const [p, setP] = useState(0);
+  const words = TEXT.split(" ");
+  const n = words.length;
 
   useEffect(() => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) { setP(1); return; }
@@ -17,31 +18,41 @@ export default function Statement() {
       if (!ref.current) return;
       const r = ref.current.getBoundingClientRect();
       const vh = window.innerHeight;
-      // Заливка идёт весь проход секции: старт — низ секции коснулся низа
-      // экрана, финиш — секция почти ушла вверх. Анимацию видно, пока скроллишь.
-      const start = vh * 0.95;
-      const total = start + r.height * 0.45;
+      // Медленно и поздно: старт, когда секция вошла на четверть,
+      // финиш — когда почти ушла вверх. Волну видно весь проход.
+      const start = vh * 0.85;
+      const total = start + r.height * 0.5;
       setP(Math.max(0, Math.min(1, (start - r.top) / total)));
     });
   }, []);
 
-  const edge = (1 - p) * 100; // правый край заливки, %
-  const bandL = Math.max(0, (p - 0.09) * 100); // светящаяся полоса тянется следом
-
-  const h2 = "max-w-[1100px] text-balance text-center text-[min(3.25em,9.7vw)] font-normal leading-[1.08] tracking-[-0.02em] lg:text-[80px] lg:tracking-[-3px]";
-
   return (
     <section ref={ref} className="relative w-full overflow-hidden py-[160px] lg:py-[260px]">
       <div className="mx-auto flex max-w-[1408px] flex-col items-center px-6 lg:px-12">
-        <div className="relative max-w-[1100px]">
-          <h2 className={h2} style={{ color: "rgba(16,20,24,0.14)" }}>{TEXT}</h2>
-          <h2 aria-hidden className={`${h2} absolute inset-0`} style={{ color: "var(--ink)", clipPath: `inset(0 ${edge.toFixed(2)}% 0 0)`, willChange: "clip-path" }}>{TEXT}</h2>
-          <h2 aria-hidden className={`${h2} absolute inset-0`} style={{
-            color: "var(--brand)", filter: "blur(7px)",
-            clipPath: `inset(0 ${edge.toFixed(2)}% 0 ${bandL.toFixed(2)}%)`,
-            opacity: p <= 0 || p >= 1 ? 0 : 1, willChange: "clip-path",
-          }}>{TEXT}</h2>
-        </div>
+        <h2 className="max-w-[1100px] text-balance text-center text-[min(3.25em,9.7vw)] font-normal leading-[1.08] tracking-[-0.02em] lg:text-[80px] lg:tracking-[-3px]">
+          {words.map((w, i) => {
+            const local = Math.max(0, Math.min(1, p * n - i));
+            const live = local > 0 && local < 1;
+            return (
+              <Fragment key={i}>
+                <span
+                  className="inline-block"
+                  style={{
+                    whiteSpace: "nowrap",
+                    opacity: 0.13 + local * 0.87,
+                    color: local >= 1 ? "var(--ink)" : local > 0 ? "var(--brand)" : "rgba(16,20,24,0.5)",
+                    transform: `translateY(${((1 - local) * 18).toFixed(1)}px)`,
+                    textShadow: live ? "0 0 22px rgba(11,138,118,0.55)" : "none",
+                    willChange: "opacity,transform,color",
+                  }}
+                >
+                  {w}
+                </span>
+                {i < n - 1 ? " " : ""}
+              </Fragment>
+            );
+          })}
+        </h2>
       </div>
     </section>
   );
