@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
-import Header from "../components/Header";
-import Intro from "../components/Intro";
-import Faq from "../components/Faq";
-import Contact from "../components/Contact";
-import MobileBar from "../components/MobileBar";
-import { Reveal, wrap } from "../components/ui";
+import Header from "../../components/Header";
+import Intro from "../../components/Intro";
+import Faq from "../../components/Faq";
+import Contact from "../../components/Contact";
+import MobileBar from "../../components/MobileBar";
+import { Reveal, wrap } from "../../components/ui";
 
 export const metadata: Metadata = {
   title: "Nexora Admissions — частые вопросы",
