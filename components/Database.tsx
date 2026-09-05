@@ -24,7 +24,7 @@ export default function Database({ initial = "AT", title = "Университе
         <div className="mt-8 flex items-center justify-between gap-4 rounded-xl border border-[#101418]/10 bg-white px-4 py-3">
           <span className="font-mono text-xs uppercase text-[#101418]/50">Найдено: {list.length}</span>
           <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="Поиск по вузу, городу, специальности..."
-            className="input-light w-72 max-w-[46vw] shrink-0 rounded-[10px] px-3 py-2 text-right text-sm" />
+            className="input-light w-72 max-w-[46vw] shrink-0 rounded-[10px] px-3 py-2 text-right text-base" />
         </div>
 
         <div className="mt-6 grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">

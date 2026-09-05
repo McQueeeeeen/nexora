@@ -84,6 +84,17 @@ export default function Header() {
   const [mobile, setMobile] = useState(false); // мобильное меню
   const [view, setView] = useState<Panel>(null); // drill-down панель на мобильном
 
+  // Лочим скролл страницы, пока открыто мобильное меню.
+  useEffect(() => {
+    document.documentElement.style.overflow = mobile ? "hidden" : "";
+    document.body.style.overflow = mobile ? "hidden" : "";
+    if (!mobile) setView(null);
+    return () => {
+      document.documentElement.style.overflow = "";
+      document.body.style.overflow = "";
+    };
+  }, [mobile]);
+
   // На главной якоря скроллят, на подстраницах ведут домой.
   const pre = usePathname() === "/" ? "" : "/";
   const svcHref = `${pre}#services`;

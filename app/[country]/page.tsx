@@ -51,13 +51,13 @@ export default async function CountryPage({ params }: { params: Promise<{ countr
             <span className="inline-flex w-fit items-center rounded-full bg-black/55 px-4 py-2 backdrop-blur-[10px]">
               <span className="font-mono text-xs font-bold uppercase leading-[1.2] text-white lg:text-sm">{c.name}</span>
             </span>
-            <h1 className="text-balance text-[40px] font-bold leading-[1.05] tracking-[-1.2px] text-white lg:text-[80px] lg:tracking-[-2.4px]">
+            <h1 className="text-balance text-[40px] font-bold leading-[1.05] tracking-[-1.2px] text-white sm:text-[56px] lg:text-[80px] lg:tracking-[-2.4px]">
               {c.tagline}
             </h1>
             <p className="max-w-[720px] text-base font-normal leading-[1.4] text-white lg:text-xl">{c.about}</p>
             <div className="flex flex-col gap-3 pt-2 sm:flex-row sm:gap-4">
-              <Btn href="#database" className="h-[44px] rounded-xl px-[18px] text-base">Вузы страны</Btn>
-              <Btn href="#contact" ghost className="h-[44px] rounded-xl px-[18px] text-base">Бесплатный аудит</Btn>
+              <Btn href="#database" className="h-[44px] w-full justify-center rounded-xl px-[18px] text-base sm:w-auto">Вузы страны</Btn>
+              <Btn href="#contact" ghost className="h-[44px] w-full justify-center rounded-xl px-[18px] text-base sm:w-auto">Бесплатный аудит</Btn>
             </div>
           </Reveal>
         </div>

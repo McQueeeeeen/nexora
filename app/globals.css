@@ -32,7 +32,14 @@ h1, h2, h3, h4, p, blockquote, span, a, button, label {
 p, blockquote { text-wrap: pretty; }
 /* У эталона заголовки не жирнее 500 */
 h1, h2, h3, h4 { font-weight: 500; }
-html { scroll-behavior: smooth; }
+html { scroll-behavior: smooth; overflow-x: clip; }
+body { overflow-x: clip; -webkit-tap-highlight-color: transparent; }
+/* Мобильный Safari: фулскрины по динамической высоте (без прыжка от шторки URL) */
+@supports (height: 100dvh) {
+  .h-screen { height: 100dvh; }
+  .min-h-screen { min-height: 100dvh; }
+  .loader { height: 100dvh; }
+}
 /* Якоря не уходят под фиксированную пилюлю-шапку */
 section[id], footer[id] { scroll-margin-top: 6em; }
 ::selection { background: var(--brand); color: #fff; }
@@ -76,7 +83,7 @@ html.preloaded [data-load-wrap] { display: none !important; }
 .mega-nav__mobile-panel { display: none; }
 @media screen and (max-width: 991px) {
   .mega-nav { top: .625em; left: .625em; right: .625em; }
-  .mega-nav__bar { border-radius: 1em; width: 100%; max-width: none; margin: 0; }
+  .mega-nav__bar { border-radius: 1em; width: 100%; max-width: none; margin: 0; backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); }
   .mega-nav__container { padding: .875em 1em; }
   .mega-nav__burger { display: flex; }
   .mega-nav__desktop-links { display: none !important; }
@@ -84,6 +91,12 @@ html.preloaded [data-load-wrap] { display: none !important; }
   .mega-nav__mobile-panel { display: flex; animation: dropdown-in .3s ease both; }
   .mega-nav__panel-feature { display: none; }
   .mega-nav__dropdown-inner { grid-template-columns: 1fr; padding: 0; }
+}
+
+/* Планшет: компактнее отступы шапки, чтобы всё влезало */
+@media screen and (max-width: 1279px) {
+  .mega-nav__container { gap: 1.1em; padding-left: 1.1em; padding-right: 1.1em; }
+  .mega-nav__desktop-links { gap: 1.1em !important; }
 }
 
 /* ---------- dropdown-панели шапки (тёмная адаптация эталона) ---------- */
@@ -215,6 +228,13 @@ html.preloaded [data-load-wrap] { display: none !important; }
 @media (max-width: 991px) {
   [data-footer-parallax-inner] { transform: none !important; }
   [data-footer-parallax-dark] { opacity: 0 !important; }
+}
+
+/* ---------- короткие landscape-экраны: пины в статику, без обрезки ---------- */
+@media (max-height: 540px) and (orientation: landscape) {
+  .steps-pin-wrap { height: auto !important; }
+  .mp5-benefits-pin { position: relative !important; top: auto !important; height: auto !important; display: block !important; }
+  .mp5-benefits-pin > div:first-child { height: 52vh; min-height: 240px; }
 }
 
 /* ---------- уважение к reduced-motion ---------- */

@@ -12,7 +12,7 @@ export default function Steps() {
   const frac = p * n - cur;
 
   return (
-    <div ref={ref} id="steps" className="relative" style={{ height: "300vh" }}>
+    <div ref={ref} id="steps" className="steps-pin-wrap relative" style={{ height: "300vh" }}>
       <section className="mp5-benefits-pin sticky top-0 grid h-screen w-full grid-rows-[1fr_auto] overflow-hidden rounded-t-[2.5em] bg-white text-black">
         <div className="relative w-full overflow-hidden">
           {steps.map((s, i) => (

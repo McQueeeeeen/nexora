@@ -32,7 +32,7 @@ export default function Contact() {
                     <p><b>Вена:</b> Schottengasse 4, 1010 Wien</p>
                     <p><b>Будапешт:</b> Váci utca 12, 1052 Budapest</p>
                     <p><b>Telegram:</b> <a href="https://t.me/nexora_support" target="_blank" rel="noopener" className="underline" style={{ color: YB }}>@nexora_support</a></p>
-                    <p><b>Email:</b> <a href="mailto:admissions@nexora.eu" className="underline" style={{ color: YB }}>admissions@nexora.eu</a></p>
+                    <p><b>Email:</b> <a href="mailto:admissions@nexora.eu" className="underline break-all" style={{ color: YB }}>admissions@nexora.eu</a></p>
                     <p><b>На связи:</b> Пн–Вс, 8:00–18:00</p>
                   </div>
                 </Reveal>
@@ -55,16 +55,16 @@ export default function Contact() {
                           <div className="flex flex-col gap-5 lg:flex-row lg:gap-2.5">
                             <div className="flex flex-1 flex-col gap-2">
                               <label className="font-mono text-xs font-bold uppercase text-white/40">Ваше имя<span style={{ color: YB }}> *</span></label>
-                              <input required placeholder="Иван Иванов" className="input-glow h-14 rounded-[10px] px-4 text-sm" />
+                              <input required placeholder="Иван Иванов" className="input-glow h-14 rounded-[10px] px-4 text-base" />
                             </div>
                             <div className="flex flex-1 flex-col gap-2">
                               <label className="font-mono text-xs font-bold uppercase text-white/40">Телефон<span style={{ color: YB }}> *</span></label>
-                              <input required type="tel" inputMode="tel" autoComplete="tel" placeholder="+7 (999) 000-00-00" className="input-glow h-14 rounded-[10px] px-4 text-sm" />
+                              <input required type="tel" inputMode="tel" autoComplete="tel" placeholder="+7 (999) 000-00-00" className="input-glow h-14 rounded-[10px] px-4 text-base" />
                             </div>
                           </div>
                           <div className="flex flex-col gap-2">
                             <label className="font-mono text-xs font-bold uppercase text-white/40">Email</label>
-                            <input type="email" inputMode="email" autoComplete="email" placeholder="you@email.com" pattern="[^@\s]+@[^@\s]+\.[^@\s]+" className="input-glow h-14 rounded-[10px] px-4 text-sm" />
+                            <input type="email" inputMode="email" autoComplete="email" placeholder="you@email.com" pattern="[^@\s]+@[^@\s]+\.[^@\s]+" className="input-glow h-14 rounded-[10px] px-4 text-base" />
                           </div>
                           <button type="button" onClick={(e) => { const f = e.currentTarget.form; if (f && !f.reportValidity()) return; setStep(1); }} className="mp5-btn mp5-btn--primary w-full rounded-xl text-base" style={{ height: 56 }}>Продолжить</button>
                         </>
@@ -72,11 +72,11 @@ export default function Contact() {
                         <>
                           <div className="flex flex-col gap-2">
                             <label className="font-mono text-xs font-bold uppercase text-white/40">Страна и уровень</label>
-                            <input placeholder="Например: Бакалавриат в Австрии" className="input-glow h-14 rounded-[10px] px-4 text-sm" />
+                            <input placeholder="Например: Бакалавриат в Австрии" className="input-glow h-14 rounded-[10px] px-4 text-base" />
                           </div>
                           <div className="flex flex-col gap-2">
                             <label className="font-mono text-xs font-bold uppercase text-white/40">О себе (оценки, язык)</label>
-                            <input placeholder="Например: GPA 4.5, английский B2" className="input-glow h-14 rounded-[10px] px-4 text-sm" />
+                            <input placeholder="Например: GPA 4.5, английский B2" className="input-glow h-14 rounded-[10px] px-4 text-base" />
                           </div>
                           <div className="flex gap-3">
                             <button type="button" onClick={() => setStep(0)} className="mp5-btn mp5-btn--secondary flex items-center gap-2 rounded-xl px-6 text-base" style={{ height: 56 }}><ArrowIcon className="h-4 w-4 rotate-180" />Назад</button>
@@ -109,7 +109,7 @@ export default function Contact() {
                 </div>
                 <div>
                   <span className="font-mono text-xs font-bold uppercase tracking-[2px] text-white/40">Почта</span>
-                  <p className="mt-2"><a href="mailto:admissions@nexora.eu" className="hover-underline text-lg transition hover:text-white">admissions@nexora.eu</a></p>
+                  <p className="mt-2"><a href="mailto:admissions@nexora.eu" className="hover-underline break-all text-lg transition hover:text-white">admissions@nexora.eu</a></p>
                 </div>
                 <div>
                   <span className="font-mono text-xs font-bold uppercase tracking-[2px] text-white/40">Адрес</span>
