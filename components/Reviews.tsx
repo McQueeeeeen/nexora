@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import { quotes } from "../app/data";
-import { Y } from "./ui";
+import { Y, ArrowIcon } from "./ui";
 
 // Отзывы: на главной — классика эталона (цитата + дотсы), на страницах стран —
 // развёрнутая версия city page: заголовок, звёзды, аватар с инициалами.
@@ -46,7 +46,7 @@ export default function Reviews({ title, detailed = false }: { title?: string; d
           <button onClick={() => setI((i - 1 + quotes.length) % quotes.length)} aria-label="Предыдущий отзыв"
             className="hidden h-14 w-14 items-center justify-center rounded-full transition-all duration-200 lg:flex"
             style={i === 0 ? { background: "#181818", cursor: "default" } : { background: "#242424" }}>
-            <span style={{ opacity: i === 0 ? 0.3 : 1 }} aria-hidden>←</span>
+            <span style={{ opacity: i === 0 ? 0.3 : 1 }} aria-hidden><ArrowIcon className="h-5 w-5 rotate-180" /></span>
           </button>
           <div className="flex items-center gap-2">
           {quotes.map((_, d) => (
@@ -63,7 +63,7 @@ export default function Reviews({ title, detailed = false }: { title?: string; d
           </div>
           <button onClick={() => setI((i + 1) % quotes.length)} aria-label="Следующий отзыв"
             className="hidden h-14 w-14 items-center justify-center rounded-full bg-[#242424] transition-all duration-200 hover:scale-110 hover:bg-[#303030] lg:flex">
-            <span aria-hidden>→</span>
+            <span aria-hidden><ArrowIcon className="h-5 w-5" /></span>
           </button>
         </div>
       </div>

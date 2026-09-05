@@ -11,7 +11,7 @@ export default function About() {
           <h2 className="mt-3 max-w-[640px] text-balance text-3xl font-medium tracking-[-0.02em] lg:text-5xl">{agency.heading}</h2>
           <p className="mt-6 max-w-[560px] leading-relaxed text-white/65">{agency.text}</p>
           <div className="mt-8">
-            <Btn href="#contact" ghost className="h-14 rounded-xl px-8 text-base">Связаться с нами →</Btn>
+            <Btn href="#contact" ghost className="h-14 rounded-xl px-8 text-base">Связаться с нами</Btn>
           </div>
         </Reveal>
         <div className="flex flex-col gap-4 lg:col-span-5">

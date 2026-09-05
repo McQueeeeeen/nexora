@@ -89,9 +89,9 @@ export default function Hero() {
         </div>
         <div className="absolute bottom-8 left-0 right-0 px-6 lg:px-12">
           <div className="tv5-fade mx-auto flex w-full max-w-[1408px] flex-wrap items-center gap-4" style={{ animationDelay: "1.5s" }}>
-            <span className="mr-auto hidden font-mono text-xs uppercase tracking-[2px] text-white/70 sm:inline">● Приёмная кампания 2026/2027</span>
-            <Btn href={`${pre}#contact`} className="h-14 rounded-xl px-8 text-base">Получить стратегию поступления ↗</Btn>
-            <Btn href="/austria" ghost className="h-14 rounded-xl px-8 text-base">Страны и вузы →</Btn>
+            <span className="mr-auto hidden font-mono text-xs uppercase tracking-[2px] text-white/70 sm:inline">Приёмная кампания 2026/2027</span>
+            <Btn href={`${pre}#contact`} className="h-14 rounded-xl px-8 text-base">Получить стратегию поступления</Btn>
+            <Btn href="/austria" ghost className="h-14 rounded-xl px-8 text-base">Страны и вузы</Btn>
           </div>
         </div>
       </section>

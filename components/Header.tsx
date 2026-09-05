@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { usePathname } from "next/navigation";
 import { nav, services, uniLinks } from "../app/data";
+import { ArrowIcon } from "./ui";
 
 type Panel = "services" | "unis" | null;
 
@@ -154,7 +155,7 @@ export default function Header() {
               <>
                 {(Object.keys(parents) as Exclude<Panel, null>[]).map((k) => (
                   <button key={k} onClick={() => setView(k)} className="flex w-full items-center justify-between border-b border-white/10 py-3 text-left text-lg font-medium text-white">
-                    {parents[k]}<span className="text-white/50">→</span>
+                    {parents[k]}<ArrowIcon className="h-5 w-5 text-white/50" />
                   </button>
                 ))}
                 {anchors.map(([t, href]) => (
@@ -165,7 +166,7 @@ export default function Header() {
             ) : (
               <>
                 <button onClick={() => setView(null)} aria-label="Назад в меню" className="flex items-center gap-2 py-3 text-base font-medium text-white/70">
-                  ← Back
+                  <ArrowIcon className="h-4 w-4 rotate-180" />Back
                 </button>
                 <Panel {...panels[view]} onGo={closeMobile} />
               </>

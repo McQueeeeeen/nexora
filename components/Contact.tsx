@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import { usePathname } from "next/navigation";
-import { Y, useViewportProgress, Reveal } from "./ui";
+import { Y, useViewportProgress, Reveal, ArrowIcon } from "./ui";
 
 // Контакты + футер в параллакс-обёртке эталона.
 // Форма из 2 шагов: дотсы, Continue, Email — как у эталона.
@@ -18,10 +18,7 @@ export default function Contact() {
           <div className="mx-auto flex max-w-[1408px] flex-col gap-8">
             <div className="flex flex-col gap-[36px] lg:gap-12">
               <div className="border-b border-white/10 pb-6">
-                <div className="flex items-center gap-2.5">
-                  <span className="h-2 w-2 rounded-full" style={{ background: Y }} />
-                  <span className="font-mono text-base font-bold uppercase text-white/60">Контакты</span>
-                </div>
+                <span className="font-mono text-base font-bold uppercase text-white/60">Контакты</span>
               </div>
               <div className="flex flex-col gap-5 lg:flex-row lg:gap-5">
                 <Reveal className="flex flex-col lg:flex-1">
@@ -67,7 +64,7 @@ export default function Contact() {
                             <label className="font-mono text-xs font-bold uppercase text-white/40">Email</label>
                             <input type="email" inputMode="email" autoComplete="email" placeholder="you@email.com" pattern="[^@\s]+@[^@\s]+\.[^@\s]+" className="input-glow h-14 rounded-[10px] px-4 text-sm" />
                           </div>
-                          <button type="button" onClick={(e) => { const f = e.currentTarget.form; if (f && !f.reportValidity()) return; setStep(1); }} className="mp5-btn mp5-btn--primary w-full rounded-xl text-base" style={{ height: 56 }}>Continue →</button>
+                          <button type="button" onClick={(e) => { const f = e.currentTarget.form; if (f && !f.reportValidity()) return; setStep(1); }} className="mp5-btn mp5-btn--primary w-full rounded-xl text-base" style={{ height: 56 }}>Continue</button>
                         </>
                       ) : (
                         <>
@@ -80,8 +77,8 @@ export default function Contact() {
                             <input placeholder="Например: GPA 4.5, английский B2" className="input-glow h-14 rounded-[10px] px-4 text-sm" />
                           </div>
                           <div className="flex gap-3">
-                            <button type="button" onClick={() => setStep(0)} className="mp5-btn mp5-btn--secondary rounded-xl px-6 text-base" style={{ height: 56 }}>← Назад</button>
-                            <button type="submit" className="mp5-btn mp5-btn--primary flex-1 rounded-xl text-base" style={{ height: 56 }}>Записаться на аудит ↗</button>
+                            <button type="button" onClick={() => setStep(0)} className="mp5-btn mp5-btn--secondary flex items-center gap-2 rounded-xl px-6 text-base" style={{ height: 56 }}><ArrowIcon className="h-4 w-4 rotate-180" />Назад</button>
+                            <button type="submit" className="mp5-btn mp5-btn--primary flex-1 rounded-xl text-base" style={{ height: 56 }}>Записаться на аудит</button>
                           </div>
                         </>
                       )}

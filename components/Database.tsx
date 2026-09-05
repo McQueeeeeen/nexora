@@ -1,7 +1,7 @@
 "use client";
 import { useMemo, useState } from "react";
 import { universities, uniSites, type Country } from "../app/data";
-import { wrap, Tag, Reveal, Y } from "./ui";
+import { wrap, Tag, Reveal, Y, ExtIcon } from "./ui";
 
 // Каталог locked на страну страницы: чужих вузов не показываем.
 // Название — ссылка на официальный сайт (новая вкладка), карточка статична.
@@ -39,8 +39,8 @@ export default function Database({ initial = "AT", title = "Университе
                   </div>
                   {site ? (
                     <a href={site} target="_blank" rel="noopener noreferrer" title={`Официальный сайт — ${u.name}`}
-                      className="hover-underline mt-5 inline-block text-2xl font-medium tracking-tight transition hover:text-[#FFE533]">
-                      {u.name} <span className="text-base">↗</span>
+                      className="hover-underline mt-5 inline-flex items-center gap-1.5 text-2xl font-medium tracking-tight transition hover:text-[#FFE533]">
+                      {u.name} <ExtIcon className="h-4 w-4 shrink-0" />
                     </a>
                   ) : (
                     <h3 className="mt-5 text-2xl font-medium tracking-tight">{u.name}</h3>

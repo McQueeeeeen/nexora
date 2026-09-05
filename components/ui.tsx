@@ -55,10 +55,24 @@ export function Reveal({ children, className = "" }: { children: React.ReactNode
 
 export function Tag({ children }: { children: string }) {
   return (
-    <div className="flex items-center gap-2">
-      <span className="h-2 w-2 rounded-full" style={{ background: Y }} />
-      <span className="font-mono text-xs uppercase tracking-[2px] text-white/60">{children}</span>
-    </div>
+    <span className="font-mono text-xs uppercase tracking-[2px] text-white/60">{children}</span>
+  );
+}
+
+// SVG-стрелки как у эталона (текстовые →/↗ выглядят ИИшно).
+export function ArrowIcon({ className = "" }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2} className={className} aria-hidden>
+      <line x1="5" y1="12" x2="19" y2="12" /><polyline points="12 5 19 12 12 19" />
+    </svg>
+  );
+}
+
+export function ExtIcon({ className = "" }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.2} className={className} aria-hidden>
+      <line x1="7" y1="17" x2="17" y2="7" /><polyline points="7 7 17 7 17 17" />
+    </svg>
   );
 }
 

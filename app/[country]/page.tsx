@@ -12,7 +12,7 @@ import CtaBand from "../../components/CtaBand";
 import Faq from "../../components/Faq";
 import Contact from "../../components/Contact";
 import MobileBar from "../../components/MobileBar";
-import { Btn, Reveal, wrap, Y } from "../../components/ui";
+import { Btn, Reveal, wrap, ArrowIcon } from "../../components/ui";
 import { countries, uniLinks, type Country } from "../data";
 
 // Статический экспорт: пререндерим обе страны (как city pages у эталона).
@@ -57,8 +57,8 @@ export default async function CountryPage({ params }: { params: Promise<{ countr
             </h1>
             <p className="max-w-[720px] text-base font-normal leading-[1.4] text-white lg:text-xl">{c.about}</p>
             <div className="flex flex-col gap-3 pt-2 sm:flex-row sm:gap-4">
-              <Btn href="#database" className="h-[44px] rounded-xl px-[18px] text-base">Вузы страны ↓</Btn>
-              <Btn href="#contact" ghost className="h-[44px] rounded-xl px-[18px] text-base">Бесплатный аудит ↗</Btn>
+              <Btn href="#database" className="h-[44px] rounded-xl px-[18px] text-base">Вузы страны</Btn>
+              <Btn href="#contact" ghost className="h-[44px] rounded-xl px-[18px] text-base">Бесплатный аудит</Btn>
             </div>
           </Reveal>
         </div>
@@ -75,13 +75,15 @@ export default async function CountryPage({ params }: { params: Promise<{ countr
 
       <section className={`${wrap} pb-24`}>
         <Reveal>
-          <a href={other.href} className="card flex items-center justify-between rounded-2xl border border-white/10 bg-[#181818] p-8 lg:p-10">
+          <a href={other.href} className="card group flex items-center justify-between rounded-2xl border border-white/10 bg-[#181818] p-8 lg:p-10">
             <div>
               <span className="font-mono text-xs uppercase tracking-[2px] text-white/50">Смотрите также</span>
-              <h2 className="mt-3 text-3xl font-medium tracking-tight lg:text-5xl">{other.title} →</h2>
+              <h2 className="mt-3 text-3xl font-medium tracking-tight lg:text-5xl">{other.title}</h2>
               <p className="mt-2 text-sm text-white/60">{other.desc}</p>
             </div>
-            <span className="hidden font-mono text-5xl sm:inline" style={{ color: Y }}>→</span>
+            <span className="hidden h-14 w-14 shrink-0 items-center justify-center rounded-full bg-[#242424] transition-all duration-300 group-hover:scale-110 group-hover:bg-[#FFE533] sm:flex" aria-hidden>
+              <ArrowIcon className="h-5 w-5 text-white transition-colors group-hover:text-black" />
+            </span>
           </a>
         </Reveal>
       </section>

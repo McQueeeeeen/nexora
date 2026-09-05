@@ -1,5 +1,5 @@
 import type { CountryInfo } from "../app/data";
-import { wrap, Tag, Reveal } from "./ui";
+import { wrap, Tag, Reveal, ArrowIcon } from "./ui";
 
 // Услуги страны — полноэкранные карточки с водяным номером, как у эталона.
 export default function CountryServices({ c }: { c: CountryInfo }) {
@@ -33,7 +33,7 @@ export default function CountryServices({ c }: { c: CountryInfo }) {
                   <div className="relative flex items-end gap-4 lg:gap-6">
                     <p className="flex-1 text-base font-normal leading-[1.4] text-white lg:text-xl">{s.desc}</p>
                     <span className="hidden h-14 w-14 shrink-0 items-center justify-center rounded-full bg-[#242424] transition-all duration-300 ease-out group-hover:rotate-[-45deg] group-hover:scale-110 group-hover:bg-white lg:flex" aria-hidden>
-                      <span className="text-xl text-white transition-all group-hover:text-black">→</span>
+                      <ArrowIcon className="h-5 w-5 text-white transition-all group-hover:text-black" />
                     </span>
                   </div>
                 </div>

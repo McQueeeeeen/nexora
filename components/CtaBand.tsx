@@ -14,7 +14,7 @@ export default function CtaBand({ img, title, sub }: { img: string; title: strin
           <div className="flex flex-col gap-3 rounded-xl bg-[#FFE533] px-5 py-3 lg:flex-row lg:items-center lg:justify-between lg:gap-4 lg:rounded-2xl lg:px-8 lg:py-3.5">
             <p className="text-sm font-normal leading-[1.4] text-black/80 lg:whitespace-nowrap lg:text-base">{sub}</p>
             <Btn href="#contact" className="h-[44px] shrink-0 whitespace-nowrap rounded-xl px-6 text-[15px] lg:h-[48px] lg:px-7 lg:text-base" style={{ background: "#0c0c0c", color: "#fff" }}>
-              Получить стратегию ↗
+              Получить стратегию
             </Btn>
           </div>
         </div>
