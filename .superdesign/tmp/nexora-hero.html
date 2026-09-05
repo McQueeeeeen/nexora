@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nexora Admissions — Hero</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=DM+Mono&family=Manrope:wght@400;500;600;700&display=swap');
+    *{box-sizing:border-box}body{margin:0;background:#2A211D;color:#FBF9F5;font-family:Manrope,Arial,sans-serif}.mono{font-family:'DM Mono',monospace}.noise{background-image:linear-gradient(115deg,rgba(255,255,255,.055) 1px,transparent 1px),linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px);background-size:88px 88px}.kinetic span{display:inline-block;animation:rise .75s both}@keyframes rise{from{opacity:0;transform:translateY(34px)}to{opacity:1;transform:none}}.kinetic span:nth-child(2){animation-delay:.07s}.kinetic span:nth-child(3){animation-delay:.14s}.kinetic span:nth-child(4){animation-delay:.21s}
+  </style>
+</head>
+<body>
+  <div class="noise min-h-screen overflow-hidden bg-[#2A211D]">
+    <header class="flex h-[82px] items-center justify-between border-b border-white/15 px-8 lg:px-12">
+      <a id="nexora-home" href="#top" class="text-[19px] font-semibold tracking-[-.07em]">Nexora <em class="not-italic text-[#DDE8C4]">Admissions</em></a>
+      <nav class="hidden items-center gap-7 text-[10px] font-semibold uppercase tracking-[.1em] lg:flex"><a id="nav-directions" href="#directions">Направления</a><a id="nav-method" href="#method">Методика</a><a id="nav-universities" href="#database">База вузов</a><a id="nav-cases" href="#cases">Кейсы</a></nav>
+      <a id="nav-diagnostic" href="#diagnostic" class="rounded-[10px] bg-[#DDE8C4] px-4 py-3 text-[10px] font-bold uppercase tracking-[.08em] text-[#2A211D]">Диагностика <span class="ml-2">↗</span></a>
+    </header>
+    <main id="top" class="relative mx-auto flex min-h-[calc(100vh-82px)] max-w-[1600px] flex-col justify-between px-8 pb-8 pt-12 lg:px-12 lg:pb-12 lg:pt-20">
+      <div class="flex items-center gap-3 text-[10px] uppercase tracking-[.13em] text-[#DDE8C4]"><span class="h-2 w-2 rounded-full bg-[#DDE8C4]"></span><span class="mono">Приём 2026 / 2027</span></div>
+      <section class="relative z-10 max-w-[1250px] py-10 lg:py-14">
+        <p class="mono mb-7 max-w-md text-[10px] uppercase leading-5 tracking-[.1em] text-[#d8cdc0]">Австрия · Венгрия<br>Академический аудит и поступление под ключ</p>
+        <h1 class="kinetic text-[clamp(3.5rem,8.2vw,9.6rem)] font-medium leading-[.84] tracking-[-.085em]"><span>Поступление</span><br><span>без случайных</span><br><span class="text-[#DDE8C4]">решений.</span></h1>
+      </section>
+      <div class="relative z-10 grid gap-7 border-t border-white/15 pt-6 lg:grid-cols-[1fr_auto_1fr] lg:items-end">
+        <p class="max-w-[330px] text-[13px] leading-6 text-[#d8cdc0]">Сверяем ваш академический профиль, финансы и сроки до подачи документов — чтобы университет выбрал вас по правильным основаниям.</p>
+        <a id="hero-programs" href="#database" class="group flex h-16 min-w-[235px] items-center justify-between rounded-[10px] bg-[#DDE8C4] px-5 text-[11px] font-bold uppercase tracking-[.08em] text-[#2A211D]">Подобрать программу <span class="text-xl transition group-hover:translate-x-1">↗</span></a>
+        <div class="justify-self-end text-right"><p class="mono text-[10px] uppercase tracking-[.12em] text-[#d8cdc0]">Проверенная база</p><p class="mt-1 text-[13px] font-semibold">28 университетов · 2 страны</p></div>
+      </div>
+      <div class="pointer-events-none absolute bottom-0 right-[-7vw] h-[54vw] w-[54vw] rounded-full border border-white/10"></div><div class="pointer-events-none absolute bottom-[-15vw] right-[12vw] h-[42vw] w-[42vw] rounded-full border border-white/10"></div>
+    </main>
+  </div>
+</body>
+</html>
