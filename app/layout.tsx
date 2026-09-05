@@ -46,7 +46,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       <head>
         <link rel="preconnect" href="https://images.unsplash.com" />
       </head>
-      <body>{children}</body>
+      <body>{children}<div className="grain" aria-hidden /></body>
     </html>
   );
 }

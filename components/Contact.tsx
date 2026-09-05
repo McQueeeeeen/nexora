@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import { usePathname } from "next/navigation";
-import { YB, useViewportProgress, Reveal, ArrowIcon } from "./ui";
+import { YB, useViewportProgress, Reveal, ArrowIcon, CheckIcon } from "./ui";
 
 // Контакты + футер в параллакс-обёртке эталона.
 // Форма из 2 шагов: дотсы, Continue, Email — как у эталона.
@@ -37,7 +37,7 @@ export default function Contact() {
                 <Reveal className="flex flex-col gap-5 lg:flex-1">
                   {sent ? (
                     <div className="flex min-h-[300px] flex-col items-center justify-center text-center">
-                      <span className="text-5xl" style={{ color: YB }}>✓</span>
+                      <span style={{ color: YB }}><CheckIcon className="h-14 w-14" /></span>
                       <h4 className="mt-4 text-2xl font-medium">Заявка принята</h4>
                       <p className="mt-2 max-w-sm text-white/70">Свяжемся в течение 30 минут для бесплатной диагностики.</p>
                     </div>

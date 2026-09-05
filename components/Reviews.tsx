@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import { quotes } from "../app/data";
-import { Y, ArrowIcon } from "./ui";
+import { Y, ArrowIcon, Stars } from "./ui";
 
 // Отзывы на бумаге: заголовок, звёзды, аватар с инициалами, стрелки и дотсы.
 export default function Reviews({ title, detailed = false }: { title?: string; detailed?: boolean }) {
@@ -17,7 +17,7 @@ export default function Reviews({ title, detailed = false }: { title?: string; d
         {detailed && (
           <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
             <span className="font-mono text-xl font-bold">4.9/5</span>
-            <span className="tracking-[4px]" style={{ color: Y }} aria-label="5 из 5 звёзд">★★★★★</span>
+            <span style={{ color: Y }}><Stars /></span>
             <span className="font-mono text-xs uppercase tracking-[-0.48px] text-[#101418]/50">312+ отличных отзывов</span>
           </div>
         )}

@@ -78,12 +78,46 @@ export function ExtIcon({ className = "" }: { className?: string }) {
   );
 }
 
+// Рейтинг-звёзды и галочка — SVG, а не текстовые символы.
+export function Stars({ className = "" }: { className?: string }) {
+  return (
+    <span className={`inline-flex gap-1 ${className}`} role="img" aria-label="5 из 5 звёзд">
+      {[0, 1, 2, 3, 4].map((i) => (
+        <svg key={i} viewBox="0 0 24 24" fill="currentColor" className="h-[18px] w-[18px]" aria-hidden>
+          <path d="M12 2.5l2.92 6.14 6.58.72-4.9 4.47 1.36 6.47L12 17.05l-5.96 3.25 1.36-6.47-4.9-4.47 6.58-.72L12 2.5z" />
+        </svg>
+      ))}
+    </span>
+  );
+}
+
+export function CheckIcon({ className = "" }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.4} className={className} aria-hidden>
+      <circle cx="12" cy="12" r="10" strokeOpacity={0.35} />
+      <path d="m8 12.5 2.5 2.5L16 9.5" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
 export function Btn({ href, children, ghost = false, outline = false, className = "", style }: {
   href: string; children: React.ReactNode; ghost?: boolean; outline?: boolean; className?: string; style?: React.CSSProperties;
 }) {
   const kind = outline ? "mp5-btn--outline" : ghost ? "mp5-btn--secondary" : "mp5-btn--primary";
+  const mref = useRef<HTMLAnchorElement>(null);
+  // Магнит: кнопка слегка тянется за курсором (без ре-рендеров, напрямую в style).
+  const onMove = (e: React.MouseEvent) => {
+    const el = mref.current;
+    if (!el || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const r = el.getBoundingClientRect();
+    const x = e.clientX - (r.left + r.width / 2);
+    const y = e.clientY - (r.top + r.height / 2);
+    el.style.transform = `translate(${(x * 0.12).toFixed(1)}px, ${(y * 0.18).toFixed(1)}px)`;
+  };
+  const reset = () => { if (mref.current) mref.current.style.transform = ""; };
   return (
-    <a href={href} className={`mp5-btn ${kind} ${className}`} style={style}>
+    <a ref={mref} href={href} onMouseMove={onMove} onMouseLeave={reset}
+      className={`mp5-btn ${kind} ${className}`} style={style}>
       {children}
     </a>
   );
