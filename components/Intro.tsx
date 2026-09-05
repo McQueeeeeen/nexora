@@ -66,7 +66,7 @@ export default function Intro() {
       setDrop(false);
       setPhase("cover");
       requestAnimationFrame(() => requestAnimationFrame(() => setDrop(true)));
-      setTimeout(() => { window.location.href = url.href; }, 750);
+      setTimeout(() => { window.location.href = url.href; }, 950);
     };
     document.addEventListener("click", onClick, true);
     return () => document.removeEventListener("click", onClick, true);
@@ -111,6 +111,11 @@ export default function Intro() {
       {phase !== "load" && (
         <div aria-hidden className="pointer-events-none fixed inset-0 overflow-clip" style={{ zIndex: 9999 }}>
           <div className="absolute inset-0 flex">{cols}</div>
+          <div className="absolute inset-0 flex items-center justify-center">
+            <span className="text-3xl font-bold tracking-tight text-[#101418] sm:text-4xl">
+              NEXORA<span className="text-white">.</span>
+            </span>
+          </div>
         </div>
       )}
     </>
