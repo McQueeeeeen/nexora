@@ -3,9 +3,9 @@ import { Fragment, useEffect, useRef, useState } from "react";
 import { heroPhrases } from "../app/data";
 import { useSmoothScrollProgress, onRafScroll } from "./ui";
 
-// Hero 1-в-1 с эталоном: высокий регион + залипший фулскрин, фразы
-// анимируются ПОСИМВОЛЬНО (opacity + цвет акцент→белый, без движения),
-// сглаженный scrub. Фон — живая карта вместо их видео.
+// Hero: фото per-phrase кроссфейдом + живая карта поверх (линия рисуется
+// скроллом, курсор едет по пути) + посимвольные фразы. Антилаг: без
+// drop-shadow на фулскрине, линия и курсор — напрямую в DOM без ре-рендеров.
 const ROUTE = "M 150,430 C 300,410 380,330 520,320 C 660,310 740,300 860,270";
 
 const pos = [
@@ -32,7 +32,6 @@ const easeOut2 = (x: number) => 1 - (1 - x) * (1 - x);
 const easeOut3 = (x: number) => 1 - (1 - x) * (1 - x) * (1 - x);
 const easeIn2 = (x: number) => x * x;
 const clamp01 = (x: number) => Math.max(0, Math.min(1, x));
-// Акцент → белый, как жёлтый → белый у эталона.
 const mixBrand = (t: number) => {
   const r = Math.round(94 + (255 - 94) * t);
   const g = Math.round(234 + (255 - 234) * t);
@@ -47,17 +46,16 @@ function Phrase({ text, index, total, time, centered, style }: {
   const e = 0.92 / total;
   const I = 0.55 * e, S = 0.2 * e, F = 0.25 * e;
   const h = 0.04 + index * e;
-  // Плоский список символов (включая пробелы — как querySelectorAll у эталона).
-  const chars = text.split("");
-  const C = chars.length;
+  const words: string[][] = [];
+  let acc: string[] = [];
+  text.split("").forEach((ch) => {
+    if (ch === " ") { if (acc.length) { words.push(acc); acc = []; } words.push([" "]); }
+    else acc.push(ch);
+  });
+  if (acc.length) words.push(acc);
+  const C = text.length;
   const pd = (0.5 * I) / C;
   const fd = F / C;
-  // Группируем в слова, чтобы не рвать переносы (пробелы — отдельно).
-  const words: string[][] = [];
-  let cur: string[] = [];
-  const flush = () => { if (cur.length) { words.push(cur); cur = []; } };
-  chars.forEach((ch) => { if (ch === " ") { flush(); words.push([" "]); } else cur.push(ch); });
-  flush();
   let gi = 0;
   const Tag = index === Math.min(total - 1, Math.round(time * Math.max(1, total - 1))) ? "h1" : "div";
   return (
@@ -68,7 +66,7 @@ function Phrase({ text, index, total, time, centered, style }: {
         fontSize: "clamp(29px,6.2vw,76px)",
         lineHeight: 1.05,
         letterSpacing: "-0.025em",
-        textShadow: "0 2px 24px rgba(0,0,0,0.85), 0 1px 3px rgba(0,0,0,0.6)",
+        textShadow: "0 2px 18px rgba(0,0,0,0.9)",
         ...(centered ? { transform: "translateX(-50%)" } : {}),
         ...style,
       }}>
@@ -95,12 +93,7 @@ function Phrase({ text, index, total, time, centered, style }: {
     const oOut = index < total - 1 ? easeIn2(clamp01((time - (h + I + S + j * fd)) / (4 * fd))) : 0;
     const opacity = oIn * (1 - oOut);
     return (
-      <span className="hero-char" style={{
-        display: "inline-block",
-        opacity: opacity < 0.01 ? 0 : opacity,
-        color: mixBrand(cT),
-        willChange: "opacity",
-      }}>
+      <span className="hero-char" style={{ opacity: opacity < 0.01 ? 0 : opacity, color: mixBrand(cT) }}>
         {ch}
       </span>
     );
@@ -109,23 +102,30 @@ function Phrase({ text, index, total, time, centered, style }: {
 
 export default function Hero() {
   const [ref, p] = useSmoothScrollProgress<HTMLDivElement>(0.2);
+  const n = heroPhrases.length;
+  const x = p * Math.max(1, n - 1);
 
-  // Курсор на маршруте: позиция и разворот по касательной, напрямую в DOM.
-  const pathRef = useRef<SVGPathElement>(null);
+  // Линия и курсор — напрямую в DOM: SVG не ре-рендерится каждый кадр.
+  const drawRefs = useRef<(SVGPathElement | null)[]>([]);
   const cursorRef = useRef<SVGGElement>(null);
   const pRef = useRef(0);
   pRef.current = p;
   useEffect(() => onRafScroll(() => {
-    const path = pathRef.current, cursor = cursorRef.current;
-    if (!path || !cursor) return;
-    try {
-      const t = Math.max(0, Math.min(1, pRef.current));
-      const len = path.getTotalLength();
-      const pt = path.getPointAtLength(len * t);
-      const ahead = path.getPointAtLength(Math.min(len, len * t + 2));
-      const ang = (Math.atan2(ahead.y - pt.y, ahead.x - pt.x) * 180) / Math.PI;
-      cursor.setAttribute("transform", `translate(${pt.x.toFixed(1)},${pt.y.toFixed(1)}) rotate(${ang.toFixed(1)})`);
-    } catch { /* SVG ещё не готов */ }
+    const t = Math.max(0, Math.min(1, pRef.current));
+    for (const el of drawRefs.current) {
+      if (el) el.style.strokeDashoffset = String(100 - t * 100);
+    }
+    const path = drawRefs.current[0];
+    const cursor = cursorRef.current;
+    if (path && cursor) {
+      try {
+        const len = path.getTotalLength();
+        const pt = path.getPointAtLength(len * t);
+        const ahead = path.getPointAtLength(Math.min(len, len * t + 2));
+        const ang = (Math.atan2(ahead.y - pt.y, ahead.x - pt.x) * 180) / Math.PI;
+        cursor.setAttribute("transform", `translate(${pt.x.toFixed(1)},${pt.y.toFixed(1)}) rotate(${ang.toFixed(1)})`);
+      } catch { /* SVG ещё не готов */ }
+    }
   }), []);
 
   // На узких экранах карту показываем целиком, на широких — кинематографичный кроп.
@@ -143,6 +143,25 @@ export default function Hero() {
   return (
     <div ref={ref} data-hero-region className="relative w-full" style={{ height: "320vh" }}>
       <section className="sticky top-0 h-screen w-full overflow-hidden bg-black">
+        {heroPhrases.map((ph, i) => {
+          const op = Math.max(0, Math.min(1, 1 - Math.abs(x - i)));
+          return (
+            <img
+              key={ph.img}
+              src={ph.img}
+              alt=""
+              aria-hidden
+              fetchPriority={i === 0 ? "high" : undefined}
+              loading={i === 0 ? "eager" : "lazy"}
+              decoding="async"
+              className="absolute inset-0 h-full w-full object-cover"
+              style={{
+                opacity: op < 0.01 ? 0 : op,
+                transform: i === Math.round(x) ? `scale(${(1 + p * 0.1).toFixed(3)})` : undefined,
+              }}
+            />
+          );
+        })}
         <svg viewBox="0 0 1000 700" preserveAspectRatio={narrow ? "xMidYMid meet" : "xMidYMid slice"}
           className="absolute inset-0 h-full w-full" role="img" aria-label="Карта маршрута Вена — Будапешт">
           <defs>
@@ -183,12 +202,11 @@ export default function Hero() {
                 fontSize="15" letterSpacing="2" fontFamily="var(--font-mono), monospace">{name}</text>
             </g>
           ))}
-          <path ref={pathRef} d={ROUTE} fill="none" stroke="rgba(255,255,255,0.14)" strokeWidth="2" />
-          <path d={ROUTE} fill="none" stroke="var(--brand-bright)" strokeOpacity="0.25" strokeWidth="9" strokeLinecap="round"
-            pathLength={100} style={{ strokeDasharray: 100, strokeDashoffset: 100 - p * 100 }} />
-          <path d={ROUTE} fill="none" stroke="var(--brand-bright)" strokeWidth="3.5" strokeLinecap="round"
-            pathLength={100} className="route-glow"
-            style={{ strokeDasharray: 100, strokeDashoffset: 100 - p * 100 }} />
+          <path d={ROUTE} fill="none" stroke="rgba(255,255,255,0.14)" strokeWidth="2" />
+          <path ref={(el) => { drawRefs.current[0] = el; }} d={ROUTE} fill="none" stroke="var(--brand-bright)" strokeOpacity="0.25" strokeWidth="9" strokeLinecap="round"
+            pathLength={100} style={{ strokeDasharray: 100, strokeDashoffset: 100 }} />
+          <path ref={(el) => { drawRefs.current[1] = el; }} d={ROUTE} fill="none" stroke="var(--brand-bright)" strokeWidth="3.5" strokeLinecap="round"
+            pathLength={100} style={{ strokeDasharray: 100, strokeDashoffset: 100 }} />
           {[
             [284, 394, "Братислава"], [615, 312, "Дьёр"],
           ].map(([cx, cy, name]) => (
@@ -215,14 +233,14 @@ export default function Hero() {
               fontSize="22" letterSpacing="4" fontFamily="var(--font-mono), monospace">БУДАПЕШТ</text>
           </g>
           <g ref={cursorRef} transform="translate(150,430)">
-            <circle r="17" fill="none" stroke="var(--brand-bright)" strokeWidth="3" className="route-glow" />
+            <circle r="17" fill="none" stroke="var(--brand-bright)" strokeWidth="3" />
             <path d="M11,0 L-7,-8 L-3,0 L-7,8 Z" fill="#fff" />
           </g>
         </svg>
-        <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-black/55" />
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/55 via-black/25 to-black/70" />
         <div className="pointer-events-none absolute inset-0 px-6 lg:px-12">
-          {heroPhrases.map((t, i) => (
-            <Phrase key={t} text={t} index={i} total={heroPhrases.length} time={p}
+          {heroPhrases.map((ph, i) => (
+            <Phrase key={ph.t} text={ph.t} index={i} total={heroPhrases.length} time={p}
               centered={i === CENTERED} style={css(pos[i])} />
           ))}
         </div>
