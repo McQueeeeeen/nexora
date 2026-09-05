@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import Header from "../../components/Header";
-import Intro from "../../components/Intro";
-import Contact from "../../components/Contact";
-import MobileBar from "../../components/MobileBar";
-import { Reveal, wrap, Btn, ArrowIcon } from "../../components/ui";
-import { posts } from "./posts";
+import Header from "../../../components/Header";
+import Intro from "../../../components/Intro";
+import Contact from "../../../components/Contact";
+import MobileBar from "../../../components/MobileBar";
+import { Reveal, wrap, Btn, ArrowIcon } from "../../../components/ui";
+import { posts } from "../posts";
 
 export function generateStaticParams() {
   return posts.map((p) => ({ slug: p.slug }));
