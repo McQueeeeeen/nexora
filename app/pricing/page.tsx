@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
-import Header from "../components/Header";
-import Contact from "../components/Contact";
-import MobileBar from "../components/MobileBar";
-import CtaBand from "../components/CtaBand";
-import Faq from "../components/Faq";
-import { Reveal, wrap, Tag, Btn } from "../components/ui";
+import Header from "../../components/Header";
+import Contact from "../../components/Contact";
+import MobileBar from "../../components/MobileBar";
+import CtaBand from "../../components/CtaBand";
+import Faq from "../../components/Faq";
+import { Reveal, wrap, Tag, Btn } from "../../components/ui";
 
 export const metadata: Metadata = {
   title: "Nexora Admissions — цены на поступление",
