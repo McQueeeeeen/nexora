@@ -8,7 +8,7 @@ import { posts } from "./blog/posts";
 const BASE = "https://nexora-eight-opal.vercel.app";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const pages = ["", "/austria", "/hungary", "/faq", "/privacy", "/blog", ...posts.map((p) => `/blog/${p.slug}`)];
+  const pages = ["", "/austria", "/hungary", "/faq", "/pricing", "/privacy", "/blog", ...posts.map((p) => `/blog/${p.slug}`)];
   return pages.map((path) => ({
     url: `${BASE}${path}`,
     lastModified: new Date("2026-09-05"),

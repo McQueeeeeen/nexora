@@ -37,8 +37,8 @@ export const uniSites: Record<string, string> = {
 };
 
 export const nav = [
-  ["Направления", "#services"], ["База вузов", "#database"], ["Этапы", "#steps"],
-  ["Отзывы", "/reviews"], ["FAQ", "/faq"], ["Контакты", "#contact"],
+  ["Направления", "#services"], ["База вузов", "#database"], ["Цены", "/pricing"], ["Этапы", "#steps"],
+  ["Отзывы", "#reviews"], ["FAQ", "/faq"], ["Контакты", "#contact"],
 ] as const;
 
 export const agency = {
