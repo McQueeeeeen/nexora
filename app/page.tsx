@@ -11,6 +11,7 @@ import Reviews from "../components/Reviews";
 import Faq from "../components/Faq";
 import Contact from "../components/Contact";
 import MobileBar from "../components/MobileBar";
+import StackSection from "../components/StackSection";
 import { faqs } from "./data";
 
 // Главная — витрина + агентство, как у эталона. Каталог вузов живёт на страницах стран.
@@ -21,13 +22,23 @@ export default function Page() {
       <Header />
       <Hero />
       <Statement />
-      <About />
-      <Services />
+      <StackSection>
+        <About />
+      </StackSection>
+      <StackSection>
+        <Services />
+      </StackSection>
       <Cta />
       <Steps />
-      <Stats />
-      <Reviews />
-      <Faq items={faqs.slice(0, 6)} more="/faq" />
+      <StackSection>
+        <Stats />
+      </StackSection>
+      <StackSection>
+        <Reviews />
+      </StackSection>
+      <StackSection scaleExit={false}>
+        <Faq items={faqs.slice(0, 6)} more="/faq" />
+      </StackSection>
       <Contact />
       <MobileBar />
     </main>

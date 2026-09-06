@@ -58,6 +58,8 @@ const orgJsonLd = {
   },
 };
 
+import SmoothScroll from "../components/SmoothScroll";
+
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="ru" className={`${sans.variable} ${mono.variable}`}>
@@ -68,7 +70,11 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           dangerouslySetInnerHTML={{ __html: JSON.stringify(orgJsonLd) }}
         />
       </head>
-      <body>{children}<div className="grain" aria-hidden /></body>
+      <body>
+        <SmoothScroll />
+        {children}
+        <div className="grain" aria-hidden />
+      </body>
     </html>
   );
 }
