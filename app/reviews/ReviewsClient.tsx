@@ -160,72 +160,67 @@ const reviewsList: ReviewItem[] = [
 
 export default function ReviewsClient() {
   return (
-    <div className="bg-[#0b0b0b] min-h-screen text-white selection:bg-[var(--accent)] selection:text-black">
+    <div className="bg-[#1F1815] min-h-screen text-[#FBF9F5] selection:bg-[var(--accent)] selection:text-[#FBF9F5]">
       {/* Хлебные крошки */}
-      <nav aria-label="Breadcrumb" className="px-4 sm:px-6 lg:px-8 pt-[85px] lg:pt-[95px] pb-2">
+      <nav aria-label="Breadcrumb" className="px-4 sm:px-6 lg:px-8 pt-[88px] lg:pt-[100px] pb-3">
         <div className="max-w-[1400px] mx-auto">
-          <ol className="flex items-center gap-1.5 font-mono text-[11px] uppercase tracking-wider text-white/40">
+          <ol className="flex items-center gap-2 font-mono text-xs uppercase tracking-wider text-[#FBF9F5]/50">
             <li>
-              <a className="hover:text-white transition-colors" href="/">
-                ГЛАВНАЯ
+              <a className="hover:text-[var(--accent-bright)] transition-colors" href="/">
+                Главная
               </a>
             </li>
-            <li className="text-white/25">/</li>
-            <li className="text-white font-medium" aria-current="page">
-              ОТЗЫВЫ
+            <li className="text-[#FBF9F5]/25">/</li>
+            <li className="text-[#FBF9F5] font-medium" aria-current="page">
+              Отзывы
             </li>
           </ol>
         </div>
       </nav>
 
-      {/* Компактная Hero-секция с аккуратным рейтингом */}
+      {/* Компактная Hero-секция в палитре «тихая роскошь» */}
       <section className="px-4 sm:px-6 lg:px-8 pt-2 pb-6 lg:pb-8">
         <div className="max-w-[1400px] mx-auto">
-          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 md:gap-6 bg-[#121212] border border-white/[0.06] rounded-2xl p-4 sm:p-5 lg:p-6">
+          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-5 md:gap-8 bg-[#2A211D]/80 border border-[#FBF9F5]/12 rounded-2xl p-5 sm:p-6 shadow-xl backdrop-blur-md">
             {/* Заголовок слева */}
-            <div className="flex flex-col gap-1.5 max-w-[620px]">
-              <h1 className="font-sans font-bold text-2xl sm:text-3xl lg:text-4xl tracking-tight text-white">
-                <span className="text-[var(--accent,#E5A855)]">Что говорят</span> наши студенты
+            <div className="flex flex-col gap-2 max-w-[640px]">
+              <h1 className="font-sans font-medium text-2xl sm:text-3xl lg:text-4xl tracking-[-0.03em] text-[#FBF9F5] leading-tight">
+                <span className="text-[var(--accent-bright)]">Что говорят</span> наши студенты
               </h1>
-              <p className="text-xs sm:text-sm text-white/60 font-normal leading-relaxed">
-                312+ проверенных отзывов со средней оценкой 4.9. Реальный опыт поступления в вузы Австрии и Венгрии.
+              <p className="text-sm sm:text-base text-[#FBF9F5]/70 font-normal leading-relaxed">
+                312+ проверенных отзывов со средней оценкой 4.9. Реальные истории зачисления и отзывы об учёбе в Австрии и Венгрии.
               </p>
             </div>
 
-            {/* Аккуратный рейтинг справа */}
-            <div className="flex items-center gap-4 sm:gap-6 shrink-0 pt-3 md:pt-0 border-t md:border-t-0 border-white/10">
+            {/* Рейтинг справа */}
+            <div className="flex items-center gap-5 sm:gap-7 shrink-0 pt-4 md:pt-0 border-t md:border-t-0 border-[#FBF9F5]/10">
               {/* Оценка 4.9/5 */}
-              <div className="flex flex-col gap-1 pr-4 sm:pr-6 border-r border-white/10">
+              <div className="flex flex-col gap-1 pr-5 sm:pr-7 border-r border-[#FBF9F5]/10">
                 <div className="flex items-baseline gap-1">
-                  <span className="font-sans font-extrabold text-3xl sm:text-4xl tracking-tight text-white leading-none">
+                  <span className="font-sans font-medium text-3xl sm:text-4xl tracking-tight text-[#FBF9F5] leading-none">
                     4.9
                   </span>
-                  <span className="font-sans font-semibold text-base text-white/40">
+                  <span className="font-sans font-normal text-base text-[#FBF9F5]/45">
                     /5
                   </span>
                 </div>
-                <div className="flex gap-0.5 text-[#F59E0B]">
+                <div className="flex gap-0.5 text-[var(--accent)]">
                   <Stars className="scale-75 origin-left" />
                 </div>
-                <span className="font-mono text-[9.5px] uppercase tracking-wider text-white/40 whitespace-nowrap">
+                <span className="font-mono text-[10px] uppercase tracking-wider text-[#FBF9F5]/45 whitespace-nowrap">
                   312+ отзывов
                 </span>
               </div>
 
-              {/* Платформы: компактные строчки */}
-              <div className="flex flex-col gap-2">
+              {/* Платформы */}
+              <div className="flex flex-col gap-2.5">
                 {/* Google */}
-                <div className="flex items-center gap-2">
-                  <div className="w-5 h-5 rounded-full bg-white/10 flex items-center justify-center shrink-0">
-                    <svg className="w-3 h-3" viewBox="0 0 24 24">
-                      <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
-                      <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" />
-                      <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z" />
-                      <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z" />
-                    </svg>
+                <div className="flex items-center gap-2.5">
+                  <div className="w-6 h-6 rounded-full bg-[#FBF9F5]/10 flex items-center justify-center shrink-0 border border-[#FBF9F5]/15">
+                    <span className="font-mono text-[10px] font-bold text-[#FBF9F5]">G</span>
                   </div>
-                  <span className="font-mono text-[11px] text-white/70">
-                    Google <strong className="text-white font-semibold">4.98 ★</strong> <span className="text-white/40 text-[10px]">(210+)</span>
+                  <span className="font-mono text-xs text-[#FBF9F5]/80">
+                    Google <strong className="font-medium text-[#FBF9F5]">4.98 ★</strong> <span className="text-[#FBF9F5]/45 text-[11px]">(210+)</span>
                   </span>
                 </div>
 
@@ -234,15 +229,15 @@ export default function ReviewsClient() {
                   href="https://t.me/nexora_support"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-2 hover:opacity-80 transition-opacity"
+                  className="flex items-center gap-2.5 hover:opacity-80 transition-opacity"
                 >
-                  <div className="w-5 h-5 rounded-full bg-[#0088cc]/20 flex items-center justify-center shrink-0">
-                    <svg className="w-3 h-3 fill-[#29B6F6]" viewBox="0 0 24 24">
+                  <div className="w-6 h-6 rounded-full bg-[var(--accent)]/20 flex items-center justify-center shrink-0 border border-[var(--accent)]/40">
+                    <svg className="w-3.5 h-3.5 fill-[var(--accent-bright)]" viewBox="0 0 24 24">
                       <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z" />
                     </svg>
                   </div>
-                  <span className="font-mono text-[11px] text-white/70">
-                    Telegram <strong className="text-white font-semibold">4.92 ★</strong> <span className="text-white/40 text-[10px]">(102+)</span>
+                  <span className="font-mono text-xs text-[#FBF9F5]/80">
+                    Telegram <strong className="font-medium text-[#FBF9F5]">4.92 ★</strong> <span className="text-[#FBF9F5]/45 text-[11px]">(102+)</span>
                   </span>
                 </a>
               </div>
@@ -251,20 +246,20 @@ export default function ReviewsClient() {
         </div>
       </section>
 
-      {/* Плотная, компактная 4-колоночная сетка отзывов */}
+      {/* 4-колоночная сетка отзывов в фирменных карточках эспрессо */}
       <section className="px-4 sm:px-6 lg:px-8 pb-16 lg:pb-24">
         <div className="max-w-[1400px] mx-auto">
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-3.5 lg:gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3.5 sm:gap-4">
             {reviewsList.map((r) => (
               <div
                 key={r.id}
-                className="bg-[#141414] rounded-xl p-3.5 sm:p-4 flex flex-col justify-between border border-white/[0.06] hover:border-white/20 hover:bg-[#181818] transition-colors duration-200 group"
+                className="bg-[#261E1A] hover:bg-[#2E2420] rounded-xl p-4 sm:p-4.5 flex flex-col justify-between border border-[#FBF9F5]/[0.08] hover:border-[#FBF9F5]/20 transition-all duration-300 group shadow-lg"
               >
                 <div>
-                  {/* Верхняя строка: компактный аватар + имя/город + микро-иконка */}
-                  <div className="flex items-center justify-between gap-2 mb-2.5">
+                  {/* Профиль студента + бейдж платформы */}
+                  <div className="flex items-center justify-between gap-2.5 mb-3">
                     <div className="flex items-center gap-2.5 min-w-0">
-                      <div className="relative w-8 h-8 rounded-full overflow-hidden shrink-0 border border-white/10">
+                      <div className="relative w-8 h-8 rounded-full overflow-hidden shrink-0 border border-[#FBF9F5]/15">
                         {r.avatarImg ? (
                           <img
                             src={r.avatarImg}
@@ -273,48 +268,43 @@ export default function ReviewsClient() {
                             className="h-full w-full object-cover"
                           />
                         ) : (
-                          <div className="flex h-full w-full items-center justify-center bg-white/10 font-mono text-xs font-bold text-white">
+                          <div className="flex h-full w-full items-center justify-center bg-[#2A211D] font-mono text-xs font-bold text-[#FBF9F5]">
                             {r.initials}
                           </div>
                         )}
                       </div>
                       <div className="flex flex-col min-w-0">
-                        <span className="font-sans font-semibold text-[13.5px] text-white truncate leading-tight group-hover:text-[var(--accent,#E5A855)] transition-colors">
+                        <span className="font-sans font-medium text-[14px] text-[#FBF9F5] truncate leading-tight group-hover:text-[var(--accent-bright)] transition-colors">
                           {r.name}
                         </span>
-                        <span className="font-mono text-[9.5px] uppercase tracking-wider text-white/40 truncate leading-tight">
+                        <span className="font-mono text-[10px] uppercase tracking-wider text-[#FBF9F5]/45 truncate leading-tight">
                           {r.location}
                         </span>
                       </div>
                     </div>
 
-                    {/* Микро-иконка платформы */}
+                    {/* Микро-бейдж платформы */}
                     <div
-                      className="w-6 h-6 rounded-full bg-white/5 border border-white/10 flex items-center justify-center shrink-0"
+                      className="w-6 h-6 rounded-full bg-[#FBF9F5]/5 border border-[#FBF9F5]/10 flex items-center justify-center shrink-0 text-[#FBF9F5]/60"
                       aria-hidden
                     >
                       {r.platform === "tg" ? (
-                        <svg className="w-3 h-3 fill-[#29B6F6]" viewBox="0 0 24 24">
+                        <svg className="w-3.5 h-3.5 fill-[var(--accent)]" viewBox="0 0 24 24">
                           <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z" />
                         </svg>
                       ) : (
-                        <svg className="w-3 h-3" viewBox="0 0 24 24">
-                          <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
-                          <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" />
-                          <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z" />
-                          <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z" />
-                        </svg>
+                        <span className="font-mono text-[9.5px] font-bold text-[#FBF9F5]/70">G</span>
                       )}
                     </div>
                   </div>
 
-                  {/* 5 золотых звёзд */}
-                  <div className="flex gap-0.5 text-[#F59E0B] mb-2">
+                  {/* 5 карамельно-золотых звёзд Nexora */}
+                  <div className="flex gap-0.5 text-[var(--accent)] mb-2.5">
                     <Stars className="scale-[0.8] origin-left" />
                   </div>
 
                   {/* Текст отзыва */}
-                  <p className="font-sans text-[12.5px] sm:text-[13px] text-white/70 leading-relaxed font-normal">
+                  <p className="font-sans text-[13px] sm:text-[13.5px] text-[#FBF9F5]/75 leading-relaxed font-normal">
                     “{r.text}”
                   </p>
                 </div>
