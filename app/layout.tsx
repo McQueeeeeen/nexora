@@ -1,11 +1,22 @@
 import type { Metadata, Viewport } from "next";
-import { Manrope, Roboto_Mono } from "next/font/google";
+import { Manrope, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 
-// Manrope: геометрический гротеск с quirks в духе Geist/Liter из гайда,
-// но с полной кириллицей (шрифты гайда — латиница, русский в них не рендерится).
-const sans = Manrope({ subsets: ["latin", "cyrillic"], weight: ["400", "500", "600", "700", "800"], variable: "--font-sans" });
-const mono = Roboto_Mono({ subsets: ["latin", "cyrillic"], weight: ["500", "700"], variable: "--font-mono" });
+// Единая типографическая система:
+// 1. Manrope (основной) — чистый швейцарский геометрический гротеск для заголовков, меню и основного текста
+// 2. JetBrains Mono (дополнительный) — технологичный моноширинный шрифт для тегов, дат, бейджей и номеров
+const sans = Manrope({
+  subsets: ["latin", "cyrillic"],
+  weight: ["400", "500", "600", "700", "800"],
+  variable: "--font-sans",
+  display: "swap",
+});
+const mono = JetBrains_Mono({
+  subsets: ["latin", "cyrillic"],
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-mono",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://nexora-eight-opal.vercel.app"),
