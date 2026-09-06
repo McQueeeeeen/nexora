@@ -79,14 +79,14 @@ export default function Pricing() {
 
         <Reveal className="mt-6 flex flex-col justify-between gap-6 lg:flex-row lg:items-end">
           <div>
-            <h2 className="text-balance text-3xl font-medium tracking-[-0.02em] text-[#2A211D] lg:text-5xl">
+            <h2 className="text-balance text-3xl font-medium tracking-tight text-[#2A211D] lg:text-5xl">
               Форматы сопровождения
             </h2>
             <p className="mt-4 max-w-[620px] text-base leading-relaxed text-[#2A211D]/70 lg:text-lg">
               Прозрачные условия под ваши цели: от точечной консультации и проверки портфолио до полного переезда и карточки ВНЖ на руках.
             </p>
           </div>
-          <span className="font-mono text-xs uppercase tracking-[1px] text-[#2A211D]/50">
+          <span className="font-mono text-xs uppercase tracking-wider text-[#786C64]">
             Сезон 2026 / 2027
           </span>
         </Reveal>
@@ -95,19 +95,19 @@ export default function Pricing() {
           {tiers.map((t, i) => {
             const isFeatured = !!t.featured;
             return (
-              <Reveal key={t.id} delay={i * 120} className="flex">
+              <Reveal key={t.id} delay={i * 100} className="flex">
                 <div
                   className={`card relative flex w-full flex-col justify-between rounded-3xl p-8 transition-all duration-300 lg:p-10 ${
                     isFeatured
-                      ? "border-2 border-[var(--accent)] bg-[#2A211D] text-[#FBF9F5] shadow-[0_20px_50px_rgba(42,33,29,0.25)] ring-1 ring-[var(--accent)]/30"
-                      : "border border-[#2A211D]/10 bg-white text-[#2A211D] shadow-sm hover:border-[#2A211D]/25 hover:shadow-md"
+                      ? "border border-[#C88242]/40 bg-[#120D0B] text-[#FBF9F5] shadow-[0_24px_60px_rgba(18,13,11,0.3)]"
+                      : "border border-[#2A211D]/10 bg-white text-[#2A211D] hover:border-[#C88242]/40 hover:shadow-lg"
                   }`}
                 >
                   {/* Фоновое свечение для флагманской карточки */}
                   {isFeatured && (
                     <div
                       aria-hidden
-                      className="pointer-events-none absolute -top-24 right-0 h-64 w-64 rounded-full bg-[var(--accent)]/15 blur-3xl"
+                      className="pointer-events-none absolute -top-24 right-0 h-64 w-64 rounded-full bg-[var(--accent)]/12 blur-3xl"
                     />
                   )}
 
@@ -115,14 +115,14 @@ export default function Pricing() {
                     {/* Бейдж тарифа */}
                     <div className="flex items-center justify-between gap-3">
                       <span
-                        className={`font-mono text-xs font-bold uppercase tracking-[1px] ${
-                          isFeatured ? "text-[var(--accent)]" : "text-[#2A211D]/50"
+                        className={`font-mono text-xs font-semibold uppercase tracking-wider ${
+                          isFeatured ? "text-[#E5B87A]" : "text-[#C88242]"
                         }`}
                       >
                         {t.badge}
                       </span>
                       {isFeatured && (
-                        <span className="rounded-full bg-[var(--accent)]/20 px-3 py-1 font-mono text-[11px] font-bold uppercase tracking-[0.5px] text-[#E5B87A] border border-[var(--accent)]/40">
+                        <span className="rounded-full border border-[#C88242]/35 bg-[#C88242]/15 px-3 py-1 font-mono text-[11px] font-semibold uppercase tracking-wider text-[#E5B87A]">
                           Популярный выбор
                         </span>
                       )}
@@ -138,7 +138,7 @@ export default function Pricing() {
                     </h3>
                     <p
                       className={`mt-3 text-sm leading-relaxed ${
-                        isFeatured ? "text-[#FBF9F5]/70" : "text-[#2A211D]/65"
+                        isFeatured ? "text-[#FBF9F5]/75" : "text-[#2A211D]/65"
                       }`}
                     >
                       {t.desc}
@@ -147,7 +147,7 @@ export default function Pricing() {
                     {/* Плейсхолдер цены / формата */}
                     <div className="mt-8 flex items-baseline gap-2">
                       <span
-                        className={`font-mono text-xs uppercase tracking-[1px] ${
+                        className={`font-mono text-xs uppercase tracking-wider ${
                           isFeatured ? "text-[#FBF9F5]/60" : "text-[#2A211D]/50"
                         }`}
                       >
@@ -157,31 +157,27 @@ export default function Pricing() {
 
                     <div
                       className={`my-6 h-px ${
-                        isFeatured ? "bg-[#FBF9F5]/12" : "bg-[#2A211D]/10"
+                        isFeatured ? "bg-[#FBF9F5]/10" : "bg-[#2A211D]/10"
                       }`}
                     />
 
                     {/* Список фичей */}
                     <div className="space-y-3.5">
                       <span
-                        className={`block font-mono text-[11px] uppercase tracking-[1px] ${
-                          isFeatured ? "text-[#FBF9F5]/50" : "text-[#2A211D]/45"
+                        className={`block font-mono text-[11px] font-semibold uppercase tracking-wider ${
+                          isFeatured ? "text-[#FBF9F5]/50" : "text-[#786C64]"
                         }`}
                       >
                         Что входит в пакет:
                       </span>
                       {t.features.map((f) => (
                         <div key={f} className="flex items-start gap-3">
-                          <span
-                            className={`mt-0.5 shrink-0 ${
-                              isFeatured ? "text-[var(--accent)]" : "text-[var(--accent)]"
-                            }`}
-                          >
+                          <span className="mt-0.5 shrink-0 text-[#C88242]">
                             <CheckIcon className="h-4 w-4" />
                           </span>
                           <span
                             className={`text-sm leading-snug ${
-                              isFeatured ? "text-[#FBF9F5]/85" : "text-[#2A211D]/80"
+                              isFeatured ? "text-[#FBF9F5]/90" : "text-[#2A211D]/80"
                             }`}
                           >
                             {f}
