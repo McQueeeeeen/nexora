@@ -69,8 +69,8 @@ export default function Cta() {
         glowRef.current.style.opacity = glowOp.toFixed(3);
       }
 
-      // 4. Посимвольная подсветка текста
-      const textP = Math.max(0, Math.min(1, (p - 0.06) / 0.76));
+      // 4. Посимвольная подсветка текста (завершается на 70% скролла)
+      const textP = Math.max(0, Math.min(1, (p - 0.05) / 0.65));
       for (let k = 0; k < total; k++) {
         const el = chars[k];
         if (!el) continue;
@@ -95,7 +95,7 @@ export default function Cta() {
 
       // 5. Кнопка
       if (btnWrapRef.current) {
-        const btnP = Math.max(0, Math.min(1, (p - 0.35) / 0.45));
+        const btnP = Math.max(0, Math.min(1, (p - 0.25) / 0.45));
         btnWrapRef.current.style.opacity = btnP.toFixed(3);
         btnWrapRef.current.style.transform = `translateY(${((1 - btnP) * 20).toFixed(1)}px) scale(${(0.94 + btnP * 0.06).toFixed(3)})`;
       }

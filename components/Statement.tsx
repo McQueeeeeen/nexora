@@ -37,6 +37,10 @@ export default function Statement() {
       if (Math.abs(p - lastP) < 0.001) return;
       lastP = p;
 
+      // Анимация завершается на 75% скролла пина, оставляя 25% буфера
+      // с полностью завершённым текстом перед отпусканием пина.
+      const animP = Math.max(0, Math.min(1, p / 0.75));
+
       for (let k = 0; k < total; k++) {
         const el = chars[k];
         if (!el) continue;
@@ -44,10 +48,10 @@ export default function Statement() {
         let col: string;
         let shadow: string;
 
-        if (p >= 1 || t < p - BAND) {
+        if (animP >= 1 || t < animP - BAND) {
           col = "#2A211D";
           shadow = "none";
-        } else if (p > 0 && t <= p) {
+        } else if (animP > 0 && t <= animP) {
           col = "var(--accent)";
           shadow = "0 0 24px var(--accent-glow), 0 0 42px rgba(200, 130, 66, 0.4)";
         } else {
