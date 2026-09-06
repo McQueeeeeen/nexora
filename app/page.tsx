@@ -6,6 +6,7 @@ import About from "../components/About";
 import Services from "../components/Services";
 import Cta from "../components/Cta";
 import Steps from "../components/Steps";
+import Pricing from "../components/Pricing";
 import Stats from "../components/Stats";
 import Reviews from "../components/Reviews";
 import Faq from "../components/Faq";
@@ -30,6 +31,9 @@ export default function Page() {
       </StackSection>
       <Cta />
       <Steps />
+      <StackSection>
+        <Pricing />
+      </StackSection>
       <StackSection>
         <Stats />
       </StackSection>
