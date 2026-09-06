@@ -46,7 +46,7 @@ export default function ReviewsPage() {
   };
 
   return (
-    <main className="min-h-screen bg-[#FBF9F5] text-[#2A211D]">
+    <main className="min-h-screen bg-[#120D0B] text-white">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(reviewsSchema) }}
