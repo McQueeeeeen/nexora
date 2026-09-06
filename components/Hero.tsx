@@ -196,11 +196,11 @@ export default function Hero() {
                 key={ph.t}
                 data-hero-phrase
                 aria-hidden={i === 0 ? undefined : true}
-                className="font-normal max-w-[90vw] md:max-w-[72vw] lg:max-w-[56vw] xl:max-w-[820px] text-white"
+                className="font-normal max-w-[min(90vw,540px)] md:max-w-[480px] lg:max-w-[500px] xl:max-w-[540px] text-white"
                 style={{
                   position: "absolute",
-                  fontSize: "clamp(28px,5.6vw,72px)",
-                  lineHeight: 1.06,
+                  fontSize: "clamp(28px,5.2vw,68px)",
+                  lineHeight: 1.08,
                   letterSpacing: "-0.025em",
                   textShadow: "0 2px 24px rgba(0,0,0,0.85), 0 1px 3px rgba(0,0,0,0.6)",
                   ...css(pos[i]),

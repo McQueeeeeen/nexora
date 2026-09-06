@@ -1,9 +1,10 @@
 import { memo, type RefObject } from "react";
 
-// Плавная органическая S-образная траектория маршрута (Вена → Будапешт)
-// Расположена в правой половине холста (x: 580..860, y: 210..780),
-// гарантируя идеальный отступ от верхнего навбара и чистый левый фланг для типографики.
-const ROUTE = "M 760,780 C 740,650 580,560 610,430 C 640,290 840,320 780,210";
+// Математически выверенная, гладкая S-образная траектория маршрута (Вена → Будапешт).
+// Имеет строго C1-непрерывные касательные векторы (zero kinks),
+// расположена в правой половине холста (x: 720..830, y: 270..770),
+// гарантируя идеальную дистанцию от типографики и верхнего навбара.
+const ROUTE = "M 780,770 C 770,650 720,540 740,440 C 760,340 860,360 800,270";
 
 interface Props {
   narrow: boolean;
@@ -16,11 +17,11 @@ interface Props {
 
 /**
  * Интерактивная темная карта Hero в кинематографичной эстетике эталона (goat-moving).
- * - Темный глубокий эспрессо-фон (#15100E / #1C1613) с архитектурной сеткой кварталов
- * - Тонкие золотисто-янтарные векторы улиц, развязок и автострад
- * - Русло Дуная с мягким янтарно-кофейным свечением
- * - Яркий неоновый S-образный маршрут с многослойным amber-свечением
- * - Светящийся круговой курсор с навигационной стрелкой, следующей за скроллом
+ * - Темный глубокий эспрессо-фон (#140F0D / #1C1613) с архитектурной сеткой
+ * - Тонкие золотисто-янтарные векторы улиц, скоростных развязок и автострад
+ * - Плавное русло Дуная с мягким янтарным свечением
+ * - Безупречно гладкий неоновый S-образный маршрут с многослойным amber-свечением
+ * - Светящийся круговой курсор с навигационной стрелкой, плавно следующей за скроллом
  */
 const HeroMap = memo(function HeroMap({ narrow, pathRef, drawA, drawB, budaRef, cursorRef }: Props) {
   return (
@@ -33,16 +34,16 @@ const HeroMap = memo(function HeroMap({ narrow, pathRef, drawA, drawB, budaRef, 
     >
       <defs>
         {/* Радиальный градиент глубины ночной карты */}
-        <radialGradient id="map-vignette" cx="68%" cy="48%" r="80%">
+        <radialGradient id="map-vignette" cx="65%" cy="50%" r="75%">
           <stop offset="0%" stopColor="#1E1714" />
-          <stop offset="55%" stopColor="#140F0D" />
+          <stop offset="50%" stopColor="#140F0D" />
           <stop offset="100%" stopColor="#0B0908" />
         </radialGradient>
 
         {/* Координатная микросетка */}
-        <pattern id="dark-grid" width="60" height="60" patternUnits="userSpaceOnUse">
-          <path d="M 60 0 L 0 0 0 60" fill="none" stroke="rgba(229, 184, 122, 0.035)" strokeWidth="0.75" />
-          <circle cx="0" cy="0" r="0.75" fill="rgba(229, 184, 122, 0.12)" />
+        <pattern id="dark-grid" width="48" height="48" patternUnits="userSpaceOnUse">
+          <path d="M 48 0 L 0 0 0 48" fill="none" stroke="rgba(229, 184, 122, 0.03)" strokeWidth="0.75" />
+          <circle cx="0" cy="0" r="0.7" fill="rgba(229, 184, 122, 0.1)" />
         </pattern>
 
         {/* Градиенты свечения маршрута */}
@@ -53,9 +54,9 @@ const HeroMap = memo(function HeroMap({ narrow, pathRef, drawA, drawB, budaRef, 
         </linearGradient>
 
         <linearGradient id="danube-dark-grad" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stopColor="#2A211D" stopOpacity="0.7" />
-          <stop offset="50%" stopColor="#C88242" stopOpacity="0.18" />
-          <stop offset="100%" stopColor="#1A1412" stopOpacity="0.8" />
+          <stop offset="0%" stopColor="#2A211D" stopOpacity="0.6" />
+          <stop offset="50%" stopColor="#C88242" stopOpacity="0.16" />
+          <stop offset="100%" stopColor="#1A1412" stopOpacity="0.75" />
         </linearGradient>
 
         {/* Фильтры неонового свечения */}
@@ -93,56 +94,38 @@ const HeroMap = memo(function HeroMap({ narrow, pathRef, drawA, drawB, budaRef, 
       <rect width="1440" height="900" fill="url(#map-vignette)" />
       <rect width="1440" height="900" fill="url(#dark-grid)" />
 
-      {/* 2. АРХИТЕКТУРНЫЕ КВАРТАЛЫ И ЗОНЫ (URBAN POLYGON PARCELS) */}
-      <g fill="rgba(42, 33, 29, 0.42)" stroke="rgba(229, 184, 122, 0.08)" strokeWidth="0.8">
-        <polygon points="630,220 730,200 750,280 650,300" />
-        <polygon points="770,220 890,210 880,300 780,290" />
-        <polygon points="830,320 950,310 940,410 840,400" />
-        <polygon points="690,330 800,320 790,400 680,390" />
-        <polygon points="570,360 660,350 650,440 560,430" />
-        
-        <polygon points="530,480 630,470 620,570 520,560" />
-        <polygon points="650,470 760,460 750,550 640,560" />
-        <polygon points="770,440 880,430 870,530 760,530" />
-        
-        <polygon points="590,600 690,590 680,700 580,690" />
-        <polygon points="710,590 830,580 820,690 700,700" />
-        <polygon points="660,720 780,710 770,820 650,820" />
-        <polygon points="800,710 920,700 910,810 790,820" />
-        
-        {/* Дополнительные кварталы */}
-        <polygon points="970,340 1110,320 1090,450 960,440" />
-        <polygon points="950,480 1090,470 1070,600 940,590" />
-        <polygon points="930,630 1060,620 1050,750 920,740" />
-        <polygon points="430,420 530,410 520,520 420,510" />
-        <polygon points="400,560 500,550 490,670 390,660" />
-        <polygon points="360,700 470,690 460,810 350,800" />
+      {/* 2. ТОПОГРАФИЧЕСКИЕ ИЗОЛИНИИ РЕЛЬЕФА (TERRAIN CONTOURS) */}
+      <g fill="none" stroke="rgba(229, 184, 122, 0.045)" strokeWidth="1">
+        <path d="M 500,900 C 600,750 700,680 850,550 S 1100,320 1300,100" />
+        <path d="M 560,900 C 660,770 760,700 910,570 S 1160,340 1360,120" />
+        <path d="M 420,900 C 520,730 620,660 770,530 S 1020,300 1220,80" />
+        <path d="M 680,900 C 780,800 880,730 1030,600 S 1280,370 1440,200" />
       </g>
 
-      {/* 3. РУСЛО РЕКИ ДУНАЙ (DANUBE) */}
+      {/* 3. РУСЛО РЕКИ ДУНАЙ (DANUBE RIVER) */}
       <g>
         <path
-          d="M 380,940 C 500,840 620,760 760,690 C 880,630 980,520 1040,380 C 1100,240 1200,140 1460,50"
+          d="M 420,940 C 540,840 660,760 800,690 C 920,630 1020,520 1080,380 C 1140,240 1240,140 1460,50"
           fill="none"
           stroke="url(#danube-dark-grad)"
           strokeWidth="42"
           strokeLinecap="round"
         />
         <path
-          d="M 380,940 C 500,840 620,760 760,690 C 880,630 980,520 1040,380 C 1100,240 1200,140 1460,50"
+          d="M 420,940 C 540,840 660,760 800,690 C 920,630 1020,520 1080,380 C 1140,240 1240,140 1460,50"
           fill="none"
           stroke="rgba(229, 184, 122, 0.22)"
-          strokeWidth="2.5"
+          strokeWidth="2.2"
           strokeLinecap="round"
         />
         <text
-          x="1080"
+          x="1120"
           y="330"
-          fill="rgba(229, 184, 122, 0.4)"
+          fill="rgba(229, 184, 122, 0.35)"
           fontSize="10"
           letterSpacing="3"
           fontFamily="var(--font-mono), monospace"
-          transform="rotate(-55 1080 330)"
+          transform="rotate(-55 1120 330)"
         >
           DANUBE · DUNA
         </text>
@@ -150,62 +133,61 @@ const HeroMap = memo(function HeroMap({ narrow, pathRef, drawA, drawB, budaRef, 
 
       {/* 4. ОРГАНИЧЕСКАЯ УЛИЧНАЯ И АВТОМАГИСТРАЛЬНАЯ СЕТЬ (GOLDEN STREET MESH) */}
       <g fill="none">
-        {/* Второстепенная сеть улиц (City Mesh) */}
-        <g stroke="rgba(229, 184, 122, 0.14)" strokeWidth="1">
+        {/* Второстепенная сеть городских улиц */}
+        <g stroke="rgba(229, 184, 122, 0.12)" strokeWidth="0.9">
           {/* Горизонтальные и наклонные улицы */}
-          <path d="M 320,180 L 1380,140" />
-          <path d="M 290,260 L 1350,220" />
-          <path d="M 270,350 L 1370,310" />
-          <path d="M 250,440 L 1360,410" />
-          <path d="M 230,530 L 1350,510" />
-          <path d="M 210,620 L 1340,610" />
-          <path d="M 190,710 L 1330,710" />
-          <path d="M 170,800 L 1320,810" />
-          <path d="M 150,890 L 1310,900" />
+          <path d="M 380,180 L 1380,140" />
+          <path d="M 350,260 L 1350,220" />
+          <path d="M 330,350 L 1370,310" />
+          <path d="M 310,440 L 1360,410" />
+          <path d="M 290,530 L 1350,510" />
+          <path d="M 270,620 L 1340,610" />
+          <path d="M 250,710 L 1330,710" />
+          <path d="M 230,800 L 1320,810" />
+          <path d="M 210,890 L 1310,900" />
 
           {/* Вертикальные и наклонные проспекты */}
-          <path d="M 380,60 L 320,920" />
-          <path d="M 480,50 L 430,920" />
-          <path d="M 580,40 L 540,920" />
-          <path d="M 680,40 L 650,920" />
-          <path d="M 780,40 L 760,920" />
-          <path d="M 880,50 L 870,920" />
-          <path d="M 980,60 L 980,920" />
-          <path d="M 1080,70 L 1090,920" />
-          <path d="M 1180,90 L 1200,920" />
-          <path d="M 1280,110 L 1310,920" />
+          <path d="M 440,60 L 380,920" />
+          <path d="M 540,50 L 490,920" />
+          <path d="M 640,40 L 600,920" />
+          <path d="M 740,40 L 710,920" />
+          <path d="M 840,40 L 820,920" />
+          <path d="M 940,50 L 930,920" />
+          <path d="M 1040,60 L 1040,920" />
+          <path d="M 1140,70 L 1150,920" />
+          <path d="M 1240,90 L 1260,920" />
 
           {/* Диагональные связки и бульвары */}
-          <path d="M 350,120 L 1250,920" />
-          <path d="M 1280,160 L 380,920" />
-          <path d="M 250,300 L 980,940" />
-          <path d="M 600,60 L 1400,800" />
-          <path d="M 480,180 L 1180,820" />
-          <path d="M 920,120 L 420,780" />
+          <path d="M 400,120 L 1250,920" />
+          <path d="M 1280,160 L 420,920" />
+          <path d="M 320,300 L 980,940" />
+          <path d="M 620,60 L 1400,800" />
+          <path d="M 500,180 L 1180,820" />
+          <path d="M 920,120 L 450,780" />
         </g>
 
         {/* Скоростные магистрали и развязки (Highways & Interchanges) */}
-        <g stroke="rgba(229, 184, 122, 0.3)" strokeWidth="1.8">
+        <g stroke="rgba(229, 184, 122, 0.28)" strokeWidth="1.8">
           {/* Главная трасса E60 / M1 */}
-          <path d="M 240,900 C 420,800 560,730 690,650 S 910,450 1080,270 S 1260,150 1440,90" />
+          <path d="M 280,900 C 460,800 600,730 730,650 S 950,450 1120,270 S 1300,150 1440,90" />
           {/* Южная объездная */}
-          <path d="M 380,940 C 540,750 670,530 830,370 S 1120,190 1360,120" />
+          <path d="M 420,940 C 580,750 710,530 870,370 S 1160,190 1380,120" />
           {/* Западная артерия */}
-          <path d="M 520,940 C 660,820 780,680 890,520 S 1080,320 1240,220" />
+          <path d="M 560,940 C 700,820 820,680 930,520 S 1120,320 1280,220" />
 
-          {/* Кольцевые развязки (Cloverleaf / Loops) */}
-          <circle cx="780" cy="300" r="46" stroke="rgba(229, 184, 122, 0.35)" strokeWidth="1.6" strokeDasharray="6 4" />
-          <circle cx="780" cy="300" r="26" stroke="rgba(229, 184, 122, 0.25)" strokeWidth="1.2" />
+          {/* Кольцевые развязки (Cloverleaf / Loops в стиле эталона) */}
+          <circle cx="820" cy="300" r="46" stroke="rgba(229, 184, 122, 0.35)" strokeWidth="1.6" strokeDasharray="6 4" />
+          <circle cx="820" cy="300" r="26" stroke="rgba(229, 184, 122, 0.25)" strokeWidth="1.2" />
           
-          <circle cx="610" cy="540" r="40" stroke="rgba(229, 184, 122, 0.32)" strokeWidth="1.6" strokeDasharray="5 3" />
-          <circle cx="610" cy="540" r="22" stroke="rgba(229, 184, 122, 0.22)" strokeWidth="1.2" />
+          <circle cx="670" cy="540" r="40" stroke="rgba(229, 184, 122, 0.32)" strokeWidth="1.6" strokeDasharray="5 3" />
+          <circle cx="670" cy="540" r="22" stroke="rgba(229, 184, 122, 0.22)" strokeWidth="1.2" />
 
-          <circle cx="880" cy="640" r="52" stroke="rgba(229, 184, 122, 0.28)" strokeWidth="1.4" />
-          <circle cx="1020" cy="420" r="38" stroke="rgba(229, 184, 122, 0.26)" strokeWidth="1.4" strokeDasharray="5 3" />
+          <circle cx="920" cy="640" r="52" stroke="rgba(229, 184, 122, 0.28)" strokeWidth="1.4" />
+          <circle cx="1060" cy="420" r="38" stroke="rgba(229, 184, 122, 0.26)" strokeWidth="1.4" strokeDasharray="5 3" />
 
           {/* Петли съездов */}
-          <path d="M 740,270 C 770,240 820,260 830,310 S 790,360 750,340" />
-          <path d="M 580,510 C 610,480 660,500 670,550 S 630,600 590,580" />
+          <path d="M 780,270 C 810,240 860,260 870,310 S 830,360 790,340" />
+          <path d="M 640,510 C 670,480 720,500 730,550 S 690,600 650,580" />
         </g>
       </g>
 
@@ -253,7 +235,7 @@ const HeroMap = memo(function HeroMap({ narrow, pathRef, drawA, drawB, budaRef, 
       />
 
       {/* 6. ТОЧКА СТАРТА МАРШРУТА (ORIGIN DOT — VIENNA) */}
-      <g transform="translate(760, 780)">
+      <g transform="translate(780, 770)">
         {/* Пульсирующие кольца */}
         <circle r="10" fill="#E5B87A" opacity="0.3">
           <animate attributeName="r" values="10;34" dur="2.4s" repeatCount="indefinite" />
@@ -277,7 +259,7 @@ const HeroMap = memo(function HeroMap({ narrow, pathRef, drawA, drawB, budaRef, 
       </g>
 
       {/* 7. ФИНАЛЬНАЯ ТОЧКА МАРШРУТА (DESTINATION — BUDAPEST) */}
-      <g ref={budaRef} style={{ opacity: 0 }} transform="translate(780, 210)">
+      <g ref={budaRef} style={{ opacity: 0 }} transform="translate(800, 270)">
         {/* Пульсирующий ореол завершения маршрута */}
         <circle r="14" fill="#FFE533" opacity="0.4">
           <animate attributeName="r" values="14;46" dur="2.2s" begin="0.6s" repeatCount="indefinite" />
@@ -300,7 +282,7 @@ const HeroMap = memo(function HeroMap({ narrow, pathRef, drawA, drawB, budaRef, 
       </g>
 
       {/* 8. СВЕТЯЩИЙСЯ КРУГОВОЙ КУРСОР С НАВИГАЦИОННОЙ СТРЕЛКОЙ (BENCHMARK CURSOR) */}
-      <g ref={cursorRef} transform="translate(760, 780)">
+      <g ref={cursorRef} transform="translate(780, 770)">
         {/* Внешнее золотое светящееся кольцо */}
         <circle
           r="34"
