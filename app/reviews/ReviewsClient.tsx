@@ -124,179 +124,191 @@ const reviewsList: ReviewItem[] = [
 
 export default function ReviewsClient() {
   return (
-    <>
-      {/* Хлебные крошки (дословно структура эталона) */}
-      <nav aria-label="Breadcrumb" className="bg-[#120D0B] px-4 pt-[100px] lg:pt-[120px] pb-3 lg:pb-4">
-        <ol className="max-w-[1408px] mx-auto flex flex-wrap items-center gap-2 font-mono font-medium text-xs lg:text-sm tracking-[-0.48px] uppercase text-white/50">
-          <li className="flex items-center gap-2">
-            <a className="hover:text-[var(--accent)] transition-colors duration-200" href="/">
-              Главная
-            </a>
-            <span className="text-white/25">/</span>
-          </li>
-          <li className="flex items-center gap-2">
-            <span className="text-white" aria-current="page">
-              Отзывы
-            </span>
-          </li>
-        </ol>
+    <div className="bg-[#0b0b0b] min-h-screen text-white selection:bg-[var(--accent)] selection:text-black">
+      {/* Хлебные крошки */}
+      <nav aria-label="Breadcrumb" className="px-4 sm:px-6 lg:px-8 pt-[100px] lg:pt-[120px] pb-4">
+        <div className="max-w-[1400px] mx-auto">
+          <ol className="flex items-center gap-2 font-mono text-xs uppercase tracking-widest text-white/50">
+            <li>
+              <a className="hover:text-white transition-colors" href="/">
+                ГЛАВНАЯ
+              </a>
+            </li>
+            <li className="text-white/30">/</li>
+            <li className="text-white font-semibold" aria-current="page">
+              ОТЗЫВЫ
+            </li>
+          </ol>
+        </div>
       </nav>
 
-      {/* Hero-секция с совокупным рейтингом (дословно разметка эталона) */}
-      <section className="bg-[#120D0B]">
-        <div className="max-w-[1408px] mx-auto px-4 w-full pt-6 lg:pt-10 pb-[40px] lg:pb-[60px]">
-          <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-8 lg:gap-10">
-            <div className="flex flex-col gap-4 lg:gap-5">
-              <h1 className="font-sans font-bold text-[36px] lg:text-[72px] leading-none tracking-[-1.08px] lg:tracking-[-2.16px]">
-                <span className="text-[var(--accent)]">Что говорят</span> <span className="text-white">наши студенты</span>
+      {/* Hero-секция с совокупным рейтингом как на скриншоте эталона */}
+      <section className="px-4 sm:px-6 lg:px-8 pt-4 pb-12 lg:pb-16">
+        <div className="max-w-[1400px] mx-auto">
+          <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-8 lg:gap-12">
+            {/* Заголовок слева */}
+            <div className="flex flex-col gap-3 max-w-[650px]">
+              <h1 className="font-sans font-bold text-4xl sm:text-5xl lg:text-6xl tracking-tight text-white">
+                <span className="text-[var(--accent,#E5A855)]">Что говорят</span> наши студенты
               </h1>
-              <p className="font-sans font-normal text-base lg:text-xl leading-[1.4] tracking-[-0.48px] lg:tracking-[-0.6px] text-white/60 max-w-[540px]">
-                312+ проверенных отзывов с рейтингом 4.9. Реальные истории зачисления в университеты Австрии и Венгрии.
+              <p className="text-base sm:text-lg text-white/60 font-normal leading-relaxed">
+                312+ проверенных отзывов со средней оценкой 4.9. Реальные истории зачисления и отзывы студентов о поступлении в Австрию и Венгрию.
               </p>
             </div>
 
-            {/* Рейтинговый виджет */}
-            <div className="rounded-2xl bg-[#1D1613] lg:bg-transparent ring-1 ring-white/5 lg:ring-0 p-5 lg:p-0 flex flex-col lg:flex-row lg:items-center gap-5 lg:gap-8 shrink-0">
-              <div className="flex flex-col gap-2 pb-5 lg:pb-0 lg:pr-8 border-b border-white/10 lg:border-b-0 lg:border-r border-white/10">
-                <div className="flex items-baseline gap-0.5">
-                  <span className="font-sans font-bold text-[48px] lg:text-[72px] leading-[1] tracking-[-1.92px] lg:tracking-[-2.88px] text-white">
+            {/* Рейтинг справа: большая оценка + платформы Google & Telegram */}
+            <div className="flex flex-wrap sm:flex-nowrap items-center gap-6 sm:gap-8 bg-[#141414] lg:bg-transparent p-5 sm:p-0 rounded-2xl border border-white/5 lg:border-0 shrink-0">
+              {/* Большой рейтинг 4.9/5 */}
+              <div className="flex flex-col gap-1.5 pr-0 sm:pr-8 border-b sm:border-b-0 sm:border-r border-white/10 pb-4 sm:pb-0 w-full sm:w-auto">
+                <div className="flex items-baseline gap-1">
+                  <span className="font-sans font-extrabold text-5xl lg:text-6xl tracking-tight text-white leading-none">
                     4.9
                   </span>
-                  <span className="font-sans font-bold text-2xl lg:text-3xl leading-[1] tracking-[-0.72px] text-white/50">
+                  <span className="font-sans font-bold text-2xl lg:text-3xl text-white/40">
                     /5
                   </span>
                 </div>
-                <div className="flex gap-1 text-[var(--accent)]">
-                  <Stars />
+                <div className="flex gap-1 text-[#F59E0B]">
+                  <Stars className="scale-90 origin-left" />
                 </div>
-                <span className="font-mono font-medium text-[11px] uppercase tracking-[-0.44px] text-white/40 whitespace-nowrap">
-                  312+ всего отзывов
+                <span className="font-mono text-[11px] uppercase tracking-wider text-white/40 whitespace-nowrap">
+                  312+ ВСЕГО ОТЗЫВОВ
                 </span>
               </div>
 
-              <div className="flex flex-col gap-4 lg:gap-6">
+              {/* Платформы */}
+              <div className="flex flex-col gap-4">
+                {/* Google */}
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-full bg-[#1e293b] flex items-center justify-center shrink-0 border border-white/10">
+                    <svg className="w-5 h-5" viewBox="0 0 24 24">
+                      <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
+                      <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" />
+                      <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z" />
+                      <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z" />
+                    </svg>
+                  </div>
+                  <div className="flex flex-col">
+                    <span className="font-mono text-[10px] uppercase tracking-wider text-white/50 font-bold">
+                      GOOGLE
+                    </span>
+                    <div className="flex items-center gap-1.5">
+                      <span className="font-sans font-bold text-base text-white">4.98</span>
+                      <div className="flex gap-0.5 text-[#F59E0B]">
+                        <Stars className="scale-75 origin-left" />
+                      </div>
+                    </div>
+                    <span className="font-mono text-[10px] uppercase tracking-wider text-white/40">
+                      210+ ОТЗЫВОВ
+                    </span>
+                  </div>
+                </div>
+
                 {/* Telegram */}
                 <a
                   href="https://t.me/nexora_support"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-3 hover:opacity-80 transition-opacity"
+                  className="flex items-center gap-3 group"
                 >
-                  <div
-                    className="w-10 h-10 lg:w-12 lg:h-12 rounded-full flex items-center justify-center shrink-0"
-                    style={{ backgroundColor: "#2A211D", border: "1px solid rgba(255,255,255,0.1)" }}
-                  >
-                    <svg className="w-5 h-5 fill-[var(--accent)]" viewBox="0 0 24 24">
+                  <div className="w-10 h-10 rounded-full bg-[#0088cc]/20 flex items-center justify-center shrink-0 border border-[#0088cc]/40 group-hover:bg-[#0088cc]/30 transition-colors">
+                    <svg className="w-5 h-5 fill-[#29B6F6]" viewBox="0 0 24 24">
                       <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z" />
                     </svg>
                   </div>
-                  <div className="flex flex-col gap-0.5">
-                    <span className="font-mono font-bold text-[11px] lg:text-xs uppercase tracking-[-0.48px] text-white/50">
-                      Telegram
+                  <div className="flex flex-col">
+                    <span className="font-mono text-[10px] uppercase tracking-wider text-white/50 font-bold">
+                      TELEGRAM
                     </span>
                     <div className="flex items-center gap-1.5">
-                      <span className="font-sans font-bold text-lg lg:text-xl leading-[1] tracking-[-0.54px] text-white">
-                        4.98
-                      </span>
-                      <div className="flex gap-1 text-[var(--accent)]">
+                      <span className="font-sans font-bold text-base text-white">4.92</span>
+                      <div className="flex gap-0.5 text-[#F59E0B]">
                         <Stars className="scale-75 origin-left" />
                       </div>
                     </div>
-                    <span className="font-mono font-medium text-[10px] lg:text-[11px] uppercase tracking-[-0.44px] text-white/40 whitespace-nowrap">
-                      210+ отзывов
+                    <span className="font-mono text-[10px] uppercase tracking-wider text-white/40">
+                      102+ ОТЗЫВА
                     </span>
                   </div>
                 </a>
-
-                {/* Google / Maps */}
-                <div className="flex items-center gap-3">
-                  <div
-                    className="w-10 h-10 lg:w-12 lg:h-12 rounded-full flex items-center justify-center shrink-0"
-                    style={{ backgroundColor: "#2A211D", border: "1px solid rgba(255,255,255,0.1)" }}
-                  >
-                    <span className="font-bold text-sm text-blue-400">G</span>
-                  </div>
-                  <div className="flex flex-col gap-0.5">
-                    <span className="font-mono font-bold text-[11px] lg:text-xs uppercase tracking-[-0.48px] text-white/50">
-                      Google
-                    </span>
-                    <div className="flex items-center gap-1.5">
-                      <span className="font-sans font-bold text-lg lg:text-xl leading-[1] tracking-[-0.54px] text-white">
-                        4.90
-                      </span>
-                      <div className="flex gap-1 text-[var(--accent)]">
-                        <Stars className="scale-75 origin-left" />
-                      </div>
-                    </div>
-                    <span className="font-mono font-medium text-[10px] lg:text-[11px] uppercase tracking-[-0.44px] text-white/40 whitespace-nowrap">
-                      100+ отзывов
-                    </span>
-                  </div>
-                </div>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* 4-колоночная сетка отзывов (дословно верстка эталона) */}
-      <section className="bg-[#120D0B] px-4 pb-[60px] lg:pb-[100px]">
-        <div className="max-w-[1408px] mx-auto">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-5">
+      {/* 4-колоночная сетка отзывов */}
+      <section className="px-4 sm:px-6 lg:px-8 pb-20 lg:pb-28">
+        <div className="max-w-[1400px] mx-auto">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
             {reviewsList.map((r) => (
               <div
                 key={r.id}
-                className="bg-[#1D1613] rounded-xl lg:rounded-2xl p-5 lg:p-6 flex flex-col gap-5 group hover:bg-[#271E1A] transition-colors duration-300 ring-1 ring-white/5"
+                className="bg-[#161616] rounded-2xl p-5 sm:p-6 flex flex-col justify-between border border-white/[0.07] hover:border-white/20 hover:bg-[#1a1a1a] transition-all duration-300 group"
               >
-                <div className="flex gap-3 items-center">
-                  <div className="relative w-11 h-11 lg:w-12 lg:h-12 rounded-full overflow-hidden shrink-0">
-                    {r.avatarImg ? (
-                      <img
-                        src={r.avatarImg}
-                        alt={r.name}
-                        loading="lazy"
-                        className="h-full w-full object-cover"
-                      />
-                    ) : (
-                      <div className="flex h-full w-full items-center justify-center bg-[#2A211D] font-mono text-sm font-bold text-white">
-                        {r.initials}
+                <div>
+                  {/* Верхняя строка карточки: Аватар + Имя + Локация + Иконка платформы */}
+                  <div className="flex items-center justify-between gap-3 mb-4">
+                    <div className="flex items-center gap-3 min-w-0">
+                      <div className="relative w-11 h-11 rounded-full overflow-hidden shrink-0 border border-white/10">
+                        {r.avatarImg ? (
+                          <img
+                            src={r.avatarImg}
+                            alt={r.name}
+                            loading="lazy"
+                            className="h-full w-full object-cover"
+                          />
+                        ) : (
+                          <div className="flex h-full w-full items-center justify-center bg-white/10 font-mono text-sm font-bold text-white">
+                            {r.initials}
+                          </div>
+                        )}
                       </div>
-                    )}
-                  </div>
-                  <div className="flex-1 flex flex-col gap-0.5 min-w-0">
-                    <span className="font-sans font-semibold text-lg lg:text-xl leading-[1.3] tracking-[-0.54px] lg:tracking-[-0.6px] text-white truncate">
-                      {r.name}
-                    </span>
-                    <span className="font-mono font-bold text-xs lg:text-sm leading-[1.2] tracking-[-0.56px] uppercase text-white/40 truncate">
-                      {r.location}
-                    </span>
-                  </div>
-                  <div
-                    className="w-10 h-10 lg:w-11 lg:h-11 rounded-full bg-[#2A211D] flex items-center justify-center shrink-0 border border-white/10 group-hover:scale-105 transition-transform"
-                    aria-hidden
-                  >
-                    {r.platform === "tg" ? (
-                      <svg className="w-4 h-4 fill-[var(--accent)]" viewBox="0 0 24 24">
-                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z" />
-                      </svg>
-                    ) : (
-                      <span className="font-bold text-xs text-blue-400">G</span>
-                    )}
-                  </div>
-                </div>
+                      <div className="flex flex-col min-w-0">
+                        <span className="font-sans font-bold text-[15px] text-white truncate group-hover:text-[var(--accent,#E5A855)] transition-colors">
+                          {r.name}
+                        </span>
+                        <span className="font-mono text-[11px] uppercase tracking-wider text-white/40 truncate">
+                          {r.location}
+                        </span>
+                      </div>
+                    </div>
 
-                <div className="flex gap-1 text-[var(--accent)]">
-                  <Stars />
-                </div>
+                    {/* Круглая кнопка-иконка платформы */}
+                    <div
+                      className="w-9 h-9 rounded-full bg-white/5 border border-white/10 flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform"
+                      aria-hidden
+                    >
+                      {r.platform === "tg" ? (
+                        <svg className="w-4 h-4 fill-[#29B6F6]" viewBox="0 0 24 24">
+                          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z" />
+                        </svg>
+                      ) : (
+                        <svg className="w-4 h-4" viewBox="0 0 24 24">
+                          <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" />
+                          <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" />
+                          <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z" />
+                          <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z" />
+                        </svg>
+                      )}
+                    </div>
+                  </div>
 
-                <p className="font-sans font-normal text-sm lg:text-base leading-[1.5] tracking-[-0.42px] lg:tracking-[-0.48px] text-white/70">
-                  “{r.text}”
-                </p>
+                  {/* 5 золотых звёзд */}
+                  <div className="flex gap-1 text-[#F59E0B] mb-3">
+                    <Stars />
+                  </div>
+
+                  {/* Текст отзыва в кавычках */}
+                  <p className="font-sans text-[13.5px] sm:text-sm text-white/70 leading-relaxed font-normal">
+                    “{r.text}”
+                  </p>
+                </div>
               </div>
             ))}
           </div>
         </div>
       </section>
-    </>
+    </div>
   );
 }
