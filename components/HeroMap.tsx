@@ -285,15 +285,15 @@ const HeroMap = memo(function HeroMap({ narrow, pathRef, drawA, drawB, budaRef, 
       <g ref={cursorRef} transform="translate(780, 770)">
         {/* Внешнее золотое светящееся кольцо */}
         <circle
-          r="34"
-          fill="rgba(229, 184, 122, 0.12)"
+          r="32"
+          fill="rgba(255, 235, 100, 0.14)"
           stroke="#FFE885"
-          strokeWidth="5"
+          strokeWidth="5.5"
           filter="url(#cursor-glow)"
         />
-        {/* Внутренняя навигационная стрелка-указатель */}
+        {/* Внутренняя навигационная стрелка-указатель (базовая ориентация +X для точной тригонометрии atan2) */}
         <polygon
-          points="0,-16 11,10 0,5 -11,10"
+          points="14,0 -8,-8 -3,0 -8,8"
           fill="#FFFFFF"
           filter="drop-shadow(0 0 6px rgba(255,232,133,0.9))"
         />

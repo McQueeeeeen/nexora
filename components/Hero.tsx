@@ -109,9 +109,12 @@ export default function Hero() {
         try {
           if (!cachedLen) cachedLen = path.getTotalLength();
           const len = cachedLen;
+          const delta = 2;
+          const s = Math.max(0, Math.min(len - delta, len * t));
           const pt = path.getPointAtLength(len * t);
-          const ahead = path.getPointAtLength(Math.min(len, len * t + 2));
-          const ang = (Math.atan2(ahead.y - pt.y, ahead.x - pt.x) * 180) / Math.PI;
+          const ahead = path.getPointAtLength(s + delta);
+          const pBase = path.getPointAtLength(s);
+          const ang = (Math.atan2(ahead.y - pBase.y, ahead.x - pBase.x) * 180) / Math.PI;
           cursor.setAttribute("transform", `translate(${pt.x.toFixed(1)},${pt.y.toFixed(1)}) rotate(${ang.toFixed(1)})`);
         } catch { /* SVG ещё не готов */ }
       }
