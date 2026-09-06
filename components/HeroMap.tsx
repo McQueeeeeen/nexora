@@ -1,6 +1,9 @@
 import { memo, type RefObject } from "react";
 
-const ROUTE = "M 180,480 C 320,480 440,430 580,390 C 700,350 780,300 860,250";
+// Плавная органическая S-образная траектория маршрута (Вена → Будапешт)
+// Расположена в правой половине холста (x: 580..860, y: 210..780),
+// гарантируя идеальный отступ от верхнего навбара и чистый левый фланг для типографики.
+const ROUTE = "M 760,780 C 740,650 580,560 610,430 C 640,290 840,320 780,210";
 
 interface Props {
   narrow: boolean;
@@ -12,496 +15,306 @@ interface Props {
 }
 
 /**
- * Презентационная карта Hero в эстетике Apple Maps / премиальной картографии.
- * - Многослойная топография: рельеф Альп, русло Дуная, озера Балатон и Нойзидлер-Зе
- * - Дорожная сеть: автомагистрали E60, A1, A2, M1, M3, M5, M7 и городские сетки
- * - Информационные бейджи Apple Maps для столиц и студенческих центров
- * - Все анимации управляются через ref из Hero.tsx (zero re-renders)
+ * Интерактивная темная карта Hero в кинематографичной эстетике эталона (goat-moving).
+ * - Темный глубокий эспрессо-фон (#15100E / #1C1613) с архитектурной сеткой кварталов
+ * - Тонкие золотисто-янтарные векторы улиц, развязок и автострад
+ * - Русло Дуная с мягким янтарно-кофейным свечением
+ * - Яркий неоновый S-образный маршрут с многослойным amber-свечением
+ * - Светящийся круговой курсор с навигационной стрелкой, следующей за скроллом
  */
 const HeroMap = memo(function HeroMap({ narrow, pathRef, drawA, drawB, budaRef, cursorRef }: Props) {
   return (
     <svg
-      viewBox="0 0 1000 700"
+      viewBox="0 0 1440 900"
       preserveAspectRatio={narrow ? "xMidYMid meet" : "xMidYMid slice"}
       className="h-full w-full select-none"
       role="img"
-      aria-label="Интерактивная карта академического маршрута Австрия — Венгрия"
+      aria-label="Интерактивная карта академического маршрута Вена — Будапешт"
     >
       <defs>
-        {/* Координатная микросетка Apple Maps */}
-        <pattern id="carto-grid" width="40" height="40" patternUnits="userSpaceOnUse">
-          <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(42,33,29,0.04)" strokeWidth="0.75" />
-          <circle cx="0" cy="0" r="0.8" fill="rgba(42,33,29,0.12)" />
+        {/* Радиальный градиент глубины ночной карты */}
+        <radialGradient id="map-vignette" cx="68%" cy="48%" r="80%">
+          <stop offset="0%" stopColor="#1E1714" />
+          <stop offset="55%" stopColor="#140F0D" />
+          <stop offset="100%" stopColor="#0B0908" />
+        </radialGradient>
+
+        {/* Координатная микросетка */}
+        <pattern id="dark-grid" width="60" height="60" patternUnits="userSpaceOnUse">
+          <path d="M 60 0 L 0 0 0 60" fill="none" stroke="rgba(229, 184, 122, 0.035)" strokeWidth="0.75" />
+          <circle cx="0" cy="0" r="0.75" fill="rgba(229, 184, 122, 0.12)" />
         </pattern>
 
-        {/* Городская квартальная текстура */}
-        <pattern id="urban-mesh" width="12" height="12" patternUnits="userSpaceOnUse">
-          <rect width="10" height="10" fill="none" stroke="rgba(42,33,29,0.05)" strokeWidth="0.6" />
-        </pattern>
-
-        {/* Водный градиент для Дуная и озёр */}
-        <linearGradient id="danube-grad" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stopColor="#C88242" stopOpacity="0.12" />
-          <stop offset="50%" stopColor="#2A211D" stopOpacity="0.14" />
-          <stop offset="100%" stopColor="#2A211D" stopOpacity="0.18" />
+        {/* Градиенты свечения маршрута */}
+        <linearGradient id="route-gold-aura" x1="0%" y1="100%" x2="0%" y2="0%">
+          <stop offset="0%" stopColor="#C88242" stopOpacity="0.85" />
+          <stop offset="50%" stopColor="#E5B87A" stopOpacity="0.95" />
+          <stop offset="100%" stopColor="#FFE885" stopOpacity="1" />
         </linearGradient>
 
-        <linearGradient id="lake-grad" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stopColor="#2A211D" stopOpacity="0.08" />
-          <stop offset="100%" stopColor="#C88242" stopOpacity="0.06" />
+        <linearGradient id="danube-dark-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stopColor="#2A211D" stopOpacity="0.7" />
+          <stop offset="50%" stopColor="#C88242" stopOpacity="0.18" />
+          <stop offset="100%" stopColor="#1A1412" stopOpacity="0.8" />
         </linearGradient>
 
-        {/* Градиент свечения маршрута */}
-        <linearGradient id="route-amber-grad" x1="0%" y1="0%" x2="100%" y2="0%">
-          <stop offset="0%" stopColor="#E5B87A" />
-          <stop offset="50%" stopColor="#C88242" />
-          <stop offset="100%" stopColor="#B87333" />
-        </linearGradient>
-
-        {/* Мягкая тень карточек и бейджей */}
-        <filter id="badge-shadow" x="-20%" y="-20%" width="140%" height="140%">
-          <feDropShadow dx="0" dy="4" stdDeviation="6" floodColor="#2A211D" floodOpacity="0.16" />
+        {/* Фильтры неонового свечения */}
+        <filter id="route-blur-wide" x="-50%" y="-50%" width="200%" height="200%">
+          <feGaussianBlur stdDeviation="16" result="blurWide" />
+          <feMerge>
+            <feMergeNode in="blurWide" />
+            <feMergeNode in="SourceGraphic" />
+          </feMerge>
         </filter>
-        <filter id="glow-heavy" x="-30%" y="-30%" width="160%" height="160%">
-          <feGaussianBlur stdDeviation="7" result="blur" />
-          <feComposite in="SourceGraphic" in2="blur" operator="over" />
+
+        <filter id="route-blur-soft" x="-30%" y="-30%" width="160%" height="160%">
+          <feGaussianBlur stdDeviation="6" result="blurSoft" />
+          <feMerge>
+            <feMergeNode in="blurSoft" />
+            <feMergeNode in="SourceGraphic" />
+          </feMerge>
+        </filter>
+
+        <filter id="dot-glow" x="-60%" y="-60%" width="220%" height="220%">
+          <feGaussianBlur in="SourceGraphic" stdDeviation="8" result="blur" />
+          <feMerge>
+            <feMergeNode in="blur" />
+            <feMergeNode in="SourceGraphic" />
+          </feMerge>
+        </filter>
+
+        <filter id="cursor-glow" x="-50%" y="-50%" width="200%" height="200%">
+          <feDropShadow dx="0" dy="0" stdDeviation="10" floodColor="#E5B87A" floodOpacity="0.9" />
+          <feDropShadow dx="0" dy="0" stdDeviation="22" floodColor="#C88242" floodOpacity="0.65" />
         </filter>
       </defs>
 
-      {/* 1. БАЗОВЫЙ ФОН И СЕТКА */}
-      <rect width="1000" height="700" fill="#FBF9F5" />
-      <rect width="1000" height="700" fill="url(#carto-grid)" />
+      {/* 1. ТЕМНЫЙ ФОН И СЕТКА */}
+      <rect width="1440" height="900" fill="url(#map-vignette)" />
+      <rect width="1440" height="900" fill="url(#dark-grid)" />
 
-      {/* 2. ТОПОГРАФИЧЕСКИЙ РЕЛЬЕФ (ИЗОЛИНИИ АЛЬП И КАРПАТ) */}
-      <g fill="none" stroke="rgba(42,33,29,0.04)" strokeWidth="1">
-        {/* Восточные Альпы (Запад / Юго-Запад Австрии) */}
-        <path d="M -40,420 C 40,430 110,480 140,550 S 120,680 80,740" />
-        <path d="M -40,470 C 60,480 130,530 160,600 S 140,700 110,750" />
-        <path d="M -30,520 C 70,530 150,580 180,650 S 160,720 140,760" strokeWidth="1.2" strokeOpacity="0.06" />
-        <path d="M -20,580 C 80,590 170,630 200,700 S 190,750 170,780" />
-        <path d="M 30,640 C 120,650 200,670 230,730" />
+      {/* 2. АРХИТЕКТУРНЫЕ КВАРТАЛЫ И ЗОНЫ (URBAN POLYGON PARCELS) */}
+      <g fill="rgba(42, 33, 29, 0.42)" stroke="rgba(229, 184, 122, 0.08)" strokeWidth="0.8">
+        <polygon points="630,220 730,200 750,280 650,300" />
+        <polygon points="770,220 890,210 880,300 780,290" />
+        <polygon points="830,320 950,310 940,410 840,400" />
+        <polygon points="690,330 800,320 790,400 680,390" />
+        <polygon points="570,360 660,350 650,440 560,430" />
         
-        {/* Штирийские холмы и Венский Лес (Wienerwald) */}
-        <path d="M 120,380 C 150,400 170,440 180,470 S 210,540 250,570" />
-        <path d="M 140,360 C 170,380 190,420 200,450 S 230,520 270,550" />
-
-        {/* Карпатские предгорья и холмы Бёржёнь / Матра (Север Венгрии) */}
-        <path d="M 680,80 C 740,110 820,130 890,110 S 970,60 1020,40" />
-        <path d="M 710,120 C 770,150 840,170 910,150 S 980,100 1040,80" />
-        <path d="M 740,160 C 800,190 870,210 930,190 S 990,140 1050,120" strokeWidth="1.2" strokeOpacity="0.06" />
-        <path d="M 770,200 C 830,230 890,245 950,225" />
+        <polygon points="530,480 630,470 620,570 520,560" />
+        <polygon points="650,470 760,460 750,550 640,560" />
+        <polygon points="770,440 880,430 870,530 760,530" />
+        
+        <polygon points="590,600 690,590 680,700 580,690" />
+        <polygon points="710,590 830,580 820,690 700,700" />
+        <polygon points="660,720 780,710 770,820 650,820" />
+        <polygon points="800,710 920,700 910,810 790,820" />
+        
+        {/* Дополнительные кварталы */}
+        <polygon points="970,340 1110,320 1090,450 960,440" />
+        <polygon points="950,480 1090,470 1070,600 940,590" />
+        <polygon points="930,630 1060,620 1050,750 920,740" />
+        <polygon points="430,420 530,410 520,520 420,510" />
+        <polygon points="400,560 500,550 490,670 390,660" />
+        <polygon points="360,700 470,690 460,810 350,800" />
       </g>
 
-      {/* 3. ГИДРОГРАФИЯ (ДУНАЙ, ОЗЕРА БАЛАТОН И НОЙЗИДЛЕР-ЗЕ, ТИСА) */}
+      {/* 3. РУСЛО РЕКИ ДУНАЙ (DANUBE) */}
       <g>
-        {/* Озеро Балатон (Balaton) — крупнейшее озеро Центральной Европы */}
         <path
-          d="M 460,540 C 490,525 535,510 575,495 C 585,492 590,496 580,504 C 540,522 495,542 465,552 C 455,555 450,548 460,540 Z"
-          fill="url(#lake-grad)"
-          stroke="rgba(42,33,29,0.12)"
-          strokeWidth="1"
-        />
-        <text x="520" y="522" fill="rgba(42,33,29,0.35)" fontSize="9" letterSpacing="1.5" fontFamily="var(--font-mono), monospace" fontStyle="italic">
-          LAKE BALATON
-        </text>
-
-        {/* Озеро Нойзидлер-Зе / Fertő tó (на границе Австрии и Венгрии) */}
-        <path
-          d="M 270,495 C 275,510 274,530 268,548 C 263,535 264,512 268,495 Z"
-          fill="url(#lake-grad)"
-          stroke="rgba(42,33,29,0.12)"
-          strokeWidth="0.8"
-        />
-
-        {/* Река Тиса (Восточная Венгрия) */}
-        <path
-          d="M 970,40 C 930,120 900,220 890,340 S 840,540 820,680"
+          d="M 380,940 C 500,840 620,760 760,690 C 880,630 980,520 1040,380 C 1100,240 1200,140 1460,50"
           fill="none"
-          stroke="rgba(42,33,29,0.08)"
+          stroke="url(#danube-dark-grad)"
+          strokeWidth="42"
+          strokeLinecap="round"
+        />
+        <path
+          d="M 380,940 C 500,840 620,760 760,690 C 880,630 980,520 1040,380 C 1100,240 1200,140 1460,50"
+          fill="none"
+          stroke="rgba(229, 184, 122, 0.22)"
           strokeWidth="2.5"
           strokeLinecap="round"
         />
-
-        {/* Река Драва (Южная граница) */}
-        <path
-          d="M 120,720 C 260,700 420,710 600,685 S 780,670 900,720"
-          fill="none"
-          stroke="rgba(42,33,29,0.06)"
-          strokeWidth="2"
-        />
-
-        {/* Главное русло Дуная (Danube / Donau / Duna) */}
-        {/* Нижняя мягкая подложка русла */}
-        <path
-          d="M -20,500 C 90,490 140,485 180,475 S 300,445 340,430 S 480,410 580,395 S 740,310 780,240 S 830,220 860,260 S 875,360 885,480 S 895,620 905,720"
-          fill="none"
-          stroke="url(#danube-grad)"
-          strokeWidth="14"
-          strokeLinecap="round"
-        />
-        {/* Чёткая гидрографическая линия Дуная */}
-        <path
-          d="M -20,500 C 90,490 140,485 180,475 S 300,445 340,430 S 480,410 580,395 S 740,310 780,240 S 830,220 860,260 S 875,360 885,480 S 895,620 905,720"
-          fill="none"
-          stroke="rgba(42,33,29,0.22)"
-          strokeWidth="3.5"
-          strokeLinecap="round"
-        />
-        {/* Подпись реки Дунай */}
-        <text x="390" y="415" fill="rgba(42,33,29,0.4)" fontSize="9" letterSpacing="2" fontFamily="var(--font-mono), monospace">
-          DANUBE · DONAU
-        </text>
-        <text x="898" y="360" fill="rgba(42,33,29,0.35)" fontSize="8" letterSpacing="1.5" fontFamily="var(--font-mono), monospace" transform="rotate(85 898 360)">
-          DUNA
+        <text
+          x="1080"
+          y="330"
+          fill="rgba(229, 184, 122, 0.4)"
+          fontSize="10"
+          letterSpacing="3"
+          fontFamily="var(--font-mono), monospace"
+          transform="rotate(-55 1080 330)"
+        >
+          DANUBE · DUNA
         </text>
       </g>
 
-      {/* 4. ГОСУДАРСТВЕННАЯ ГРАНИЦА АВСТРИЯ — ВЕНГРИЯ */}
-      <g>
-        <path
-          d="M 295,430 C 290,460 282,500 285,550 S 275,620 270,700"
-          fill="none"
-          stroke="rgba(42,33,29,0.25)"
-          strokeWidth="1.5"
-          strokeDasharray="4 4"
-        />
-        {/* Надписи стран в стиле высокой картографии */}
-        <text x="215" y="410" fill="rgba(42,33,29,0.28)" fontSize="13" fontWeight="600" letterSpacing="4" fontFamily="var(--font-mono), monospace">
-          AUSTRIA
-        </text>
-        <text x="325" y="440" fill="rgba(42,33,29,0.28)" fontSize="13" fontWeight="600" letterSpacing="4" fontFamily="var(--font-mono), monospace">
-          HUNGARY
-        </text>
-      </g>
-
-      {/* 5. ГОРОДСКИЕ СЕТКИ И КВАРТАЛЫ (METROPOLITAN URBAN MESH) */}
-      <g>
-        {/* Агломерация Вены */}
-        <circle cx="180" cy="480" r="48" fill="url(#urban-mesh)" />
-        <circle cx="180" cy="480" r="32" fill="none" stroke="rgba(42,33,29,0.08)" strokeWidth="1" />
-        <circle cx="180" cy="480" r="54" fill="none" stroke="rgba(42,33,29,0.04)" strokeWidth="1" strokeDasharray="3 3" />
-
-        {/* Агломерация Будапешта */}
-        <circle cx="860" cy="250" r="56" fill="url(#urban-mesh)" />
-        <circle cx="860" cy="250" r="36" fill="none" stroke="rgba(42,33,29,0.08)" strokeWidth="1" />
-        <circle cx="860" cy="250" r="62" fill="none" stroke="rgba(42,33,29,0.04)" strokeWidth="1" strokeDasharray="3 3" />
-
-        {/* Агломерация Граца */}
-        <circle cx="260" cy="620" r="22" fill="url(#urban-mesh)" />
-        {/* Агломерация Дьёра */}
-        <circle cx="580" cy="390" r="20" fill="url(#urban-mesh)" />
-      </g>
-
-      {/* 6. ДОРОЖНАЯ И ЖЕЛЕЗНОДОРОЖНАЯ СЕТЬ (EUROPEAN HIGHWAYS & CORRIDORS) */}
+      {/* 4. ОРГАНИЧЕСКАЯ УЛИЧНАЯ И АВТОМАГИСТРАЛЬНАЯ СЕТЬ (GOLDEN STREET MESH) */}
       <g fill="none">
-        {/* Второстепенная сеть дорог */}
-        <g stroke="rgba(42,33,29,0.08)" strokeWidth="1.2">
-          {/* A2 / E59: Вена -> Грац -> Клагенфурт */}
-          <path d="M 180,480 C 190,530 220,580 260,620 S 210,670 120,700" />
-          {/* A1 / E60 West: Вена -> Линц -> Зальцбург */}
-          <path d="M 180,480 C 140,490 100,495 70,500 S 10,510 -30,520" />
-          {/* M7: Будапешт -> Секешфехервар -> Балатон */}
-          <path d="M 860,250 C 760,330 680,420 540,510 S 420,600 360,660" />
-          {/* M3: Будапешт -> Мишкольц / Дебрецен */}
-          <path d="M 860,250 C 880,210 885,170 890,150" />
-          <path d="M 870,230 C 890,260 910,320 920,390" />
-          {/* M5: Будапешт -> Кечкемет -> Сегед */}
-          <path d="M 860,250 C 840,340 820,440 780,540" />
-          {/* M6: Будапешт -> Печ */}
-          <path d="M 860,250 C 830,360 760,480 620,570" />
-          {/* Связка Грац -> Дьёр / Вена */}
-          <path d="M 260,620 C 360,560 480,470 580,390" />
+        {/* Второстепенная сеть улиц (City Mesh) */}
+        <g stroke="rgba(229, 184, 122, 0.14)" strokeWidth="1">
+          {/* Горизонтальные и наклонные улицы */}
+          <path d="M 320,180 L 1380,140" />
+          <path d="M 290,260 L 1350,220" />
+          <path d="M 270,350 L 1370,310" />
+          <path d="M 250,440 L 1360,410" />
+          <path d="M 230,530 L 1350,510" />
+          <path d="M 210,620 L 1340,610" />
+          <path d="M 190,710 L 1330,710" />
+          <path d="M 170,800 L 1320,810" />
+          <path d="M 150,890 L 1310,900" />
+
+          {/* Вертикальные и наклонные проспекты */}
+          <path d="M 380,60 L 320,920" />
+          <path d="M 480,50 L 430,920" />
+          <path d="M 580,40 L 540,920" />
+          <path d="M 680,40 L 650,920" />
+          <path d="M 780,40 L 760,920" />
+          <path d="M 880,50 L 870,920" />
+          <path d="M 980,60 L 980,920" />
+          <path d="M 1080,70 L 1090,920" />
+          <path d="M 1180,90 L 1200,920" />
+          <path d="M 1280,110 L 1310,920" />
+
+          {/* Диагональные связки и бульвары */}
+          <path d="M 350,120 L 1250,920" />
+          <path d="M 1280,160 L 380,920" />
+          <path d="M 250,300 L 980,940" />
+          <path d="M 600,60 L 1400,800" />
+          <path d="M 480,180 L 1180,820" />
+          <path d="M 920,120 L 420,780" />
         </g>
 
-        {/* Главная артерия E60 (бегущий световой пунктир транзита) */}
-        <g stroke="rgba(42,33,29,0.22)" strokeWidth="1.5">
-          <path className="street-flow" d="M 70,500 L 180,480 C 320,480 440,430 580,390 C 700,350 780,300 860,250 L 920,390" />
+        {/* Скоростные магистрали и развязки (Highways & Interchanges) */}
+        <g stroke="rgba(229, 184, 122, 0.3)" strokeWidth="1.8">
+          {/* Главная трасса E60 / M1 */}
+          <path d="M 240,900 C 420,800 560,730 690,650 S 910,450 1080,270 S 1260,150 1440,90" />
+          {/* Южная объездная */}
+          <path d="M 380,940 C 540,750 670,530 830,370 S 1120,190 1360,120" />
+          {/* Западная артерия */}
+          <path d="M 520,940 C 660,820 780,680 890,520 S 1080,320 1240,220" />
+
+          {/* Кольцевые развязки (Cloverleaf / Loops) */}
+          <circle cx="780" cy="300" r="46" stroke="rgba(229, 184, 122, 0.35)" strokeWidth="1.6" strokeDasharray="6 4" />
+          <circle cx="780" cy="300" r="26" stroke="rgba(229, 184, 122, 0.25)" strokeWidth="1.2" />
+          
+          <circle cx="610" cy="540" r="40" stroke="rgba(229, 184, 122, 0.32)" strokeWidth="1.6" strokeDasharray="5 3" />
+          <circle cx="610" cy="540" r="22" stroke="rgba(229, 184, 122, 0.22)" strokeWidth="1.2" />
+
+          <circle cx="880" cy="640" r="52" stroke="rgba(229, 184, 122, 0.28)" strokeWidth="1.4" />
+          <circle cx="1020" cy="420" r="38" stroke="rgba(229, 184, 122, 0.26)" strokeWidth="1.4" strokeDasharray="5 3" />
+
+          {/* Петли съездов */}
+          <path d="M 740,270 C 770,240 820,260 830,310 S 790,360 750,340" />
+          <path d="M 580,510 C 610,480 660,500 670,550 S 630,600 590,580" />
         </g>
       </g>
 
-      {/* 7. АКАДЕМИЧЕСКИЕ ХАБЫ И ГОРОДА (APPLE MAPS CITY PINS) */}
-      {(
-        [
-          { cx: 70, cy: 500, name: "ЛИНЦ", code: "JKU", lx: 70, ly: 526, side: "bot" },
-          { cx: 60, cy: 620, name: "ИНСБРУК", code: "UIBK", lx: 60, ly: 644, side: "bot" },
-          { cx: 260, cy: 620, name: "ГРАЦ", code: "KFU · TU", lx: 260, ly: 645, side: "bot" },
-          { cx: 620, cy: 570, name: "ПЕЧ", code: "PTE", lx: 620, ly: 595, side: "bot" },
-          { cx: 780, cy: 540, name: "СЕГЕД", code: "SZTE", lx: 780, ly: 565, side: "bot" },
-          { cx: 920, cy: 390, name: "ДЕБРЕЦЕН", code: "UD", lx: 920, ly: 415, side: "bot" },
-          { cx: 890, cy: 150, name: "МИШКОЛЬЦ", code: "ME", lx: 890, ly: 135, side: "top" },
-        ] as { cx: number; cy: number; name: string; code: string; lx: number; ly: number; side: "top" | "bot" }[]
-      ).map(({ cx, cy, name, code, lx, ly }) => (
-        <g key={name} className="transition-transform duration-200 hover:scale-110">
-          {/* Фоновое кольцо маркера */}
-          <circle cx={cx} cy={cy} r="6" fill="#FBF9F5" stroke="rgba(42,33,29,0.3)" strokeWidth="1.5" />
-          <circle cx={cx} cy={cy} r="2.5" fill="#2A211D" />
-          {/* Лейбл города */}
-          <text
-            x={lx}
-            y={ly}
-            textAnchor="middle"
-            fill="rgba(42,33,29,0.85)"
-            fontSize="11"
-            fontWeight="600"
-            letterSpacing="1.2"
-            fontFamily="var(--font-mono), monospace"
-          >
-            {name}
-          </text>
-          <text
-            x={lx}
-            y={ly + 11}
-            textAnchor="middle"
-            fill="rgba(42,33,29,0.4)"
-            fontSize="8"
-            letterSpacing="0.8"
-            fontFamily="var(--font-mono), monospace"
-          >
-            {code}
-          </text>
-        </g>
-      ))}
+      {/* 5. ИНТЕРАКТИВНЫЙ НЕОНОВЫЙ МАРШРУТ (LUMINOUS AMBER S-CURVE) */}
+      {/* Невидимый базовый путь для вычисления координат курсора */}
+      <path ref={pathRef} d={ROUTE} fill="none" stroke="rgba(229, 184, 122, 0.08)" strokeWidth="2" />
 
-      {/* 8. ИНТЕРАКТИВНАЯ ТРАЕКТОРИЯ СКРОЛЛА (AMBER CREMA ROUTE) */}
-      {/* Невидимый путь для считывания длины и угла в rAF-лупе */}
-      <path ref={pathRef} d={ROUTE} fill="none" stroke="rgba(42,33,29,0.12)" strokeWidth="2" />
-
-      {/* Широкий шлейф ореола траектории */}
+      {/* Внешний широкий ореол неонового свечения */}
       <path
         ref={drawA}
         d={ROUTE}
         fill="none"
-        stroke="url(#route-amber-grad)"
-        strokeOpacity="0.32"
-        strokeWidth="16"
+        stroke="url(#route-gold-aura)"
+        strokeWidth="34"
         strokeLinecap="round"
-        className="route-glow"
+        filter="url(#route-blur-wide)"
+        opacity="0.55"
         pathLength={100}
         style={{ strokeDasharray: 100, strokeDashoffset: 100 }}
       />
-      {/* Чёткий неоновый стержень маршрута */}
+
+      {/* Средний плотный слой золотого свечения */}
+      <path
+        d={ROUTE}
+        fill="none"
+        stroke="url(#route-gold-aura)"
+        strokeWidth="14"
+        strokeLinecap="round"
+        filter="url(#route-blur-soft)"
+        opacity="0.9"
+        pathLength={100}
+        style={{ strokeDasharray: 100, strokeDashoffset: 100 }}
+      />
+
+      {/* Яркий белый/золотой центральный стержень маршрута */}
       <path
         ref={drawB}
         d={ROUTE}
         fill="none"
-        stroke="url(#route-amber-grad)"
+        stroke="#FFF8C6"
         strokeWidth="4.5"
         strokeLinecap="round"
         pathLength={100}
         style={{ strokeDasharray: 100, strokeDashoffset: 100 }}
       />
 
-      {/* Информационный бейдж транзита вдоль маршрута (Railjet E60) */}
-      <g transform="translate(415, 424)">
-        <rect
-          x="-60"
-          y="-12"
-          width="120"
-          height="24"
-          rx="12"
-          fill="rgba(251, 249, 245, 0.94)"
-          stroke="rgba(42, 33, 29, 0.18)"
-          strokeWidth="1"
-          filter="url(#badge-shadow)"
-        />
-        <circle cx="-44" cy="0" r="2.5" fill="var(--accent)" />
+      {/* 6. ТОЧКА СТАРТА МАРШРУТА (ORIGIN DOT — VIENNA) */}
+      <g transform="translate(760, 780)">
+        {/* Пульсирующие кольца */}
+        <circle r="10" fill="#E5B87A" opacity="0.3">
+          <animate attributeName="r" values="10;34" dur="2.4s" repeatCount="indefinite" />
+          <animate attributeName="opacity" values="0.5;0" dur="2.4s" repeatCount="indefinite" />
+        </circle>
+        {/* Внутренняя светящаяся точка */}
+        <circle r="9" fill="#FFE533" filter="url(#dot-glow)" />
+        <circle r="5" fill="#FFFFFF" />
+        {/* Минималистичная подпись */}
         <text
-          x="-34"
+          x="22"
           y="4"
-          fill="#2A211D"
-          fontSize="9"
+          fill="rgba(229, 184, 122, 0.8)"
+          fontSize="11"
           fontWeight="600"
-          letterSpacing="0.8"
+          letterSpacing="1.5"
           fontFamily="var(--font-mono), monospace"
         >
-          2h 20m · Railjet
+          VIENNA · 48°12&apos;N
         </text>
       </g>
 
-      {/* Промежуточный студенческий хаб маршрута — Дьёр (Венгрия, университет Сечени) */}
-      <g transform="translate(580, 390)">
-        <circle r="7" fill="#FBF9F5" stroke="#C88242" strokeWidth="2.5" filter="url(#badge-shadow)" />
-        <circle r="3" fill="#2A211D" />
-        <rect
-          x="-32"
-          y="-30"
-          width="64"
-          height="18"
-          rx="5"
-          fill="rgba(42, 33, 29, 0.9)"
-          filter="url(#badge-shadow)"
-        />
+      {/* 7. ФИНАЛЬНАЯ ТОЧКА МАРШРУТА (DESTINATION — BUDAPEST) */}
+      <g ref={budaRef} style={{ opacity: 0 }} transform="translate(780, 210)">
+        {/* Пульсирующий ореол завершения маршрута */}
+        <circle r="14" fill="#FFE533" opacity="0.4">
+          <animate attributeName="r" values="14;46" dur="2.2s" begin="0.6s" repeatCount="indefinite" />
+          <animate attributeName="opacity" values="0.6;0" dur="2.2s" begin="0.6s" repeatCount="indefinite" />
+        </circle>
+        <circle r="10" fill="#FFE533" filter="url(#dot-glow)" />
+        <circle r="5.5" fill="#FFFFFF" />
+        {/* Минималистичная подпись */}
         <text
-          x="0"
-          y="-18"
-          textAnchor="middle"
-          fill="#FBF9F5"
-          fontSize="10"
-          fontWeight="600"
-          letterSpacing="1"
+          x="24"
+          y="5"
+          fill="rgba(255, 232, 133, 0.95)"
+          fontSize="11"
+          fontWeight="700"
+          letterSpacing="1.5"
           fontFamily="var(--font-mono), monospace"
         >
-          ДЬЁР
+          BUDAPEST · 47°29&apos;N
         </text>
       </g>
 
-      {/* 9. ВЕНА — СТОЛИЦА ПРОГРАММ В АВСТРИИ (APPLE MAPS HERO PIN) */}
-      <g transform="translate(180, 480)">
-        {/* Пульсирующие радио-маяки Crema */}
-        <circle r="8" fill="var(--accent)">
-          <animate attributeName="r" values="8;36" dur="2.6s" repeatCount="indefinite" />
-          <animate attributeName="opacity" values="0.75;0" dur="2.6s" repeatCount="indefinite" />
-        </circle>
-        <circle r="8" fill="var(--accent)">
-          <animate attributeName="r" values="8;24" dur="2.6s" begin="0.8s" repeatCount="indefinite" />
-          <animate attributeName="opacity" values="0.6;0" dur="2.6s" begin="0.8s" repeatCount="indefinite" />
-        </circle>
-        <circle r="9" fill="#FBF9F5" stroke="#2A211D" strokeWidth="2.5" filter="url(#badge-shadow)" />
-        <circle r="5" fill="var(--accent)" />
-
-        {/* Премиальный бейдж Вены в стиле Apple Maps */}
-        <g transform="translate(0, 24)">
-          <rect
-            x="-80"
-            y="0"
-            width="160"
-            height="40"
-            rx="10"
-            fill="rgba(42, 33, 29, 0.95)"
-            stroke="rgba(251, 249, 245, 0.2)"
-            strokeWidth="1"
-            filter="url(#badge-shadow)"
-          />
-          <circle cx="-62" cy="20" r="3.5" fill="var(--accent)" />
-          <text
-            x="-50"
-            y="18"
-            fill="#FBF9F5"
-            fontSize="13"
-            fontWeight="700"
-            letterSpacing="2"
-            fontFamily="var(--font-mono), monospace"
-          >
-            ВЕНА
-          </text>
-          <text
-            x="64"
-            y="18"
-            textAnchor="end"
-            fill="rgba(251, 249, 245, 0.6)"
-            fontSize="9"
-            letterSpacing="1"
-            fontFamily="var(--font-mono), monospace"
-          >
-            VIE · AT
-          </text>
-          <text
-            x="-50"
-            y="31"
-            fill="rgba(251, 249, 245, 0.75)"
-            fontSize="8.5"
-            letterSpacing="0.6"
-            fontFamily="var(--font-mono), monospace"
-          >
-            14 ВУЗОВ · ОТ €1 450
-          </text>
-        </g>
-      </g>
-
-      {/* 10. БУДАПЕШТ — СТОЛИЦА ПРОГРАММ В ВЕНГРИИ (APPLE MAPS HERO PIN) */}
-      <g ref={budaRef} style={{ opacity: 0 }} transform="translate(860, 250)">
-        {/* Пульсирующие радио-маяки Crema */}
-        <circle r="8" fill="var(--accent)">
-          <animate attributeName="r" values="8;36" dur="2.6s" begin="1.2s" repeatCount="indefinite" />
-          <animate attributeName="opacity" values="0.75;0" dur="2.6s" begin="1.2s" repeatCount="indefinite" />
-        </circle>
-        <circle r="8" fill="var(--accent)">
-          <animate attributeName="r" values="8;24" dur="2.6s" begin="1.8s" repeatCount="indefinite" />
-          <animate attributeName="opacity" values="0.6;0" dur="2.6s" begin="1.8s" repeatCount="indefinite" />
-        </circle>
-        <circle r="9" fill="#FBF9F5" stroke="#2A211D" strokeWidth="2.5" filter="url(#badge-shadow)" />
-        <circle r="5" fill="var(--accent)" />
-
-        {/* Премиальный бейдж Будапешта */}
-        <g transform="translate(0, -50)">
-          <rect
-            x="-88"
-            y="0"
-            width="176"
-            height="40"
-            rx="10"
-            fill="rgba(42, 33, 29, 0.95)"
-            stroke="rgba(251, 249, 245, 0.2)"
-            strokeWidth="1"
-            filter="url(#badge-shadow)"
-          />
-          <circle cx="-70" cy="20" r="3.5" fill="var(--accent)" />
-          <text
-            x="-58"
-            y="18"
-            fill="#FBF9F5"
-            fontSize="13"
-            fontWeight="700"
-            letterSpacing="2"
-            fontFamily="var(--font-mono), monospace"
-          >
-            БУДАПЕШТ
-          </text>
-          <text
-            x="72"
-            y="18"
-            textAnchor="end"
-            fill="rgba(251, 249, 245, 0.6)"
-            fontSize="9"
-            letterSpacing="1"
-            fontFamily="var(--font-mono), monospace"
-          >
-            BUD · HU
-          </text>
-          <text
-            x="-58"
-            y="31"
-            fill="rgba(251, 249, 245, 0.75)"
-            fontSize="8.5"
-            letterSpacing="0.6"
-            fontFamily="var(--font-mono), monospace"
-          >
-            14 ВУЗОВ · ГРАНТ 100%
-          </text>
-        </g>
-      </g>
-
-      {/* 11. НАВИГАЦИОННЫЙ КУРСОР APPLE MAPS */}
-      <g ref={cursorRef} transform="translate(180,480)">
-        {/* Внешний ореол курсора */}
-        <circle r="22" fill="rgba(200, 130, 66, 0.18)" />
-        <circle r="16" fill="#FBF9F5" stroke="var(--accent)" strokeWidth="3" filter="url(#badge-shadow)" />
-        <path d="M 9,0 L -6,-6 L -3,0 L -6,6 Z" fill="var(--accent)" />
-      </g>
-
-      {/* 12. КАРТОГРАФИЧЕСКИЕ ДЕТАЛИ И ШКАЛА МАСШТАБА (MAP CHROME) */}
-      {/* Масштабная линейка в нижнем левом углу */}
-      <g transform="translate(48, 648)">
-        <line x1="0" y1="0" x2="100" y2="0" stroke="rgba(42,33,29,0.5)" strokeWidth="2" />
-        <line x1="0" y1="-4" x2="0" y2="4" stroke="rgba(42,33,29,0.5)" strokeWidth="2" />
-        <line x1="50" y1="-3" x2="50" y2="3" stroke="rgba(42,33,29,0.5)" strokeWidth="1.5" />
-        <line x1="100" y1="-4" x2="100" y2="4" stroke="rgba(42,33,29,0.5)" strokeWidth="2" />
-        <text x="0" y="14" fill="rgba(42,33,29,0.55)" fontSize="9" fontFamily="var(--font-mono), monospace">0</text>
-        <text x="44" y="14" fill="rgba(42,33,29,0.55)" fontSize="9" fontFamily="var(--font-mono), monospace">50</text>
-        <text x="86" y="14" fill="rgba(42,33,29,0.55)" fontSize="9" fontFamily="var(--font-mono), monospace">100 km</text>
-        <text x="0" y="-8" fill="rgba(42,33,29,0.4)" fontSize="8" letterSpacing="1" fontFamily="var(--font-mono), monospace">
-          SCALE 1:2,500,000
-        </text>
-      </g>
-
-      {/* Компас N в правом верхнем углу */}
-      <g transform="translate(940, 50)">
-        <circle r="18" fill="rgba(251, 249, 245, 0.85)" stroke="rgba(42,33,29,0.15)" strokeWidth="1" />
-        <polygon points="0,-12 3.5,-2 0,0 -3.5,-2" fill="var(--accent)" />
-        <polygon points="0,12 3.5,2 0,0 -3.5,2" fill="rgba(42,33,29,0.3)" />
-        <text x="0" y="-14" textAnchor="middle" fill="#2A211D" fontSize="8" fontWeight="700" fontFamily="var(--font-mono), monospace">
-          N
-        </text>
+      {/* 8. СВЕТЯЩИЙСЯ КРУГОВОЙ КУРСОР С НАВИГАЦИОННОЙ СТРЕЛКОЙ (BENCHMARK CURSOR) */}
+      <g ref={cursorRef} transform="translate(760, 780)">
+        {/* Внешнее золотое светящееся кольцо */}
+        <circle
+          r="34"
+          fill="rgba(229, 184, 122, 0.12)"
+          stroke="#FFE885"
+          strokeWidth="5"
+          filter="url(#cursor-glow)"
+        />
+        {/* Внутренняя навигационная стрелка-указатель */}
+        <polygon
+          points="0,-16 11,10 0,5 -11,10"
+          fill="#FFFFFF"
+          filter="drop-shadow(0 0 6px rgba(255,232,133,0.9))"
+        />
       </g>
     </svg>
   );

@@ -3,7 +3,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { heroPhrases } from "../app/data";
 import HeroMap from "./HeroMap";
 import { onRafScroll } from "./ui";
-import { splitWords, buildHeroMetas, heroCharStyle, mixLight, mixInk } from "./hero-anim";
+import { splitWords, buildHeroMetas, heroCharStyle, mixLight } from "./hero-anim";
 
 // Hero: сначала полноэкранные фото (кроссфейд под фразы), затем поверх
 // выезжает светлая карта с рисующейся линией и курсором. Фраза 1 —
@@ -136,7 +136,7 @@ export default function Hero() {
     };
   }, [metas]);
 
-  const renderWords = (text: string, phraseIdx: number, light: boolean) => {
+  const renderWords = (text: string, phraseIdx: number) => {
     return splitWords(text).map((w, wi) => {
       if (w.length === 1 && w[0] === " ") {
         return <span key={wi} className="hero-char" style={{ opacity: phraseIdx === 0 ? 1 : 0 }}> </span>;
@@ -149,7 +149,7 @@ export default function Hero() {
               className="hero-char"
               style={{
                 opacity: phraseIdx === 0 ? 1 : 0,
-                color: phraseIdx === 0 ? (light ? "rgb(255,255,255)" : "rgb(42,33,29)") : (light ? mixLight(0) : mixInk(0)),
+                color: phraseIdx === 0 ? "rgb(255,255,255)" : mixLight(0),
               }}
             >
               {ch}
@@ -162,7 +162,7 @@ export default function Hero() {
 
   return (
     <div ref={ref} data-hero-region className="relative w-full" style={{ height: "320vh" }}>
-      <section className="sticky top-0 h-screen w-full overflow-hidden bg-black">
+      <section className="sticky top-0 h-screen w-full overflow-hidden bg-[#15100E]">
         {heroPhrases.map((ph, i) => (
           <img
             key={ph.img}
@@ -177,7 +177,7 @@ export default function Hero() {
             style={{ opacity: i === 0 ? 1 : 0 }}
           />
         ))}
-        <div ref={mapRef} className="absolute inset-0 bg-[#FBF9F5]" style={{ opacity: 0, visibility: "hidden" }}>
+        <div ref={mapRef} className="absolute inset-0 bg-[#15100E]" style={{ opacity: 0, visibility: "hidden" }}>
           <HeroMap
             narrow={narrow}
             pathRef={pathRef}
@@ -191,23 +191,22 @@ export default function Hero() {
         <div className="pointer-events-none absolute inset-0 px-6 lg:px-12">
           {heroPhrases.map((ph, i) => {
             const Tag = i === 0 ? "h1" : "div";
-            const light = i === 0;
             return (
               <Tag
                 key={ph.t}
                 data-hero-phrase
                 aria-hidden={i === 0 ? undefined : true}
-                className={`font-normal max-w-[90vw] md:max-w-[72vw] lg:max-w-[56vw] xl:max-w-[820px] ${light ? "text-white" : "text-[#2A211D]"}`}
+                className="font-normal max-w-[90vw] md:max-w-[72vw] lg:max-w-[56vw] xl:max-w-[820px] text-white"
                 style={{
                   position: "absolute",
                   fontSize: "clamp(28px,5.6vw,72px)",
                   lineHeight: 1.06,
                   letterSpacing: "-0.025em",
-                  ...(light ? { textShadow: "0 2px 18px rgba(0,0,0,0.9)" } : {}),
+                  textShadow: "0 2px 24px rgba(0,0,0,0.85), 0 1px 3px rgba(0,0,0,0.6)",
                   ...css(pos[i]),
                 }}
               >
-                {renderWords(ph.t, i, light)}
+                {renderWords(ph.t, i)}
               </Tag>
             );
           })}
