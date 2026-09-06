@@ -185,48 +185,146 @@ export default function Contact() {
                 </Reveal>
               </div>
             </div>
-            <div className="h-px bg-[#FBF9F5]/12" />
+            <div className="h-px bg-[#FBF9F5]/10 my-4" />
+
+            {/* Главный блок футера — в точности по эталону */}
             <Reveal>
-            <div className="grid grid-cols-1 gap-10 lg:grid-cols-2 lg:gap-16">
-              <div className="flex h-full flex-col">
-                <div className="text-2xl font-bold text-[#FBF9F5]">NEXORA<span className="text-[#FBF9F5]/50">.</span></div>
-                <p className="mt-3 font-mono text-xs uppercase text-[#FBF9F5]/50">Study abroad. Start here.</p>
-                <p className="mt-4 max-w-sm text-sm leading-relaxed text-[#FBF9F5]/70">Помогаем поступить в университеты Австрии и Венгрии: консультация €10, гранты, документы и ВНЖ под ключ.</p>
-                <nav className="mt-auto flex flex-wrap gap-x-8 gap-y-3 pt-6 text-xl font-medium text-[#FBF9F5]/80">
-                  <a href={`${pre}#services`} className="hover-underline transition hover:text-[#FBF9F5]">Программы</a>
-                  <a href="/austria" className="hover-underline transition hover:text-[#FBF9F5]">Австрия</a>
-                  <a href="/hungary" className="hover-underline transition hover:text-[#FBF9F5]">Венгрия</a>
-                  <a href="/reviews" className="hover-underline transition hover:text-[#FBF9F5]">Отзывы</a>
-                  <a href="/blog" className="hover-underline transition hover:text-[#FBF9F5]">Блог</a>
-                  <a href="/faq" className="hover-underline transition hover:text-[#FBF9F5]">FAQ</a>
-                </nav>
+              <div className="grid grid-cols-1 gap-12 pt-6 lg:grid-cols-12 lg:gap-16">
+                {/* Левая колонка: Логотип, About, Навигация */}
+                <div className="flex flex-col justify-between gap-10 lg:col-span-7">
+                  <div>
+                    <a href="/" className="inline-block text-3xl font-bold tracking-tight text-[#FBF9F5] lg:text-4xl">
+                      NEXORA<span className="text-[var(--accent)]">.</span>
+                    </a>
+                  </div>
+
+                  <div className="flex flex-col gap-2.5">
+                    <span className="font-mono text-xs font-bold uppercase tracking-[1.5px] text-[#FBF9F5]/45">
+                      О нас
+                    </span>
+                    <p className="max-w-lg text-[15px] leading-relaxed text-[#FBF9F5]/75 lg:text-base">
+                      Бутик-агентство полного цикла. Сопровождаем студентов в государственные университеты Австрии и Венгрии: от первой консультации и аудита до зачисления и студенческого ВНЖ.
+                    </p>
+                  </div>
+
+                  <div className="flex flex-col gap-3 pt-2">
+                    <span className="font-mono text-xs font-bold uppercase tracking-[1.5px] text-[#FBF9F5]/45">
+                      Навигация
+                    </span>
+                    <nav className="flex flex-wrap items-center gap-x-7 gap-y-2 text-base font-medium text-[#FBF9F5]/85">
+                      <a href={`${pre}#services`} className="hover-underline transition hover:text-[#FBF9F5]">Программы</a>
+                      <a href="/austria" className="hover-underline transition hover:text-[#FBF9F5]">Австрия</a>
+                      <a href="/hungary" className="hover-underline transition hover:text-[#FBF9F5]">Венгрия</a>
+                      <a href="/reviews" className="hover-underline transition hover:text-[#FBF9F5]">Отзывы</a>
+                      <a href="/blog" className="hover-underline transition hover:text-[#FBF9F5]">Блог</a>
+                      <a href="/faq" className="hover-underline transition hover:text-[#FBF9F5]">FAQ</a>
+                      <a href={`${pre}#contact`} className="hover-underline transition hover:text-[#FBF9F5]">Контакты</a>
+                    </nav>
+                  </div>
+                </div>
+
+                {/* Правая колонка: Телефон/Telegram, Локации, Email, Соцсети */}
+                <div className="flex flex-col justify-between gap-8 lg:col-span-5 lg:pl-6">
+                  {/* Telegram / Телефон */}
+                  <div className="flex flex-col gap-1.5">
+                    <span className="font-mono text-xs font-bold uppercase tracking-[1.5px] text-[#FBF9F5]/45">
+                      Связь с куратором
+                    </span>
+                    <a
+                      href="https://t.me/nexora_support"
+                      target="_blank"
+                      rel="noopener"
+                      className="hover-underline text-2xl font-bold tracking-tight text-white transition lg:text-3xl"
+                    >
+                      @nexora_support
+                    </a>
+                  </div>
+
+                  {/* Локации */}
+                  <div className="flex flex-col gap-1.5">
+                    <span className="font-mono text-xs font-bold uppercase tracking-[1.5px] text-[#FBF9F5]/45">
+                      Локации и формат
+                    </span>
+                    <p className="text-[15px] leading-snug text-[#FBF9F5]/80">
+                      Вена, Австрия<br />
+                      Будапешт, Венгрия<br />
+                      <span className="text-[#FBF9F5]/55">100% удалённо по всему миру</span>
+                    </p>
+                  </div>
+
+                  {/* Email */}
+                  <div className="flex flex-col gap-1.5">
+                    <span className="font-mono text-xs font-bold uppercase tracking-[1.5px] text-[#FBF9F5]/45">
+                      Email
+                    </span>
+                    <a
+                      href="mailto:admissions@nexora.eu"
+                      className="hover-underline break-all text-base font-medium text-[#FBF9F5]/85 transition hover:text-white"
+                    >
+                      admissions@nexora.eu
+                    </a>
+                  </div>
+
+                  {/* Соцсети / Мессенджеры (круглые кнопки по эталону) */}
+                  <div className="flex flex-col gap-2.5">
+                    <span className="font-mono text-xs font-bold uppercase tracking-[1.5px] text-[#FBF9F5]/45">
+                      Мессенджеры
+                    </span>
+                    <div className="flex items-center gap-3">
+                      {/* Telegram */}
+                      <a
+                        href="https://t.me/nexora_support"
+                        target="_blank"
+                        rel="noopener"
+                        aria-label="Telegram"
+                        className="flex h-11 w-11 items-center justify-center rounded-full bg-white/10 text-white transition-all duration-300 hover:scale-110 hover:bg-[var(--accent)] hover:text-[#2A211D]"
+                      >
+                        <svg className="h-5 w-5 fill-current" viewBox="0 0 24 24">
+                          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z" />
+                        </svg>
+                      </a>
+                      {/* Email */}
+                      <a
+                        href="mailto:admissions@nexora.eu"
+                        aria-label="Email"
+                        className="flex h-11 w-11 items-center justify-center rounded-full bg-white/10 text-white transition-all duration-300 hover:scale-110 hover:bg-[var(--accent)] hover:text-[#2A211D]"
+                      >
+                        <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
+                          <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                          <polyline points="22,6 12,13 2,6" />
+                        </svg>
+                      </a>
+                      {/* WhatsApp / Direct */}
+                      <a
+                        href="https://t.me/nexora_support"
+                        target="_blank"
+                        rel="noopener"
+                        aria-label="Онлайн-чат"
+                        className="flex h-11 w-11 items-center justify-center rounded-full bg-white/10 text-white transition-all duration-300 hover:scale-110 hover:bg-[var(--accent)] hover:text-[#2A211D]"
+                      >
+                        <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
+                          <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" />
+                        </svg>
+                      </a>
+                    </div>
+                  </div>
+                </div>
               </div>
-              <div className="flex flex-col gap-6 text-[#FBF9F5]/90">
-                <div>
-                  <span className="font-mono text-xs font-bold uppercase tracking-[1px] text-[#FBF9F5]/50">Telegram</span>
-                  <p className="mt-2"><a href="https://t.me/nexora_support" target="_blank" rel="noopener" className="hover-underline text-lg transition hover:text-[#FBF9F5]">@nexora_support</a></p>
-                </div>
-                <div>
-                  <span className="font-mono text-xs font-bold uppercase tracking-[1px] text-[#FBF9F5]/50">Почта</span>
-                  <p className="mt-2"><a href="mailto:admissions@nexora.eu" className="hover-underline break-all text-lg transition hover:text-[#FBF9F5]">admissions@nexora.eu</a></p>
-                </div>
-                <div>
-                  <span className="font-mono text-xs font-bold uppercase tracking-[1px] text-[#FBF9F5]/50">Формат</span>
-                  <p className="mt-2 text-lg">100% удалённо, без офисов</p>
-                </div>
-                <div>
-                  <span className="font-mono text-xs font-bold uppercase tracking-[1px] text-[#FBF9F5]/50">Часы</span>
-                  <p className="mt-2 text-lg">Пн–Вс, 8:00–18:00</p>
-                </div>
-              </div>
-            </div>
             </Reveal>
-            <div className="h-px bg-[#FBF9F5]/12" />
+
+            <div className="h-px bg-[#FBF9F5]/10 mt-10 mb-6" />
+
+            {/* Подвал — Sub-footer в 3 части по эталону */}
             <Reveal>
-            <div className="flex flex-col gap-5 text-[13px] text-[#FBF9F5]/55 lg:flex-row lg:items-center">
-              <span>© 2026 Nexora Admissions. Правила приёма актуальны на сезон 2026/2027.</span>
-              <a href="/privacy" className="hover-underline w-fit transition hover:text-[#FBF9F5] lg:ml-auto">Privacy policy</a>
-            </div>
+              <div className="flex flex-col gap-4 text-xs text-[#FBF9F5]/50 sm:flex-row sm:items-center sm:justify-between">
+                <span>Copyright © 2026 Nexora Admissions. All Rights Reserved.</span>
+                <a href="/privacy" className="hover-underline w-fit transition hover:text-white">
+                  Privacy policy
+                </a>
+                <span className="font-mono text-[11px] uppercase tracking-wider text-[#FBF9F5]/40">
+                  Study abroad · Nexora
+                </span>
+              </div>
             </Reveal>
           </div>
         </footer>
