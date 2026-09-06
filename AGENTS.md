@@ -19,8 +19,6 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 - Implement collapsible menus and accordions using `grid-template-rows: 0fr -> 1fr` with `cubic-bezier(0.32, 0.72, 0, 1)`.
 - Never poll element heights (`scrollHeight`) in JavaScript when animating menus.
 
-## 3. Rich Interactive Product Showcases & Simulations
-- For multi-step explanations or feature breakdowns, build animated simulated interfaces (mockups with scan beams, volume tags, live calculation sheets, and `backdrop-filter: blur(8px)`) rather than flat static images.
 
 ## 4. Tactile Micro-Interactions & Dual-Row Flip CTA
 - Primary CTA buttons should implement dual-row text flipping or staggered character transitions (`transition-delay: calc(var(--i) * 18ms)`).

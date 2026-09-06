@@ -144,13 +144,10 @@ Primary calls-to-action should implement dual-row character flipping for high-en
 
 ---
 
-## 4. Rich Interactive Product Showcases & UI Simulations
-
-Instead of flat screenshots or passive stock photography, build live simulated interfaces for explaining core features:
-- **Device Frames**: Realistic iPhone / iPad / MacBook frames with aspect ratios (`346 / 702`).
-- **Laser / Scan Beams**: Gradient sweep lines (`background: linear-gradient(...)`) simulating active AI or automated workflows.
-- **Volumetric Floating Badges**: Rounded pills with `backdrop-filter: blur(8px)` and soft drop shadows.
-- **Dynamic Sheets**: Live calculation sheets with smooth stagger entrances (`animation: sheet-up 0.5s ease both`).
+## 4. Tactile Micro-Interactions & Dual-Row Flip CTA
+- Primary CTA buttons should implement dual-row text flipping or staggered character transitions (`transition-delay: calc(var(--i) * 18ms)`).
+- Touch targets must be >= `44px` with `touch-action: manipulation` and `-webkit-tap-highlight-color: transparent`.
+- Isolate `:hover` transforms using `@media (hover: hover) and (pointer: fine)` to prevent sticky hover states on touch screens.
 
 ---
 
