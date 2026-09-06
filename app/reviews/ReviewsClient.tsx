@@ -187,10 +187,10 @@ export default function ReviewsClient() {
               </p>
             </div>
 
-            {/* Рейтинг справа: 4.9/5 | Разделитель | Платформы Google & Telegram */}
-            <div className="flex items-center gap-6 sm:gap-8 shrink-0">
+            {/* Рейтинг справа: 4.9/5 | Вертикальный разделитель | Платформы Google & Telegram */}
+            <div className="flex items-center shrink-0">
               {/* Левый блок: 4.9/5 + звёзды + счётчик */}
-              <div className="flex flex-col items-start gap-2">
+              <div className="flex flex-col items-start gap-2 pr-6 sm:pr-8 lg:pr-10 border-r border-white/15">
                 <div className="flex items-baseline">
                   <span className="font-sans font-extrabold text-5xl sm:text-6xl lg:text-[72px] tracking-tight text-white leading-none">
                     4.9
@@ -205,11 +205,8 @@ export default function ReviewsClient() {
                 </span>
               </div>
 
-              {/* Вертикальный разделитель (как на скриншоте эталона) */}
-              <div className="w-px h-24 bg-white/15 mx-1 sm:mx-2 hidden sm:block" aria-hidden />
-
               {/* Правый блок: Платформы с круглыми иконками */}
-              <div className="flex flex-col gap-4 sm:gap-5">
+              <div className="flex flex-col gap-4 sm:gap-5 pl-6 sm:pl-8 lg:pl-10">
                 {/* Google */}
                 <div className="flex items-center gap-3.5">
                   <div className="w-12 h-12 rounded-full bg-[#2563EB] flex items-center justify-center shrink-0 shadow-lg">
