@@ -199,11 +199,11 @@ export default function Hero() {
                 key={ph.t}
                 data-hero-phrase
                 aria-hidden={i === 0 ? undefined : true}
-                className="font-normal max-w-[min(90vw,540px)] md:max-w-[480px] lg:max-w-[500px] xl:max-w-[540px] text-white"
+                className="font-normal max-w-[min(92vw,640px)] md:max-w-[540px] lg:max-w-[580px] xl:max-w-[640px] text-white"
                 style={{
                   position: "absolute",
-                  fontSize: "clamp(28px,5.2vw,68px)",
-                  lineHeight: 1.08,
+                  fontSize: "clamp(28px,4.5vw,56px)",
+                  lineHeight: 1.12,
                   letterSpacing: "-0.025em",
                   textShadow: "0 2px 24px rgba(0,0,0,0.85), 0 1px 3px rgba(0,0,0,0.6)",
                   ...css(pos[i]),
