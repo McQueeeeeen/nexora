@@ -57,6 +57,15 @@ export default function Reviews({ title, detailed = false }: { title?: string; d
             />
           ))}
         </div>
+        <div className="mt-8">
+          <a
+            href="/reviews"
+            className="hover-underline inline-flex items-center gap-2 font-mono text-xs font-bold uppercase tracking-[1px] text-[#2A211D] transition"
+          >
+            <span>Все 312+ отзывов студентов</span>
+            <span aria-hidden>→</span>
+          </a>
+        </div>
       </div>
     </section>
   );
