@@ -13,28 +13,28 @@ export default function CountryServices({ c }: { c: CountryInfo }) {
           </div>
         </Reveal>
         <Reveal>
-          <h2 className="max-w-[900px] text-balance text-[32px] font-bold leading-[1.2] tracking-[-0.96px] text-[#2A211D] lg:text-[64px] lg:tracking-[-2.56px]">{c.servicesTitle}</h2>
-          <p className="mt-4 max-w-[640px] text-[#2A211D]/70">{c.servicesIntro}</p>
+          <h2 className="max-w-[900px] text-balance text-[32px] font-medium leading-[1.15] tracking-[-0.96px] text-[#2A211D] lg:text-[56px] lg:tracking-[-2px]">{c.servicesTitle}</h2>
+          <p className="mt-4 max-w-[640px] text-base leading-relaxed text-[#2A211D]/70 lg:text-lg">{c.servicesIntro}</p>
         </Reveal>
-        <div className="grid grid-cols-1 gap-3 lg:grid-cols-2 lg:gap-5">
+        <div className="grid grid-cols-1 gap-4 lg:grid-cols-2 lg:gap-6">
           {c.servicesLocal.map((s, i) => (
             <Reveal key={s.title}>
-              <a href="#database" className="card group relative flex h-[360px] flex-col justify-between overflow-hidden rounded-2xl bg-[#2A211D] lg:h-[515px]">
-                <span aria-hidden className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 select-none font-light text-[100px] leading-[1.2] tracking-[-4.92px] text-white/[0.07] lg:text-[164px]">
-                  {i + 1}
+              <a href="#database" className="card group relative flex h-[360px] flex-col justify-between overflow-hidden rounded-2xl border border-[#2A211D]/10 bg-[#120D0B] transition-all duration-300 hover:border-[#C88242]/40 hover:shadow-lg lg:h-[500px]">
+                <span aria-hidden className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 select-none font-mono font-bold text-[100px] leading-none tracking-tighter text-white/[0.08] lg:text-[150px]">
+                  0{i + 1}
                 </span>
-                <SafeImage src={s.img} alt="" className="absolute inset-0 h-full w-full object-cover" />
-                <div className="absolute inset-0 bg-black/20" />
-                <div className="relative z-10 overflow-hidden p-5 pb-16 lg:p-8 lg:pb-20">
-                  <div className="absolute inset-0" style={{ background: "linear-gradient(to bottom, rgba(42,33,29,0.85) 0%, rgba(42,33,29,0.4) 55%, transparent 100%)" }} />
-                  <h3 className="relative text-[28px] font-semibold leading-[1.2] tracking-[-0.84px] text-white lg:text-[42px] lg:tracking-[-1.26px]">{s.title}</h3>
+                <SafeImage src={s.img} alt="" className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                <div className="absolute inset-0 bg-black/30" />
+                <div className="relative z-10 overflow-hidden p-6 pb-16 lg:p-9 lg:pb-20">
+                  <div className="absolute inset-0" style={{ background: "linear-gradient(to bottom, rgba(18,13,11,0.9) 0%, rgba(18,13,11,0.45) 55%, transparent 100%)" }} />
+                  <h3 className="relative text-[26px] font-medium leading-[1.2] tracking-tight text-[#FBF9F5] lg:text-[38px]">{s.title}</h3>
                 </div>
-                <div className="relative z-10 overflow-hidden p-5 pt-16 lg:p-8 lg:pt-20">
-                  <div className="absolute inset-0" style={{ background: "linear-gradient(to top, rgba(42,33,29,0.85) 0%, rgba(42,33,29,0.4) 55%, transparent 100%)" }} />
+                <div className="relative z-10 overflow-hidden p-6 pt-16 lg:p-9 lg:pt-20">
+                  <div className="absolute inset-0" style={{ background: "linear-gradient(to top, rgba(18,13,11,0.9) 0%, rgba(18,13,11,0.45) 55%, transparent 100%)" }} />
                   <div className="relative flex items-end gap-4 lg:gap-6">
-                    <p className="flex-1 text-base font-normal leading-[1.4] text-white lg:text-xl">{s.desc}</p>
-                    <span className="hidden h-14 w-14 shrink-0 items-center justify-center rounded-full bg-[#362B26] transition-all duration-300 ease-out group-hover:rotate-[-45deg] group-hover:scale-110 group-hover:bg-[#FBF9F5] lg:flex" aria-hidden>
-                      <ArrowIcon className="h-5 w-5 text-white transition-all group-hover:text-[#2A211D]" />
+                    <p className="flex-1 text-base font-normal leading-relaxed text-[#FBF9F5]/90 lg:text-lg">{s.desc}</p>
+                    <span className="hidden h-14 w-14 shrink-0 items-center justify-center rounded-full bg-[#1D1613]/90 text-[#FBF9F5] backdrop-blur-sm transition-all duration-300 ease-out group-hover:rotate-[-45deg] group-hover:scale-110 group-hover:bg-[#C88242] group-hover:text-white lg:flex" aria-hidden>
+                      <ArrowIcon className="h-5 w-5 transition-all" />
                     </span>
                   </div>
                 </div>

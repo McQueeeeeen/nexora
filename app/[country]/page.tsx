@@ -69,21 +69,21 @@ export default async function CountryPage({ params }: { params: Promise<{ countr
       <Intro />
       <Header />
 
-      <section data-hero-region className="relative h-screen min-h-[720px] overflow-hidden bg-black lg:min-h-[900px]">
+      <section data-hero-region className="relative h-screen min-h-[720px] overflow-hidden bg-[#120D0B] lg:min-h-[900px]">
         <SafeImage src={c.heroImg} alt={c.name} eager className="absolute inset-0 h-full w-full object-cover object-[25%_center] lg:object-center" />
-        <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/50 via-black/20 to-black/70" />
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-[#120D0B]/75 via-[#120D0B]/35 to-[#120D0B]/85" />
         <div className="wrap relative flex h-full items-end pb-8 lg:pb-[72px]">
           <Reveal className="flex max-w-[920px] flex-col gap-4 lg:gap-6">
-            <span className="inline-flex w-fit items-center rounded-full bg-black/55 px-4 py-2 backdrop-blur-[10px]">
-              <span className="font-mono text-xs font-bold uppercase leading-[1.2] text-white lg:text-sm">{c.name}</span>
+            <span className="inline-flex w-fit items-center rounded-full border border-[#FBF9F5]/15 bg-[#120D0B]/70 px-4 py-1.5 backdrop-blur-[10px]">
+              <span className="font-mono text-xs font-semibold uppercase tracking-wider text-[#E5B87A] lg:text-sm">{c.name}</span>
             </span>
-            <h1 className="text-balance text-[40px] font-bold leading-[1.05] tracking-[-1.2px] text-white sm:text-[56px] lg:text-[80px] lg:tracking-[-2.4px]">
+            <h1 className="text-balance text-[40px] font-medium leading-[1.08] tracking-[-1.5px] text-[#FBF9F5] sm:text-[56px] lg:text-[76px] lg:tracking-[-2px]">
               {c.tagline}
             </h1>
-            <p className="max-w-[720px] text-base font-normal leading-[1.4] text-white lg:text-xl">{c.about}</p>
+            <p className="max-w-[720px] text-base font-normal leading-relaxed text-[#FBF9F5]/90 lg:text-xl">{c.about}</p>
             <div className="flex flex-col gap-3 pt-2 sm:flex-row sm:gap-4">
-              <Btn href="#database" className="h-[44px] w-full justify-center rounded-xl px-[18px] text-base sm:w-auto">Вузы страны</Btn>
-              <Btn href="#contact" ghost className="h-[44px] w-full justify-center rounded-xl px-[18px] text-base sm:w-auto">Консультация €10</Btn>
+              <Btn href="#database" light className="h-[48px] w-full justify-center rounded-xl px-7 text-base font-semibold sm:w-auto">Вузы страны</Btn>
+              <Btn href="#contact" ghost className="h-[48px] w-full justify-center rounded-xl px-7 text-base font-semibold sm:w-auto">Консультация €10</Btn>
             </div>
           </Reveal>
         </div>
@@ -100,14 +100,14 @@ export default async function CountryPage({ params }: { params: Promise<{ countr
 
       <section className="wrap pb-24">
         <Reveal>
-          <a href={other.href} className="card group flex items-center justify-between rounded-2xl border border-[#2A211D]/10 bg-white p-8 lg:p-10">
+          <a href={other.href} className="card group flex items-center justify-between rounded-2xl border border-[#2A211D]/10 bg-white p-8 transition-all duration-300 hover:border-[#C88242]/40 hover:shadow-lg lg:p-10">
             <div>
-              <span className="font-mono text-xs uppercase tracking-[1px] text-[#2A211D]/50">Смотрите также</span>
-              <h2 className="mt-3 text-3xl font-medium tracking-tight lg:text-5xl">{other.title}</h2>
-              <p className="mt-2 text-sm text-[#2A211D]/60">{other.desc}</p>
+              <span className="font-mono text-xs uppercase tracking-[1.5px] text-[#C88242]">Смотрите также</span>
+              <h2 className="mt-3 text-3xl font-medium tracking-tight text-[#2A211D] lg:text-5xl">{other.title}</h2>
+              <p className="mt-2 text-sm text-[#2A211D]/65 lg:text-base">{other.desc}</p>
             </div>
-            <span className="hidden h-14 w-14 shrink-0 items-center justify-center rounded-full bg-[#2A211D]/5 transition-all duration-300 group-hover:scale-110 group-hover:bg-[#2A211D] sm:flex" aria-hidden>
-              <ArrowIcon className="h-5 w-5 transition-colors group-hover:text-[#FBF9F5]" />
+            <span className="hidden h-14 w-14 shrink-0 items-center justify-center rounded-full bg-[#2A211D]/5 text-[#2A211D] transition-all duration-300 group-hover:scale-110 group-hover:bg-[#120D0B] group-hover:text-[#FBF9F5] sm:flex" aria-hidden>
+              <ArrowIcon className="h-5 w-5 transition-transform duration-300 group-hover:translate-x-0.5" />
             </span>
           </a>
         </Reveal>

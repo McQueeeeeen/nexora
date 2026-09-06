@@ -36,16 +36,17 @@ export default function Database({ initial = "AT", title = "Университе
           {list.map((u) => {
             const site = uniSites[u.name];
             return (
-              <article key={u.name} className="card flex flex-col justify-between rounded-2xl border border-[#2A211D]/10 bg-white p-6">
+              <article key={u.name} className="card flex flex-col justify-between rounded-2xl border border-[#2A211D]/10 bg-white p-6 transition-all duration-300 hover:border-[#C88242]/40 hover:shadow-md">
                 <div>
                   <div className="flex flex-wrap items-center justify-between gap-2">
-                    <span className="rounded-full bg-[#2A211D] px-3 py-0.5 font-mono text-[11px] font-bold text-[#FBF9F5]">Шанс {u.chance}</span>
+                    <span className="rounded-full border border-white/10 bg-[#120D0B] px-3 py-0.5 font-mono text-[11px] font-semibold text-[#E5B87A]">Шанс {u.chance}</span>
                     <span className="font-mono text-xs text-[#2A211D]/50">{u.city} · {u.rank}</span>
                   </div>
                   {site ? (
                     <a href={site} target="_blank" rel="noopener noreferrer" title={`Официальный сайт — ${u.name}`}
-                      className="hover-underline mt-5 inline-flex items-center gap-1.5 text-2xl font-medium tracking-tight text-[#2A211D] transition hover:opacity-80">
-                      {u.name} <ExtIcon className="h-4 w-4 shrink-0" />
+                      className="group/link mt-5 inline-flex items-center gap-1.5 text-2xl font-medium tracking-tight text-[#2A211D] transition hover:text-[#C88242]">
+                      <span>{u.name}</span>
+                      <ExtIcon className="h-4 w-4 shrink-0 transition-transform group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5" />
                     </a>
                   ) : (
                     <h3 className="mt-5 text-2xl font-medium tracking-tight text-[#2A211D]">{u.name}</h3>
@@ -53,7 +54,7 @@ export default function Database({ initial = "AT", title = "Университе
                   <p className="mt-3 line-clamp-2 text-xs leading-relaxed text-[#2A211D]/65">{u.specialty}</p>
                 </div>
                 <div className="mt-6 grid grid-cols-2 gap-3 border-t border-[#2A211D]/10 pt-4 text-xs text-[#2A211D]">
-                  <div><span className="block font-mono text-[10px] uppercase text-[#2A211D]/45">Обучение</span>{u.fee}</div>
+                  <div><span className="block font-mono text-[10px] uppercase text-[#2A211D]/45">Обучение</span><span className="font-medium text-[#2A211D]">{u.fee}</span></div>
                   <div><span className="block font-mono text-[10px] uppercase text-[#2A211D]/45">Подача</span><span className="line-clamp-2">{u.apply}</span></div>
                   <div className="col-span-2"><span className="block font-mono text-[10px] uppercase text-[#2A211D]/45">Гранты</span><span className="font-semibold text-[#2A211D]">{u.grant}</span></div>
                 </div>

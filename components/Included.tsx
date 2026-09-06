@@ -47,8 +47,8 @@ export default function Included({ c }: { c: CountryInfo }) {
           </div>
         </Reveal>
         <Reveal>
-          <h2 className="mt-6 max-w-[900px] text-balance text-[32px] font-bold leading-[1.2] tracking-[-0.96px] text-[#2A211D] lg:text-[64px] lg:tracking-[-2.56px]">{c.includedTitle}</h2>
-          <p className="mt-4 max-w-[640px] text-[#2A211D]/70">{c.includedIntro}</p>
+          <h2 className="mt-6 max-w-[900px] text-balance text-[32px] font-medium leading-[1.15] tracking-[-0.96px] text-[#2A211D] lg:text-[56px] lg:tracking-[-2px]">{c.includedTitle}</h2>
+          <p className="mt-4 max-w-[640px] text-base leading-relaxed text-[#2A211D]/70 lg:text-lg">{c.includedIntro}</p>
         </Reveal>
       </div>
 
@@ -74,14 +74,13 @@ export default function Included({ c }: { c: CountryInfo }) {
 
 function Card({ n, title, desc, className = "" }: { n: number; title: string; desc: string; className?: string }) {
   return (
-    <div className={`relative flex min-h-[320px] flex-col justify-between gap-6 overflow-hidden border border-[#2A211D]/10 bg-white p-8 lg:min-h-[460px] ${className}`}>
-      <span className="flex items-center justify-center font-mono text-xl font-bold text-[#FBF9F5]"
-        style={{ width: 72, height: 72, borderRadius: 16, backgroundColor: "#2A211D" }} aria-hidden>
+    <div className={`card relative flex min-h-[320px] flex-col justify-between gap-6 overflow-hidden rounded-2xl border border-[#2A211D]/10 bg-white p-8 transition-all duration-300 hover:border-[#C88242]/40 hover:shadow-md lg:min-h-[440px] lg:p-9 ${className}`}>
+      <span className="flex h-16 w-16 items-center justify-center rounded-xl border border-white/10 bg-[#120D0B] font-mono text-xl font-semibold text-[#E5B87A] lg:h-[72px] lg:w-[72px]" aria-hidden>
         {String(n).padStart(2, "0")}
       </span>
       <div className="relative z-10 flex flex-col gap-3">
-        <h3 style={{ fontWeight: 600, fontSize: 26, lineHeight: 1.2, letterSpacing: "-0.6px", color: "#2A211D", margin: 0 }}>{title}</h3>
-        <p style={{ fontWeight: 400, fontSize: 18, lineHeight: 1.5, letterSpacing: "-0.3px", color: "rgba(42,33,29,0.7)", margin: 0 }}>{desc}</p>
+        <h3 className="text-[22px] font-medium leading-[1.2] tracking-tight text-[#2A211D] lg:text-[26px]">{title}</h3>
+        <p className="text-[15px] font-normal leading-relaxed text-[#2A211D]/70 lg:text-[17px]">{desc}</p>
       </div>
     </div>
   );
