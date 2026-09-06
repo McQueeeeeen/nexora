@@ -6,6 +6,7 @@ import About from "../components/About";
 import Services from "../components/Services";
 import Cta from "../components/Cta";
 import Steps from "../components/Steps";
+import AuditSimulator from "../components/AuditSimulator";
 import Pricing from "../components/Pricing";
 import Stats from "../components/Stats";
 import Reviews from "../components/Reviews";
@@ -31,6 +32,9 @@ export default function Page() {
       </StackSection>
       <Cta />
       <Steps />
+      <StackSection>
+        <AuditSimulator />
+      </StackSection>
       <StackSection>
         <Pricing />
       </StackSection>

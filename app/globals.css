@@ -182,10 +182,15 @@ html.preloaded [data-load-wrap] { display: none !important; }
 .mp5-btn--secondary { color: #FBF9F5; background: none; box-shadow: inset 0 0 0 1px rgba(251, 249, 245, 0.35); }
 .mp5-btn--secondary:hover { background-color: rgba(251, 249, 245, 0.12); transform: translateY(-1px); box-shadow: inset 0 0 0 1px rgba(251, 249, 245, 0.6); }
 .mp5-btn--secondary:active { transform: translateY(0); }
-.mp5-btn--outline { color: var(--ink); background: none; box-shadow: inset 0 0 0 1px rgba(42, 33, 29, 0.18); }
-.mp5-btn--outline:hover { background-color: rgba(42, 33, 29, 0.06); transform: translateY(-1px); }
-.mp5-btn--outline:active { transform: translateY(0); }
 .mp5-btn:disabled { opacity: .5; cursor: not-allowed; transform: none !important; }
+
+/* ---------- тактильный dual-row flip для кнопок (ds-btn__flip) ---------- */
+.ds-btn__flip { display: inline-flex; flex-direction: column; height: 1.3em; line-height: 1.3; overflow: hidden; position: relative; }
+.ds-btn__row { display: inline-flex; transition: transform 0.45s cubic-bezier(0.65, 0, 0.35, 1); will-change: transform; }
+.ds-btn__ch { display: inline-block; transition: transform 0.45s cubic-bezier(0.65, 0, 0.35, 1); will-change: transform; }
+@media (hover: hover) and (pointer: fine) {
+  .mp5-btn:hover .ds-btn__row { transform: translateY(-1.3em); }
+}
 
 /* ---------- hero-фразы ---------- */
 [data-hero-phrase] { opacity: 1; }

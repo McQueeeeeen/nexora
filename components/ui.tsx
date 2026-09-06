@@ -137,8 +137,24 @@ export function CheckIcon({ className = "" }: { className?: string }) {
   );
 }
 
-export function Btn({ href, children, ghost = false, outline = false, light = false, className = "", style }: {
-  href: string; children: React.ReactNode; ghost?: boolean; outline?: boolean; light?: boolean; className?: string; style?: React.CSSProperties;
+export function Btn({
+  href,
+  children,
+  ghost = false,
+  outline = false,
+  light = false,
+  className = "",
+  style,
+  onClick,
+}: {
+  href: string;
+  children: React.ReactNode;
+  ghost?: boolean;
+  outline?: boolean;
+  light?: boolean;
+  className?: string;
+  style?: React.CSSProperties;
+  onClick?: () => void;
 }) {
   const kind = light ? "mp5-btn--light" : outline ? "mp5-btn--outline" : ghost ? "mp5-btn--secondary" : "mp5-btn--primary";
   const mref = useRef<HTMLAnchorElement>(null);
@@ -152,10 +168,39 @@ export function Btn({ href, children, ghost = false, outline = false, light = fa
     el.style.transform = `translate(${(x * 0.12).toFixed(1)}px, ${(y * 0.18).toFixed(1)}px)`;
   };
   const reset = () => { if (mref.current) mref.current.style.transform = ""; };
+
+  const isText = typeof children === "string";
+
   return (
-    <a ref={mref} href={href} onMouseMove={onMove} onMouseLeave={reset}
-      className={`mp5-btn ${kind} ${className}`} style={style}>
-      {children}
+    <a
+      ref={mref}
+      href={href}
+      onClick={onClick}
+      onMouseMove={onMove}
+      onMouseLeave={reset}
+      className={`mp5-btn ${kind} ${className}`}
+      style={style}
+    >
+      {isText ? (
+        <span className="ds-btn__flip">
+          <span className="ds-btn__row ds-btn__row--top">
+            {children.split("").map((c, i) => (
+              <span key={i} className="ds-btn__ch" style={{ transitionDelay: `${Math.min(i, 14) * 14}ms` }}>
+                {c === " " ? "\u00A0" : c}
+              </span>
+            ))}
+          </span>
+          <span className="ds-btn__row ds-btn__row--dup" aria-hidden="true">
+            {children.split("").map((c, i) => (
+              <span key={i} className="ds-btn__ch" style={{ transitionDelay: `${Math.min(i, 14) * 14}ms` }}>
+                {c === " " ? "\u00A0" : c}
+              </span>
+            ))}
+          </span>
+        </span>
+      ) : (
+        children
+      )}
     </a>
   );
 }
