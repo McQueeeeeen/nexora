@@ -66,8 +66,8 @@ export default function Statement() {
   }, []);
 
   return (
-    <div ref={containerRef} className="relative w-full" style={{ height: "220vh" }}>
-      <section className="sticky top-0 flex h-screen w-full items-center justify-center overflow-hidden bg-[#FBF9F5]">
+    <div ref={containerRef} className="relative w-full z-10 -mt-10 lg:-mt-16" style={{ height: "220vh" }}>
+      <section className="sticky top-0 flex h-screen w-full items-center justify-center overflow-hidden rounded-t-[2.5rem] lg:rounded-t-[3.5rem] bg-[#FBF9F5] shadow-[0_-24px_80px_rgba(0,0,0,0.45)] border-t border-[#2A211D]/10">
         <div className="mx-auto flex w-full max-w-[1408px] flex-col items-center px-6 lg:px-12">
           <h2 className="max-w-[1140px] text-balance text-center text-[min(3.25em,9.5vw)] font-normal leading-[1.08] tracking-[-0.025em] text-[#2A211D] lg:text-[76px] lg:tracking-[-2.5px]">
             {words.map((w, i) => (

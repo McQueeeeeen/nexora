@@ -35,8 +35,8 @@ export default function Steps() {
   }, [n]);
 
   return (
-    <div ref={containerRef} id="steps" className="steps-pin-wrap relative" style={{ height: "300vh" }}>
-      <section className="mp5-benefits-pin sticky top-0 grid h-screen w-full grid-rows-[1fr_auto] overflow-hidden rounded-t-[2.5em] bg-[#FBF9F5] text-[#2A211D]">
+    <div ref={containerRef} id="steps" className="steps-pin-wrap relative z-10 -mt-10 lg:-mt-16" style={{ height: "300vh" }}>
+      <section className="mp5-benefits-pin sticky top-0 grid h-screen w-full grid-rows-[1fr_auto] overflow-hidden rounded-t-[2.5rem] lg:rounded-t-[3.5rem] bg-[#FBF9F5] shadow-[0_-24px_80px_rgba(0,0,0,0.35)] border-t border-[#2A211D]/10 text-[#2A211D]">
         <div className="relative w-full overflow-hidden">
           {steps.map((s, i) => (
             <div

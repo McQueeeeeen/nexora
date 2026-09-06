@@ -7,8 +7,8 @@ export default function Stats() {
     <section className="relative overflow-hidden py-32 lg:py-48">
       <div className={`${wrap} relative`}>
         <div className="grid grid-cols-1 gap-4 lg:grid-cols-4">
-          {stats.map((s) => (
-            <Reveal key={s.top}>
+          {stats.map((s, i) => (
+            <Reveal key={s.top} delay={i * 120}>
               <div className="flex min-h-[150px] flex-col gap-4 rounded-2xl bg-[#2A211D] px-6 py-7 text-[#FBF9F5] shadow-sm lg:min-h-[360px] lg:px-8 lg:py-12">
                 <span className="font-mono text-[11px] uppercase tracking-[1px] text-[#FBF9F5]/70">{s.top}</span>
                 <span className="whitespace-nowrap font-mono leading-[1] tabular-nums text-[#FBF9F5]" style={{ fontSize: "clamp(40px,11vw,54px)", letterSpacing: "-2.5px" }}>{s.mid}</span>

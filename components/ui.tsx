@@ -71,17 +71,25 @@ export function useViewportProgress<T extends HTMLElement>() {
   return [ref, v] as const;
 }
 
-/** Появление при входе в вьюпорт (tv5-fade эталона). */
-export function Reveal({ children, className = "" }: { children: React.ReactNode; className?: string }) {
+/** Появление при входе в вьюпорт (tv5-fade эталона с поддержкой stagger-задержки). */
+export function Reveal({ children, className = "", delay = 0 }: { children: React.ReactNode; className?: string; delay?: number }) {
   const ref = useRef<HTMLDivElement>(null);
   const [seen, setSeen] = useState(false);
   useEffect(() => {
     if (!ref.current) return;
-    const io = new IntersectionObserver(([e]) => e.isIntersecting && (setSeen(true), io.disconnect()), { threshold: 0.15 });
+    const io = new IntersectionObserver(([e]) => e.isIntersecting && (setSeen(true), io.disconnect()), { threshold: 0.12 });
     io.observe(ref.current);
     return () => io.disconnect();
   }, []);
-  return <div ref={ref} className={`${seen ? "tv5-fade" : "opacity-0"} ${className}`}>{children}</div>;
+  return (
+    <div
+      ref={ref}
+      className={`${seen ? "tv5-fade" : "opacity-0"} ${className}`}
+      style={delay ? { animationDelay: `${delay}ms` } : undefined}
+    >
+      {children}
+    </div>
+  );
 }
 
 export function Tag({ children, dark = false }: { children: string; dark?: boolean }) {

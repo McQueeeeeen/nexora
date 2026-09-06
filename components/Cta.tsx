@@ -103,9 +103,9 @@ export default function Cta() {
   }, []);
 
   return (
-    <div ref={containerRef} className="relative w-full" style={{ height: "240vh" }}>
+    <div ref={containerRef} className="relative w-full z-10 -mt-10 lg:-mt-16" style={{ height: "240vh" }}>
       <section
-        className="sticky top-0 flex h-screen w-full items-center justify-center overflow-hidden bg-[#2A211D]"
+        className="sticky top-0 flex h-screen w-full items-center justify-center overflow-hidden rounded-t-[2.5rem] lg:rounded-t-[3.5rem] bg-[#2A211D] shadow-[0_-24px_80px_rgba(42,33,29,0.35)] border-t border-[#FBF9F5]/10"
       >
         {/* Мягкое радиальное янтарное свечение */}
         <div

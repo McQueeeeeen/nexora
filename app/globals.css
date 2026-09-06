@@ -58,8 +58,19 @@ section[id], footer[id] { scroll-margin-top: 6em; }
 .card:hover { transform: translateY(-4px); }
 
 /* ---------- reveal при скролле (tv5-fade, дословно с эталона) ---------- */
-@keyframes tv5-fade-in { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
-.tv5-fade { animation: tv5-fade-in .55s ease both; }
+@keyframes tv5-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(28px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+.tv5-fade {
+  animation: tv5-fade-in 0.85s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
 @keyframes dropdown-in { 0% { opacity: 0; transform: translateY(-8px) scale(.96); } to { opacity: 1; transform: translateY(0) scale(1); } }
 
 /* ---------- лоадер ---------- */

@@ -16,7 +16,7 @@ export default function About() {
         </Reveal>
         <div className="flex flex-col gap-4 lg:col-span-5">
           {agency.points.map((pt, i) => (
-            <Reveal key={pt}>
+            <Reveal key={pt} delay={i * 120}>
               <div className="card flex items-center gap-4 rounded-2xl border border-[#2A211D]/10 bg-white p-6">
                 <span className="font-mono text-2xl font-bold text-[var(--accent)]">0{i + 1}</span>
                 <span className="text-lg font-medium text-[#2A211D]">{pt}</span>
