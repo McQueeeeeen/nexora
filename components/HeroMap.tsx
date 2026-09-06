@@ -119,13 +119,13 @@ const HeroMap = memo(function HeroMap({ narrow, pathRef, drawA, drawB, budaRef, 
           strokeLinecap="round"
         />
         <text
-          x="1120"
-          y="330"
-          fill="rgba(229, 184, 122, 0.35)"
-          fontSize="10"
+          x="1280"
+          y="200"
+          fill="rgba(229, 184, 122, 0.25)"
+          fontSize="9"
           letterSpacing="3"
           fontFamily="var(--font-mono), monospace"
-          transform="rotate(-55 1120 330)"
+          transform="rotate(-55 1280 200)"
         >
           DANUBE · DUNA
         </text>

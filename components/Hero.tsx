@@ -8,11 +8,11 @@ import { splitWords, buildHeroMetas, heroCharStyle, mixLight } from "./hero-anim
 // Hero: сначала полноэкранные фото (кроссфейд под фразы), затем поверх
 // выезжает светлая карта с рисующейся линией и курсором. Фраза 1 —
 // белая по фото, остальные — чернила по карте. Ноль ре-рендеров при скролле.
-// Все три фразы зафиксированы в верхне-левой зоне чтения, не задевая города и линию карты.
+// Динамическое чередование позиций фраз (слева → справа → слева) в стиле эталона
 const pos = [
-  "top:15%;left:5%;text-align:left",
-  "top:15%;left:5%;text-align:left",
-  "top:15%;left:5%;text-align:left",
+  "top:14%;left:5%;text-align:left",
+  "top:14%;right:5%;left:auto;text-align:right",
+  "top:14%;left:5%;text-align:left",
 ] as const;
 
 function css(s: string): React.CSSProperties {
