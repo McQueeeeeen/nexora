@@ -106,23 +106,40 @@ export default function Header() {
     };
   }, [mobile]);
 
-  // На главной якоря скроллят, на подстраницах ведут домой.
-  const pre = usePathname() === "/" ? "" : "/";
-  const svcHref = `${pre}#services`;
-  const contactHref = `${pre}#contact`;
+  // Навигационные ссылки: контекстно-зависимые якоря и прямые переходы.
+  const pathname = usePathname();
+  const isHome = pathname === "/";
+  const isCountry = pathname === "/austria" || pathname === "/hungary";
+
+  const contactHref = "#contact";
+  const stepsHref = isHome || isCountry ? "#steps" : "/#steps";
+  const svcHref = isHome || isCountry ? "#services" : "/#services";
+  const dbHref = isHome || isCountry ? "#database" : "/#database";
+
+  const serviceLinks: DropLink[] = [
+    { title: "Бакалавриат в Австрии", desc: "от €1 450/год · VWU с нуля", href: "/austria" },
+    { title: "Гранты в Венгрии", desc: "грант 100% · всё включено", href: "/hungary" },
+    { title: "Магистратура и MBA", desc: "120+ программ на английском", href: svcHref },
+    { title: "Сопровождение под ключ", desc: "документы, заявки и ВНЖ", href: svcHref },
+  ];
+
   const panels: Record<Exclude<Panel, null>, { feature: { label: string; href: string; img: string }; links: DropLink[] }> = {
     services: {
       feature: { ...features.services, href: svcHref },
-      links: services.map((s) => ({ title: s.title, desc: s.desc, href: svcHref })),
+      links: serviceLinks,
     },
     unis: {
-      feature: { ...features.unis, href: "/austria" },
+      feature: { ...features.unis, href: isHome ? "#database" : "/#database" },
       links: uniLinks,
     },
   };
-  const anchors = nav
-    .filter(([, href]) => href !== "#services" && href !== "#database")
-    .map(([t, href]) => [t, href.startsWith("/") ? href : `${pre}${href}`] as const);
+
+  const anchors = [
+    { title: "Этапы", href: stepsHref },
+    { title: "Отзывы", href: "/reviews" },
+    { title: "FAQ", href: "/faq" },
+    { title: "Контакты", href: contactHref },
+  ];
 
   const closeMobile = () => { setMobile(false); setView(null); };
 
@@ -185,8 +202,8 @@ export default function Header() {
                 </svg>
               </button>
             ))}
-            {anchors.map(([t, href]) => (
-              <a key={t} href={href} onMouseEnter={() => poke(null)} className="mega-nav__bar-link text-sm font-medium"><Roll text={t} /></a>
+            {anchors.map((a) => (
+              <a key={a.title} href={a.href} onMouseEnter={() => poke(null)} className="mega-nav__bar-link text-sm font-medium"><Roll text={a.title} /></a>
             ))}
             <a href="https://t.me/nexora_support" target="_blank" rel="noopener" className="hidden text-sm font-semibold text-[#FBF9F5]/75 transition hover:text-[#FBF9F5] xl:inline">
               @nexora_support
@@ -219,8 +236,8 @@ export default function Header() {
                     {parents[k]}<ArrowIcon className="h-5 w-5 text-[#FBF9F5]/50" />
                   </button>
                 ))}
-                {anchors.map(([t, href]) => (
-                  <a key={t} href={href} onClick={closeMobile} className="border-b border-[#FBF9F5]/12 py-3 text-lg font-medium text-[#FBF9F5]">{t}</a>
+                {anchors.map((a) => (
+                  <a key={a.title} href={a.href} onClick={closeMobile} className="border-b border-[#FBF9F5]/12 py-3 text-lg font-medium text-[#FBF9F5]">{a.title}</a>
                 ))}
                 <a href={contactHref} onClick={closeMobile} className="mp5-btn mp5-btn--light mt-3 h-14 rounded-xl text-base font-semibold">Консультация €10</a>
               </>

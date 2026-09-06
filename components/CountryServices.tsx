@@ -5,7 +5,7 @@ import SafeImage from "./SafeImage";
 // Услуги страны — полноэкранные карточки с водяным номером, как у эталона.
 export default function CountryServices({ c }: { c: CountryInfo }) {
   return (
-    <section className="py-[60px] lg:py-[100px]">
+    <section id="services" className="py-[60px] lg:py-[100px]">
       <div className={`${wrap} flex flex-col gap-8 lg:gap-16`}>
         <Reveal>
           <div className="border-b border-[#2A211D]/10 pb-4 lg:pb-6">
