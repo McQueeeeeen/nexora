@@ -121,13 +121,13 @@ const reviewsList: ReviewItem[] = [
   },
 ];
 
-function GoldStars() {
+function GoldStars({ className = "w-4 h-4" }: { className?: string }) {
   return (
-    <div className="flex items-center gap-1 text-[var(--accent)]" role="img" aria-label="5 звёзд">
+    <div className="flex items-center gap-1 text-[#FACC15]" role="img" aria-label="5 звёзд">
       {[...Array(5)].map((_, i) => (
         <svg
           key={i}
-          className="w-4 h-4 fill-current"
+          className={`${className} fill-current`}
           viewBox="0 0 24 24"
         >
           <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
@@ -139,11 +139,11 @@ function GoldStars() {
 
 function MiniStars() {
   return (
-    <div className="flex items-center gap-0.5 text-[var(--accent)]">
+    <div className="flex items-center gap-1 text-[#FACC15]">
       {[...Array(5)].map((_, i) => (
         <svg
           key={i}
-          className="w-3 h-3 fill-current"
+          className="w-3.5 h-3.5 fill-current"
           viewBox="0 0 24 24"
         >
           <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
@@ -178,7 +178,7 @@ export default function ReviewsClient() {
         <div className="max-w-[1400px] mx-auto">
           <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-8 lg:gap-12">
             {/* Заголовок слева */}
-            <div className="flex flex-col gap-4 max-w-[650px]">
+            <div className="flex flex-col gap-4 max-w-[620px]">
               <h1 className="font-sans font-bold text-4xl sm:text-5xl lg:text-[64px] tracking-tight leading-[1.05] text-[#FBF9F5]">
                 <span className="text-[var(--accent-bright)]">Что говорят</span> наши студенты
               </h1>
@@ -187,42 +187,45 @@ export default function ReviewsClient() {
               </p>
             </div>
 
-            {/* Рейтинг справа: 4.9/5 + Google & Telegram */}
+            {/* Рейтинг справа: 4.9/5 | Разделитель | Платформы Google & Telegram */}
             <div className="flex items-center gap-6 sm:gap-8 shrink-0">
-              {/* Большой блок 4.9 / 5 */}
-              <div className="flex flex-col gap-1.5">
-                <div className="flex items-baseline gap-1">
-                  <span className="font-sans font-extrabold text-5xl lg:text-[64px] tracking-tight text-[#FBF9F5] leading-none">
+              {/* Левый блок: 4.9/5 + звёзды + счётчик */}
+              <div className="flex flex-col items-start gap-2">
+                <div className="flex items-baseline">
+                  <span className="font-sans font-extrabold text-5xl sm:text-6xl lg:text-[72px] tracking-tight text-white leading-none">
                     4.9
                   </span>
-                  <span className="font-sans font-bold text-2xl lg:text-3xl text-[#FBF9F5]/40">
+                  <span className="font-sans font-bold text-2xl sm:text-3xl text-white/40 ml-1 leading-none">
                     /5
                   </span>
                 </div>
-                <GoldStars />
-                <span className="font-mono font-bold text-[10px] uppercase tracking-wider text-[#FBF9F5]/40 whitespace-nowrap">
+                <GoldStars className="w-4 h-4 sm:w-5 sm:h-5" />
+                <span className="font-mono font-bold text-[10px] sm:text-[11px] uppercase tracking-wider text-white/40 whitespace-nowrap mt-1">
                   312+ ВСЕГО ОТЗЫВОВ
                 </span>
               </div>
 
-              {/* Платформы */}
-              <div className="flex flex-col gap-3">
+              {/* Вертикальный разделитель (как на скриншоте эталона) */}
+              <div className="w-px h-24 bg-white/15 mx-1 sm:mx-2 hidden sm:block" aria-hidden />
+
+              {/* Правый блок: Платформы с круглыми иконками */}
+              <div className="flex flex-col gap-4 sm:gap-5">
                 {/* Google */}
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full bg-[#1a73e8] flex items-center justify-center shrink-0 shadow-md">
-                    <svg className="w-5 h-5 fill-white" viewBox="0 0 24 24">
-                      <path d="M12.48 10.92v3.28h7.84c-.24 1.84-.853 3.187-1.787 4.133-1.147 1.147-2.933 2.4-6.053 2.4-4.827 0-8.6-3.893-8.6-8.72s3.773-8.72 8.6-8.72c2.6 0 4.507 1.027 5.907 2.347l2.307-2.307C18.747 1.44 16.053 0 12.48 0 5.867 0 .307 5.387.307 12s5.56 12 12.173 12c3.573 0 6.267-1.173 8.373-3.36 2.16-2.16 2.84-5.213 2.84-7.667 0-.76-.053-1.467-.173-2.053H12.48z" />
-                    </svg>
+                <div className="flex items-center gap-3.5">
+                  <div className="w-12 h-12 rounded-full bg-[#2563EB] flex items-center justify-center shrink-0 shadow-lg">
+                    <span className="font-sans font-bold text-2xl text-white leading-none">G</span>
                   </div>
                   <div className="flex flex-col">
-                    <span className="font-mono font-bold text-[10px] uppercase tracking-wider text-[#FBF9F5]/50">
+                    <span className="font-mono font-bold text-[10px] tracking-widest text-white/50 uppercase">
                       GOOGLE
                     </span>
-                    <div className="flex items-center gap-1.5">
-                      <span className="font-sans font-bold text-base text-[#FBF9F5]">4.98</span>
+                    <div className="flex items-center gap-2 mt-0.5">
+                      <span className="font-sans font-bold text-lg sm:text-xl text-white leading-none">
+                        4.98
+                      </span>
                       <MiniStars />
                     </div>
-                    <span className="font-mono text-[10px] uppercase tracking-wider text-[#FBF9F5]/40">
+                    <span className="font-mono text-[10px] tracking-wider text-white/40 uppercase mt-0.5">
                       210+ ОТЗЫВОВ
                     </span>
                   </div>
@@ -233,22 +236,24 @@ export default function ReviewsClient() {
                   href="https://t.me/nexora_support"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-3 group"
+                  className="flex items-center gap-3.5 group"
                 >
-                  <div className="w-10 h-10 rounded-full bg-[#0088cc] flex items-center justify-center shrink-0 shadow-md group-hover:scale-105 transition-transform">
-                    <svg className="w-5 h-5 fill-white" viewBox="0 0 24 24">
+                  <div className="w-12 h-12 rounded-full bg-[#0088cc] flex items-center justify-center shrink-0 shadow-lg group-hover:scale-105 transition-transform">
+                    <svg className="w-6 h-6 fill-white" viewBox="0 0 24 24">
                       <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.12-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z" />
                     </svg>
                   </div>
                   <div className="flex flex-col">
-                    <span className="font-mono font-bold text-[10px] uppercase tracking-wider text-[#FBF9F5]/50">
+                    <span className="font-mono font-bold text-[10px] tracking-widest text-white/50 uppercase">
                       TELEGRAM
                     </span>
-                    <div className="flex items-center gap-1.5">
-                      <span className="font-sans font-bold text-base text-[#FBF9F5]">4.92</span>
+                    <div className="flex items-center gap-2 mt-0.5">
+                      <span className="font-sans font-bold text-lg sm:text-xl text-white leading-none">
+                        4.92
+                      </span>
                       <MiniStars />
                     </div>
-                    <span className="font-mono text-[10px] uppercase tracking-wider text-[#FBF9F5]/40">
+                    <span className="font-mono text-[10px] tracking-wider text-white/40 uppercase mt-0.5">
                       102+ ОТЗЫВА
                     </span>
                   </div>
