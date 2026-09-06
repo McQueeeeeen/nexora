@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import Header from "../../components/Header";
-import Intro from "../../components/Intro";
 import Faq from "../../components/Faq";
 import Contact from "../../components/Contact";
 import MobileBar from "../../components/MobileBar";
@@ -55,7 +54,6 @@ export default function FaqPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
       />
-      <Intro />
       <Header />
       <section className="wrap pb-2 pt-36 lg:pt-44">
         <Reveal>

@@ -1,4 +1,3 @@
-import Intro from "../components/Intro";
 import Header from "../components/Header";
 import Hero from "../components/Hero";
 import Statement from "../components/Statement";
@@ -19,7 +18,6 @@ import { faqs } from "./data";
 export default function Page() {
   return (
     <main className="min-h-screen bg-[#FBF9F5] text-[#2A211D]">
-      <Intro />
       <Header />
       <Hero />
       <Statement />

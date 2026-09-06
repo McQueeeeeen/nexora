@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Header from "../../components/Header";
-import Intro from "../../components/Intro";
 import CountryServices from "../../components/CountryServices";
 import WhyCountry from "../../components/WhyCountry";
 import Included from "../../components/Included";
@@ -66,7 +65,6 @@ export default async function CountryPage({ params }: { params: Promise<{ countr
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbsJsonLd) }}
       />
-      <Intro />
       <Header />
 
       <section data-hero-region className="relative h-screen min-h-[720px] overflow-hidden bg-[#120D0B] lg:min-h-[900px]">

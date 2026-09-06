@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import Header from "../../components/Header";
-import Intro from "../../components/Intro";
 import Contact from "../../components/Contact";
 import MobileBar from "../../components/MobileBar";
 import { Reveal, ArrowIcon } from "../../components/ui";
@@ -38,7 +37,6 @@ export default function Blog() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbsJsonLd) }}
       />
-      <Intro />
       <Header />
       <section className="wrap pb-4 pt-40 lg:pt-48">
         <Reveal>

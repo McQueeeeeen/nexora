@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Header from "../../../components/Header";
-import Intro from "../../../components/Intro";
 import Contact from "../../../components/Contact";
 import MobileBar from "../../../components/MobileBar";
 import { Reveal, Btn, ArrowIcon } from "../../../components/ui";
@@ -87,7 +86,6 @@ export default async function Article({ params }: { params: Promise<{ slug: stri
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbsJsonLd) }}
       />
-      <Intro />
       <Header />
       <article className="wrap max-w-[860px] pb-8 pt-40 lg:pt-48">
         <Reveal>
