@@ -105,7 +105,7 @@ html.preloaded [data-load-wrap] { display: none !important; }
   .mega-nav__burger { display: flex; }
   .mega-nav__desktop-links { display: none !important; }
   .mega-nav__dropdown { display: none !important; }
-  .mega-nav__mobile-panel { display: flex; animation: dropdown-in .3s ease both; }
+  .mega-nav__mobile-panel { display: flex; animation: dropdown-in .3s ease both; max-height: calc(100dvh - 5.5em); overflow-y: auto; -webkit-overflow-scrolling: touch; }
   .mega-nav__panel-feature { display: none; }
   .mega-nav__dropdown-inner { grid-template-columns: 1fr; padding: 0; }
 }
@@ -166,9 +166,9 @@ html.preloaded [data-load-wrap] { display: none !important; }
 [data-hero-phrase] { opacity: 1; }
 .hero-word { display: inline-block; white-space: nowrap; }
 .hero-char { display: inline-block; will-change: opacity; }
-/* На мобильных инлайн-позиции перебиваем: все фразы по центру над кнопками */
+/* На мобильных инлайн-позиции перебиваем: все фразы по центру в нижней трети экрана */
 @media (max-width: 991px) {
-  [data-hero-phrase] { top: auto !important; bottom: 26% !important; left: 5% !important; right: 5% !important; transform: none !important; text-align: center !important; max-width: none !important; }
+  [data-hero-phrase] { top: auto !important; bottom: 18% !important; left: 6% !important; right: 6% !important; transform: none !important; text-align: center !important; max-width: none !important; }
 }
 
 /* ---------- sticky-steps (дословно механика эталона) ---------- */

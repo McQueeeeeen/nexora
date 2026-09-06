@@ -38,16 +38,6 @@ export default function Hero() {
   const veilRef = useRef<HTMLDivElement>(null);
   const metas = useMemo(() => buildHeroMetas(heroPhrases), []);
 
-  // На узких экранах карту показываем целиком, на широких — кинематографичный кроп.
-  const [narrow, setNarrow] = useState(false);
-  useEffect(() => {
-    const mq = window.matchMedia("(max-width: 768px)");
-    const f = () => setNarrow(mq.matches);
-    f();
-    mq.addEventListener("change", f);
-    return () => mq.removeEventListener("change", f);
-  }, []);
-
   useEffect(() => {
     const region = ref.current;
     if (!region) return;
@@ -182,7 +172,6 @@ export default function Hero() {
         ))}
         <div ref={mapRef} className="absolute inset-0 bg-[#15100E]" style={{ opacity: 0, visibility: "hidden" }}>
           <HeroMap
-            narrow={narrow}
             pathRef={pathRef}
             drawA={drawA}
             drawB={drawB}

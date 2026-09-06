@@ -23,11 +23,11 @@ interface Props {
  * - Безупречно гладкий неоновый S-образный маршрут с многослойным amber-свечением
  * - Светящийся круговой курсор с навигационной стрелкой, плавно следующей за скроллом
  */
-const HeroMap = memo(function HeroMap({ narrow, pathRef, drawA, drawB, budaRef, cursorRef }: Props) {
+const HeroMap = memo(function HeroMap({ pathRef, drawA, drawB, budaRef, cursorRef }: Omit<Props, "narrow"> & { narrow?: boolean }) {
   return (
     <svg
       viewBox="0 0 1440 900"
-      preserveAspectRatio={narrow ? "xMidYMid meet" : "xMidYMid slice"}
+      preserveAspectRatio="xMidYMid slice"
       className="h-full w-full select-none"
       role="img"
       aria-label="Интерактивная карта академического маршрута Вена — Будапешт"
