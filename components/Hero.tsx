@@ -28,10 +28,15 @@ export default function Hero() {
       return total <= 0 ? 0 : Math.max(0, Math.min(1, -r.top / total));
     };
     const apply = (p: number) => {
-      if (phV.current) phV.current.style.transform = `scale(${(1 + p * 0.18).toFixed(4)})`;
+      const grade = "sepia(.3) saturate(.92) contrast(1.03) brightness(1.01)";
+      if (phV.current) {
+        phV.current.style.transform = `scale(${(1 + p * 0.12).toFixed(4)})`;
+        phV.current.style.filter = `${grade} blur(${(p * 4).toFixed(2)}px)`;
+      }
       if (buda.current) {
-        buda.current.style.transform = `scale(${(1.18 - p * 0.18).toFixed(4)})`;
-        buda.current.style.clipPath = `inset(0 0 0 ${((1 - p) * 100).toFixed(2)}%)`;
+        buda.current.style.transform = `scale(${(1.22 - p * 0.17).toFixed(4)})`;
+        buda.current.style.clipPath = `circle(${(p * 75).toFixed(2)}% at 50% 42%)`;
+        buda.current.style.filter = `${grade} blur(${((1 - p) * 4).toFixed(2)}px)`;
       }
       if (giant.current) giant.current.style.transform = `translateX(${(-p * 38).toFixed(2)}vw)`;
       if (gA.current) gA.current.style.opacity = (1 - Math.min(1, p * 2.4)).toFixed(3);
@@ -77,7 +82,7 @@ export default function Hero() {
           className="nx-hero-photo"
           style={{
             backgroundImage: 'url("/images/hero-budapest.jpg")',
-            clipPath: "inset(0 0 0 100%)",
+            clipPath: "circle(0% at 50% 42%)",
             animation: "none",
             opacity: 1,
           }}
