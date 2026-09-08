@@ -27,18 +27,28 @@ export default function Hero() {
       const total = r.height - window.innerHeight;
       return total <= 0 ? 0 : Math.max(0, Math.min(1, -r.top / total));
     };
-    const apply = (p: number) => {
+    const apply = (p: number, vel: number, live: number) => {
       const grade = "sepia(.3) saturate(.92) contrast(1.03) brightness(1.01)";
+      // Gate weave: дрожание кадра проектора, квантованное ~11fps. live=0 — кадр встаёт ровно.
+      const now = performance.now();
+      const s1 = Math.floor(now / 90);
+      const f1 = Math.sin(s1 * 127.1) * 43758.5453;
+      const f2 = Math.sin(s1 * 311.7 + 17.3) * 12543.123;
+      const wx = (f1 - Math.floor(f1) - 0.5) * 5 * live;
+      const wy = (f2 - Math.floor(f2) - 0.5) * 5 * live;
+      // Velocity skew для гигантской строки.
+      const skew = Math.max(-7, Math.min(7, vel * 60));
       if (phV.current) {
-        phV.current.style.transform = `scale(${(1 + p * 0.12).toFixed(4)})`;
+        phV.current.style.transform = `translate(${wx.toFixed(1)}px,${wy.toFixed(1)}px) scale(${(1 + p * 0.12).toFixed(4)})`;
         phV.current.style.filter = `${grade} blur(${(p * 4).toFixed(2)}px)`;
       }
       if (buda.current) {
-        buda.current.style.transform = `scale(${(1.22 - p * 0.17).toFixed(4)})`;
+        buda.current.style.transform = `translate(${wx.toFixed(1)}px,${wy.toFixed(1)}px) scale(${(1.22 - p * 0.17).toFixed(4)})`;
         buda.current.style.clipPath = `circle(${(p * 75).toFixed(2)}% at 50% 42%)`;
         buda.current.style.filter = `${grade} blur(${((1 - p) * 4).toFixed(2)}px)`;
       }
-      if (giant.current) giant.current.style.transform = `translateX(${(-p * 38).toFixed(2)}vw)`;
+      if (giant.current)
+        giant.current.style.transform = `translateX(${(-p * 38).toFixed(2)}vw) translate(${(wx * 1.6).toFixed(1)}px,${(wy * 1.6).toFixed(1)}px) skewX(${skew.toFixed(2)}deg)`;
       if (gA.current) gA.current.style.opacity = (1 - Math.min(1, p * 2.4)).toFixed(3);
       if (gB.current) gB.current.style.opacity = Math.max(0, Math.min(1, (p - 0.42) / 0.58)).toFixed(3);
       if (inner.current) {
@@ -52,9 +62,10 @@ export default function Hero() {
       const goal = compute();
       const next = cur < 0 ? goal : cur + (goal - cur) * 0.12;
       const v = Math.abs(goal - next) < 0.0004 ? goal : next;
-      if (v !== cur) {
+      if (v !== cur || v !== goal) {
+        const vel = goal - cur;
         cur = v;
-        apply(v);
+        apply(v, vel, v !== goal ? 1 : 0);
       }
       if (v !== goal) raf = requestAnimationFrame(tick);
     };
