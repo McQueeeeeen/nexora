@@ -1,61 +1,25 @@
 "use client";
-import { useEffect, useMemo, useRef, useState } from "react";
-import { heroPhrases } from "../app/data";
-import HeroMap from "./HeroMap";
+import { useEffect, useRef, type CSSProperties } from "react";
 import { onRafScroll } from "./ui";
-import { splitWords, buildHeroMetas, heroCharStyle, mixLight } from "./hero-anim";
 
-// Hero: сначала полноэкранные фото (кроссфейд под фразы), затем поверх
-// выезжает светлая карта с рисующейся линией и курсором. Фраза 1 —
-// белая по фото, остальные — чернила по карте. Ноль ре-рендеров при скролле.
-// Динамическое чередование позиций фраз (слева → справа → слева) в стиле эталона
-const pos = [
-  "top:14%;left:5%;text-align:left",
-  "top:14%;right:5%;left:auto;text-align:right",
-  "top:14%;left:5%;text-align:left",
-] as const;
-
-function css(s: string): React.CSSProperties {
-  const o: Record<string, string> = {};
-  s.split(";").forEach((kv) => {
-    const i = kv.indexOf(":");
-    if (i > 0) {
-      const key = kv.slice(0, i).trim().replace(/-([a-z])/g, (_, c: string) => c.toUpperCase());
-      o[key] = kv.slice(i + 1).trim();
-    }
-  });
-  return o as React.CSSProperties;
-}
+// Hero «Две страны»: Хофбург (Вена) → шторкой Бастион (Будапешт).
+// Только фото, типографика и скраб-анимация — без подписей-подсказок.
+const SEGS = ["Австрия.", "Венгрия.", "Зачисление."];
 
 export default function Hero() {
   const ref = useRef<HTMLDivElement>(null);
-  const pathRef = useRef<SVGPathElement>(null);
-  const cursorRef = useRef<SVGGElement>(null);
-  const drawA = useRef<SVGPathElement>(null);
-  const drawB = useRef<SVGPathElement>(null);
-  const budaRef = useRef<SVGGElement>(null);
-  const mapRef = useRef<HTMLDivElement>(null);
-  const veilRef = useRef<HTMLDivElement>(null);
-  const metas = useMemo(() => buildHeroMetas(heroPhrases), []);
+  const phV = useRef<HTMLDivElement>(null);
+  const buda = useRef<HTMLDivElement>(null);
+  const giant = useRef<HTMLDivElement>(null);
+  const gA = useRef<HTMLSpanElement>(null);
+  const gB = useRef<HTMLSpanElement>(null);
+  const inner = useRef<HTMLDivElement>(null);
+  const bar = useRef<HTMLElement>(null);
 
   useEffect(() => {
     const region = ref.current;
     if (!region) return;
-    const chars = Array.from(region.querySelectorAll<HTMLElement>(".hero-char"));
-    const photos = Array.from(region.querySelectorAll<HTMLElement>("[data-hero-photo]"));
-    const map = mapRef.current;
-    const veil = veilRef.current;
-    const N = heroPhrases.length;
-    // Без движения: фото 1 + фраза 1, карта скрыта.
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      chars.forEach((el, k) => {
-        if (k < metas.length && metas[k].l === 0) {
-          el.style.opacity = "1";
-          el.style.color = "rgb(255,255,255)";
-        }
-      });
-      return;
-    }
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     let raf = 0;
     let cur = -1;
     const compute = () => {
@@ -63,57 +27,25 @@ export default function Hero() {
       const total = r.height - window.innerHeight;
       return total <= 0 ? 0 : Math.max(0, Math.min(1, -r.top / total));
     };
-    const apply = (t: number) => {
-      const x = t * Math.max(1, N - 1);
-      for (let k = 0; k < chars.length && k < metas.length; k++) {
-        const st = heroCharStyle(t, metas[k], N, metas[k].l === 0);
-        chars[k].style.opacity = st.opacity;
-        chars[k].style.color = st.color;
-        if (chars[k].style.textShadow !== st.textShadow) {
-          chars[k].style.textShadow = st.textShadow;
-        }
+    const apply = (p: number) => {
+      if (phV.current) phV.current.style.transform = `scale(${(1 + p * 0.18).toFixed(4)})`;
+      if (buda.current) {
+        buda.current.style.transform = `scale(${(1.18 - p * 0.18).toFixed(4)})`;
+        buda.current.style.clipPath = `inset(0 0 0 ${((1 - p) * 100).toFixed(2)}%)`;
       }
-      // Карта выезжает поверх фото (smoothstep 0.22–0.42).
-      const mq = Math.max(0, Math.min(1, (t - 0.22) / 0.2));
-      const mapOp = mq * mq * (3 - 2 * mq);
-      const mapGone = 1 - mapOp;
-      photos.forEach((img, i) => {
-        const op = Math.max(0, Math.min(1, 1 - Math.abs(x - i))) * mapGone;
-        img.style.opacity = op < 0.01 ? "0" : op.toFixed(3);
-      });
-      if (map) {
-        map.style.opacity = mapOp < 0.01 ? "0" : mapOp.toFixed(3);
-        map.style.visibility = mapOp <= 0 ? "hidden" : "visible";
+      if (giant.current) giant.current.style.transform = `translateX(${(-p * 38).toFixed(2)}vw)`;
+      if (gA.current) gA.current.style.opacity = (1 - Math.min(1, p * 2.4)).toFixed(3);
+      if (gB.current) gB.current.style.opacity = Math.max(0, Math.min(1, (p - 0.42) / 0.58)).toFixed(3);
+      if (inner.current) {
+        inner.current.style.transform = `translateY(${(-p * 26).toFixed(2)}vh)`;
+        inner.current.style.opacity = Math.max(0, 1 - p * 1.4).toFixed(3);
       }
-      if (veil) veil.style.opacity = mapGone < 0.01 ? "0" : mapGone.toFixed(3);
-      const off = String(100 - t * 100);
-      if (drawA.current) drawA.current.style.strokeDashoffset = off;
-      if (drawB.current) drawB.current.style.strokeDashoffset = off;
-      const buda = budaRef.current;
-      if (buda) {
-        const v = Math.max(0, Math.min(1, (t - 0.45) / 0.25));
-        buda.style.opacity = v < 0.02 ? "0" : v.toFixed(3);
-      }
-      const path = pathRef.current, cursor = cursorRef.current;
-      if (path && cursor) {
-        try {
-          if (!cachedLen) cachedLen = path.getTotalLength();
-          const len = cachedLen;
-          const delta = 2;
-          const s = Math.max(0, Math.min(len - delta, len * t));
-          const pt = path.getPointAtLength(len * t);
-          const ahead = path.getPointAtLength(s + delta);
-          const pBase = path.getPointAtLength(s);
-          const ang = (Math.atan2(ahead.y - pBase.y, ahead.x - pBase.x) * 180) / Math.PI;
-          cursor.setAttribute("transform", `translate(${pt.x.toFixed(1)},${pt.y.toFixed(1)}) rotate(${ang.toFixed(1)})`);
-        } catch { /* SVG ещё не готов */ }
-      }
+      if (bar.current) bar.current.style.transform = `scaleX(${p.toFixed(4)})`;
     };
-    let cachedLen = 0;
     const tick = () => {
       raf = 0;
       const goal = compute();
-      const next = cur < 0 ? goal : cur + (goal - cur) * 0.2;
+      const next = cur < 0 ? goal : cur + (goal - cur) * 0.12;
       const v = Math.abs(goal - next) < 0.0004 ? goal : next;
       if (v !== cur) {
         cur = v;
@@ -127,81 +59,71 @@ export default function Hero() {
       unsub();
       if (raf) cancelAnimationFrame(raf);
     };
-  }, [metas]);
+  }, []);
 
-  const renderWords = (text: string, phraseIdx: number) => {
-    return splitWords(text).map((w, wi) => {
-      if (w.length === 1 && w[0] === " ") {
-        return <span key={wi} className="hero-char" style={{ opacity: phraseIdx === 0 ? 1 : 0 }}> </span>;
-      }
-      return (
-        <span key={wi} className="hero-word">
-          {w.map((ch, ci) => (
-            <span
-              key={ci}
-              className="hero-char"
-              style={{
-                opacity: phraseIdx === 0 ? 1 : 0,
-                color: phraseIdx === 0 ? "rgb(255,255,255)" : mixLight(0),
-              }}
-            >
-              {ch}
-            </span>
-          ))}
-        </span>
-      );
-    });
-  };
-
+  let n = 0;
   return (
-    <div ref={ref} data-hero-region className="relative w-full" style={{ height: "320vh" }}>
-      <section className="sticky top-0 h-screen w-full overflow-hidden bg-[#15100E]">
-        {heroPhrases.map((ph, i) => (
-          <img
-            key={ph.img}
-            data-hero-photo
-            src={ph.img}
-            alt=""
-            aria-hidden
-            fetchPriority={i === 0 ? "high" : undefined}
-            loading={i === 0 ? "eager" : "lazy"}
-            decoding="async"
-            className="absolute inset-0 h-full w-full object-cover"
-            style={{ opacity: i === 0 ? 1 : 0 }}
-          />
-        ))}
-        <div ref={mapRef} className="absolute inset-0 bg-[#15100E]" style={{ opacity: 0, visibility: "hidden" }}>
-          <HeroMap
-            pathRef={pathRef}
-            drawA={drawA}
-            drawB={drawB}
-            budaRef={budaRef}
-            cursorRef={cursorRef}
-          />
+    <div ref={ref} data-hero-region className="relative w-full" style={{ height: "280vh" }}>
+      <section className="sticky top-0 w-full overflow-hidden bg-[var(--paper)]" style={{ height: "100dvh" }}>
+        <div
+          ref={phV}
+          className="nx-hero-photo"
+          style={{ backgroundImage: 'url("/images/hero-vienna.jpg")' }}
+          role="img"
+          aria-label="Хофбург, Вена"
+        />
+        <div
+          ref={buda}
+          className="nx-hero-photo"
+          style={{
+            backgroundImage: 'url("/images/hero-budapest.jpg")',
+            clipPath: "inset(0 0 0 100%)",
+            animation: "none",
+            opacity: 1,
+          }}
+          role="img"
+          aria-label="Парламент через арки Рыбацкого бастиона, Будапешт"
+        />
+        <div className="nx-hero-veil" />
+        <div ref={giant} className="nx-hero-giant" aria-hidden="true">
+          <span className="nx-hero-track">
+            <span ref={gA} className="nx-hero-city nx-hero-city--a">WIEN</span>
+            <span ref={gB} className="nx-hero-city nx-hero-city--b">BUDAPEST</span>
+          </span>
         </div>
-        <div ref={veilRef} className="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/55 via-black/25 to-black/70" />
-        <div className="pointer-events-none absolute inset-0 px-6 lg:px-12">
-          {heroPhrases.map((ph, i) => {
-            const Tag = i === 0 ? "h1" : "div";
-            return (
-              <Tag
-                key={ph.t}
-                data-hero-phrase
-                aria-hidden={i === 0 ? undefined : true}
-                className="font-normal max-w-[min(92vw,640px)] md:max-w-[540px] lg:max-w-[580px] xl:max-w-[640px] text-white"
-                style={{
-                  position: "absolute",
-                  fontSize: "clamp(28px,4.5vw,56px)",
-                  lineHeight: 1.12,
-                  letterSpacing: "-0.025em",
-                  textShadow: "0 2px 24px rgba(0,0,0,0.85), 0 1px 3px rgba(0,0,0,0.6)",
-                  ...css(pos[i]),
-                }}
-              >
-                {renderWords(ph.t, i)}
-              </Tag>
-            );
-          })}
+        <div className="nx-hero-prog" aria-hidden="true">
+          <i ref={bar} />
+        </div>
+        <div ref={inner} className="absolute inset-x-0 bottom-0 px-5 pb-12 md:px-10 lg:px-16 lg:pb-20">
+          <h1 className="nx-hero-h1 nx-hero-mask">
+            {SEGS.map((seg, si) => (
+              <span key={seg} className="nx-hero-seg">
+                {[...seg].map((c) => {
+                  const el = (
+                    <span key={n} className="nx-hero-ch" style={{ "--i": n } as CSSProperties}>
+                      {c}
+                    </span>
+                  );
+                  n += 1;
+                  return el;
+                })}
+                {si < SEGS.length - 1 ? " " : null}
+              </span>
+            ))}
+          </h1>
+          <div className="nx-hero-row">
+            <a className="nx-hero-btn" href="#contact">
+              <span>Разбор кейса — €10</span>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <path d="M5 12h14m0 0l-6-6m6 6l-6 6" />
+              </svg>
+            </a>
+            <div className="nx-hero-stats">
+              <div><b>27</b><span>вузов</span></div>
+              <div><b>98,4%</b><span>зачислений</span></div>
+              <div><b>2</b><span>страны</span></div>
+            </div>
+          </div>
         </div>
       </section>
     </div>
