@@ -323,7 +323,7 @@ section[id], footer[id] { scroll-margin-top: 6em; }
 .nx-hero-track { display: inline-block; transform: translateX(4vw); animation: nx-hero-drift 1.6s cubic-bezier(.32,.72,0,1) .1s forwards; }
 @keyframes nx-hero-drift { to { transform: none; } }
 .nx-hero-city { white-space: nowrap; }
-.nx-hero-city--a { color: transparent; -webkit-text-stroke: 1.5px rgba(42,33,29,.6); }
+.nx-hero-city--a { color: transparent; -webkit-text-stroke: 2.5px rgba(42,33,29,.9); paint-order: stroke fill; text-shadow: 0 0 34px rgba(251,249,245,.6), 0 2px 18px rgba(251,249,245,.45); }
 .nx-hero-city--b { position: absolute; left: 0; top: 0; color: var(--ink); opacity: 0; }
 .nx-hero-folio {
   position: absolute; top: 26px; left: clamp(2rem,5vw,5rem);
