@@ -42,21 +42,12 @@ export default function Hero() {
       return total <= 0 ? 0 : Math.max(0, Math.min(1, -r.top / total));
     };
     const apply = (p: number) => {
-      const grade = "sepia(.3) saturate(.92) contrast(1.03) brightness(1.01)";
-      // Мягкий ирис: растушёванная маска + smoothstep, без резких кромок.
+      // Растворение: ни фигур, ни кромок — только проявление и дыхание зума.
       const e = p * p * (3 - 2 * p);
-      const r = (e * 72).toFixed(2);
-      const mask = `radial-gradient(circle at 50% 42%, black 0%, black ${r}%, transparent calc(${r}% + 14%))`;
-      if (phV.current) {
-        phV.current.style.transform = `scale(${(1 + p * 0.12).toFixed(4)})`;
-        phV.current.style.filter = `${grade} blur(${(p * 3).toFixed(2)}px)`;
-      }
+      if (phV.current) phV.current.style.transform = `scale(${(1 + p * 0.1).toFixed(4)})`;
       if (buda.current) {
-        buda.current.style.transform = `scale(${(1.22 - p * 0.17).toFixed(4)})`;
-        buda.current.style.webkitMaskImage = mask;
-        buda.current.style.maskImage = mask;
-        buda.current.style.filter = `${grade} blur(${((1 - p) * 3).toFixed(2)}px)`;
-        buda.current.style.opacity = p <= 0.001 ? "0" : "1";
+        buda.current.style.transform = `scale(${(1.15 - e * 0.13).toFixed(4)})`;
+        buda.current.style.opacity = e < 0.001 ? "0" : e.toFixed(3);
       }
       if (gA.current) gA.current.style.opacity = (1 - Math.min(1, p * 2.4)).toFixed(3);
       if (gB.current) gB.current.style.opacity = Math.max(0, Math.min(1, (p - 0.42) / 0.58)).toFixed(3);
@@ -101,8 +92,6 @@ export default function Hero() {
           className="nx-hero-photo"
           style={{
             backgroundImage: 'url("/images/hero-budapest.jpg")',
-            WebkitMaskImage: "radial-gradient(circle at 50% 42%, black 0%, black 0%, transparent 14%)",
-            maskImage: "radial-gradient(circle at 50% 42%, black 0%, black 0%, transparent 14%)",
             animation: "none",
             opacity: 0,
           }}
