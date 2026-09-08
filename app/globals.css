@@ -180,16 +180,12 @@ section[id], footer[id] { scroll-margin-top: 6em; }
 .ds-btn__ch { display: inline-block; transition: transform 0.45s cubic-bezier(0.65, 0, 0.35, 1); will-change: transform; }
 @media (hover: hover) and (pointer: fine) {
   .mp5-btn:hover .ds-btn__row { transform: translateY(-1.3em); }
+  .nx-hero-btn:hover .ds-btn__row { transform: translateY(-1.3em); }
 }
 
-/* ---------- hero-фразы ---------- */
-[data-hero-phrase] { opacity: 1; }
-.hero-word { display: inline-block; white-space: nowrap; }
-.hero-char { display: inline-block; will-change: opacity; }
-/* На мобильных инлайн-позиции перебиваем: все фразы по центру в нижней трети экрана */
-@media (max-width: 991px) {
-  [data-hero-phrase] { top: auto !important; bottom: 18% !important; left: 6% !important; right: 6% !important; transform: none !important; text-align: center !important; max-width: none !important; }
-}
+/* ---------- hero-фразы удалены вместе со старой картой ---------- */
+
+/* ---------- тачскрины: без липких hover-подъёмов ---------- */
 
 /* ---------- sticky-steps (дословно механика эталона) ---------- */
 .sticky-steps { background-color: var(--paper); min-height: 100dvh; color: var(--ink); position: relative; overflow: clip; }
@@ -295,6 +291,7 @@ section[id], footer[id] { scroll-margin-top: 6em; }
   .nx-hero-track { animation: none !important; transform: none !important; }
   .nx-hero-ch { animation: none !important; transform: none !important; }
   .nx-hero-row { animation: none !important; opacity: 1 !important; }
+  .nx-hero-btn:hover .ds-btn__row { transform: none !important; }
 }
 
 /* ---------- hero «Две страны»: Хофбург → Бастион ---------- */
@@ -315,7 +312,7 @@ section[id], footer[id] { scroll-margin-top: 6em; }
     color-mix(in srgb, var(--paper) 94%, transparent) 100%);
 }
 .nx-hero-giant {
-  position: absolute; top: 7%; left: 0;
+  position: absolute; top: clamp(104px, 15%, 170px); left: 0;
   white-space: nowrap; font-weight: 800; letter-spacing: -.03em;
   font-size: clamp(6rem, 22vw, 22rem); line-height: 1;
   user-select: none; will-change: transform;
@@ -382,3 +379,28 @@ section[id], footer[id] { scroll-margin-top: 6em; }
 @media (max-width: 940px) {
   .nx-hero-folio { left: clamp(1.25rem,4vw,4rem); }
 }
+@media (max-width: 520px) {
+  .nx-hero-row { gap: 1rem; }
+  .nx-hero-stats { gap: .9rem; }
+  .nx-hero-stats > div { padding-left: .9rem; }
+  .nx-hero-stats b { font-size: 1.25rem; }
+  .nx-hero-stats span { font-size: .72rem; }
+}
+
+/* ---------- тачскрины: без залипших hover-подъёмов (только трансформы) ---------- */
+@media (hover: none) {
+  .mega-nav__bar-link:hover .swap-label__inner { transform: none; }
+  .mega-nav__panel-feature:hover .mega-nav__panel-feature-img { transform: scale(1.05); }
+  .mega-nav__panel-feature:hover .mega-nav__panel-feature-cta:before { transform: scale(1.1); }
+  .mega-nav__panel-link:hover .mega-nav__panel-link-char { transform: none; }
+  .mega-nav__panel-link:hover .mega-nav__panel-link-arrow { opacity: 0; transform: translateX(-6px); }
+  .mp5-btn--primary:hover, .mp5-btn--light:hover, .mp5-btn--secondary:hover { transform: none; }
+  .nx-hero-btn:hover svg { transform: none; }
+}
+
+/* ---------- непрерывная типографическая шкала (clamp вместо ступеней) ---------- */
+.nx-h2 { font-weight: 500; text-wrap: balance; letter-spacing: -.04em; line-height: 1.08; font-size: clamp(2rem,1.35rem+2.8vw,3.5rem); }
+.nx-h2--s { font-weight: 500; text-wrap: balance; letter-spacing: -.03em; line-height: 1.1; font-size: clamp(1.875rem,1.35rem+2.2vw,3rem); }
+.nx-h2--l { font-weight: 500; text-wrap: balance; letter-spacing: -.04em; line-height: 1.08; font-size: clamp(2rem,1.4rem+2.6vw,3.75rem); }
+.nx-display { font-weight: 400; text-wrap: balance; letter-spacing: -.045em; line-height: .98; font-size: clamp(2.5rem,1.2rem+7vw,7rem); }
+.nx-h3c { font-weight: 500; text-wrap: balance; letter-spacing: -.03em; line-height: 1.06; font-size: clamp(1.75rem,1.25rem+2.1vw,3rem); }

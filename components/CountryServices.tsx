@@ -13,7 +13,7 @@ export default function CountryServices({ c }: { c: CountryInfo }) {
           </div>
         </Reveal>
         <Reveal>
-          <h2 className="max-w-[900px] text-balance text-[32px] font-medium leading-[1.15] tracking-[-0.96px] text-[#2A211D] lg:text-[56px] lg:tracking-[-2px]">{c.servicesTitle}</h2>
+          <h2 className="nx-h2 max-w-[900px] text-[#2A211D]">{c.servicesTitle}</h2>
           <p className="mt-4 max-w-[640px] text-base leading-relaxed text-[#2A211D]/70 lg:text-lg">{c.servicesIntro}</p>
         </Reveal>
         <div className="grid grid-cols-1 gap-4 lg:grid-cols-2 lg:gap-6">

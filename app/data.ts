@@ -84,7 +84,7 @@ export interface CountryInfo {
 export const countries: Record<string, CountryInfo> = {
   austria: {
     code: "AT", name: "Австрия",
-    heroImg: "https://images.unsplash.com/photo-1516550893923-42d28e5677af?auto=format&fit=crop&w=1920&q=75",
+    heroImg: "/images/hero-vienna.jpg",
     tagline: "Учёба в сердце Европы — от €1 450 в год.",
     about: "Государственные университеты Вены, Граца, Инсбрука и Линца: сильный бакалавриат после 11 классов, подготовительное отделение VWU с нуля и диплом, который котируется по всему миру.",
     servicesTitle: "Программы поступления в Австрию",
@@ -98,7 +98,7 @@ export const countries: Record<string, CountryInfo> = {
     whyTag: "Почему Австрия",
     whyHeading: "Почему выбирают Австрию",
     whyText: "Австрийские вузы сочетают низкую цену и высокий статус диплома: €1 450 в год за образование уровня TU Wien и University of Vienna. Мы знаем дедлайны каждого факультета и готовим документы без потери семестра.",
-    whyImg: "https://images.unsplash.com/photo-1562774053-701939374585?auto=format&fit=crop&w=800&q=75",
+    whyImg: "/images/at-belvedere.jpg",
     whyPoints: [
       { title: "Цена госуниверситетов", desc: "~€726 за семестр для граждан не-ЕС" },
       { title: "Немецкий с нуля", desc: "VWU при вузе, без сертификата на старте" },
@@ -131,7 +131,7 @@ export const countries: Record<string, CountryInfo> = {
   },
   hungary: {
     code: "HU", name: "Венгрия",
-    heroImg: "https://images.unsplash.com/photo-1541849546-216549ae216d?auto=format&fit=crop&w=1920&q=75",
+    heroImg: "/images/hero-budapest.jpg",
     tagline: "Грант Stipendium Hungaricum покрывает всё.",
     about: "ELTE, Corvinus, BME и Сегед: 100% бесплатное обучение, ежемесячная стипендия, общежитие и медстраховка. Готовим портфолио, которое выигрывает конкурс.",
     servicesTitle: "Программы поступления в Венгрию",
@@ -145,7 +145,7 @@ export const countries: Record<string, CountryInfo> = {
     whyTag: "Почему Венгрия",
     whyHeading: "Почему выбирают Венгрию",
     whyText: "Венгрия — самый щедрый грант Европы: Stipendium Hungaricum закрывает учёбу, жильё и страховку целиком. Конкурс высокий, но с сильным портфолио шансы отличные — мы знаем критерии отбора изнутри.",
-    whyImg: "https://images.unsplash.com/photo-1541339907198-e08756dedf3f?auto=format&fit=crop&w=800&q=75",
+    whyImg: "/images/hu-basilica.jpg",
     whyPoints: [
       { title: "Грант 100%", desc: "Учёба, стипендия, общежитие и страховка" },
       { title: "Без венгерского", desc: "Сотни программ полностью на английском" },

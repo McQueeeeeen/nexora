@@ -18,7 +18,7 @@ export default function Database({ initial = "AT", title = "Университе
       <div className={wrap}>
         <Reveal>
           <Tag>База данных</Tag>
-          <h2 className="mt-3 max-w-[1100px] text-balance text-3xl font-medium tracking-[-0.02em] text-[#2A211D] lg:text-5xl">{title}</h2>
+          <h2 className="nx-h2--s mt-3 max-w-[1100px] text-[#2A211D]">{title}</h2>
         </Reveal>
 
         <div className="mt-8 flex flex-wrap items-center justify-between gap-4 rounded-xl border border-[#2A211D]/10 bg-white px-4 py-3">

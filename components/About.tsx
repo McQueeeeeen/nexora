@@ -8,7 +8,7 @@ export default function About() {
       <div className={`${wrap} grid grid-cols-1 gap-10 lg:grid-cols-12 lg:gap-16`}>
         <Reveal className="lg:col-span-7">
           <Tag>{agency.tag}</Tag>
-          <h2 className="mt-3 max-w-[640px] text-balance text-3xl font-medium tracking-[-0.02em] text-[#2A211D] lg:text-5xl">{agency.heading}</h2>
+          <h2 className="nx-h2--s mt-3 max-w-[640px] text-[#2A211D]">{agency.heading}</h2>
           <p className="mt-6 max-w-[560px] leading-relaxed text-[#2A211D]/70">{agency.text}</p>
           <div className="mt-8">
             <Btn href="#contact" className="h-14 rounded-xl px-8 text-base">Связаться с нами</Btn>

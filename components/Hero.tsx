@@ -5,6 +5,20 @@ import { onRafScroll } from "./ui";
 // Hero «Две страны»: Хофбург (Вена) → шторкой Бастион (Будапешт).
 // Только фото, типографика и скраб-анимация — без подписей-подсказок.
 const SEGS = ["Австрия.", "Венгрия.", "Зачисление."];
+const BTN = "Разбор кейса — €10";
+
+// Dual-row flip: два ряда букв, верхний уезжает вверх, нижний встаёт на место.
+function flipRow(hidden: boolean) {
+  return (
+    <span className="ds-btn__row" aria-hidden={hidden || undefined}>
+      {[...BTN].map((c, i) => (
+        <span key={i} className="ds-btn__ch" style={{ transitionDelay: `${i * 18}ms` }}>
+          {c === " " ? " " : c}
+        </span>
+      ))}
+    </span>
+  );
+}
 
 export default function Hero() {
   const ref = useRef<HTMLDivElement>(null);
@@ -129,7 +143,10 @@ export default function Hero() {
           </h1>
           <div className="nx-hero-row">
             <a className="nx-hero-btn" href="#contact">
-              <span>Разбор кейса — €10</span>
+              <span className="ds-btn__flip">
+                {flipRow(false)}
+                {flipRow(true)}
+              </span>
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                 <path d="M5 12h14m0 0l-6-6m6 6l-6 6" />
               </svg>

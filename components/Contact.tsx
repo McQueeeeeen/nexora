@@ -115,7 +115,7 @@ export default function Contact() {
               </div>
               <div className="flex flex-col gap-5 lg:flex-row lg:gap-5">
                 <Reveal className="flex flex-col lg:flex-1">
-                  <h3 className="text-[28px] font-normal leading-[1.05] tracking-[-1px] text-[#FBF9F5] lg:text-[48px] lg:tracking-[-1.6px]">
+                  <h3 className="nx-h3c text-[#FBF9F5]">
                     Персональная консультация — €10
                   </h3>
                   <p className="mt-4 text-lg text-[#FBF9F5]/70 lg:text-xl">Оценим шансы на грант, проверим дедлайны и составим план поступления.</p>

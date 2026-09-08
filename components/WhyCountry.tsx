@@ -36,7 +36,7 @@ export default function WhyCountry({ c }: { c: CountryInfo }) {
           <div className="border-b border-white/10 pb-4">
             <Tag dark>{c.whyTag}</Tag>
           </div>
-          <h2 className="text-balance text-[32px] font-medium leading-[1.08] tracking-[-1.2px] text-[#FBF9F5] sm:text-[52px] lg:text-[60px] lg:tracking-[-2px]">{c.whyHeading}</h2>
+          <h2 className="nx-h2--l text-[#FBF9F5]">{c.whyHeading}</h2>
           <p className="max-w-[620px] text-base font-normal leading-relaxed text-[#FBF9F5]/85 lg:text-lg">{c.whyText}</p>
         </Reveal>
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4 lg:gap-6">

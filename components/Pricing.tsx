@@ -79,7 +79,7 @@ export default function Pricing() {
 
         <Reveal className="mt-6 flex flex-col justify-between gap-6 lg:flex-row lg:items-end">
           <div>
-            <h2 className="text-balance text-3xl font-medium tracking-tight text-[#2A211D] lg:text-5xl">
+            <h2 className="nx-h2--s text-[#2A211D]">
               Форматы сопровождения
             </h2>
             <p className="mt-4 max-w-[620px] text-base leading-relaxed text-[#2A211D]/70 lg:text-lg">

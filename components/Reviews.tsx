@@ -24,7 +24,7 @@ export default function Reviews({ title, detailed = false }: { title?: string; d
     <section id="reviews" className="relative flex min-h-[80vh] items-center overflow-hidden py-24 lg:min-h-[100vh] lg:py-40">
       <div className="relative mx-auto w-full max-w-[1100px] px-6 text-center lg:px-12">
         <span className="inline-block rounded-full bg-[#2A211D] px-4 py-1.5 font-mono text-xs font-bold uppercase tracking-[1px] text-[#FBF9F5]">Отзывы</span>
-        {title && <h2 className="mx-auto mt-6 max-w-[800px] text-balance text-3xl font-medium tracking-[-0.02em] text-[#2A211D] lg:text-5xl">{title}</h2>}
+        {title && <h2 className="nx-h2--s mx-auto mt-6 max-w-[800px] text-[#2A211D]">{title}</h2>}
         {detailed && (
           <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
             <span className="font-mono text-xl font-bold text-[#2A211D]">4.9/5</span>

@@ -152,7 +152,7 @@ export default function Faq({
       ) : (
         <Reveal className={`${wrap} flex flex-col gap-12 lg:flex-row lg:gap-24`}>
           <div className="lg:w-1/3">
-            <h2 className="text-3xl font-medium tracking-tight text-[#2A211D] lg:sticky lg:top-32 lg:text-5xl">
+            <h2 className="nx-h2--s text-[#2A211D] lg:sticky lg:top-32">
               {title}
             </h2>
           </div>

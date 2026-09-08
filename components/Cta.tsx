@@ -128,7 +128,7 @@ export default function Cta() {
           </span>
 
           <div className="relative flex w-full items-center justify-center">
-            <h2 className="max-w-[1140px] text-balance text-center text-[40px] font-normal leading-[0.96] tracking-[-1.4px] text-[#FBF9F5] sm:text-[64px] lg:text-[112px] lg:tracking-[-3px]">
+            <h2 className="nx-display max-w-[1140px] text-center text-[#FBF9F5]">
               {words.map((w, i) => (
                 <Fragment key={i}>
                   <span className="inline-block whitespace-nowrap">

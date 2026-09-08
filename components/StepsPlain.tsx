@@ -11,7 +11,7 @@ export default function StepsPlain() {
             <div className="border-b border-[#2A211D]/10 pb-3 lg:pb-4">
               <Tag>Процесс зачисления</Tag>
             </div>
-            <h2 className="mt-6 text-balance text-[32px] font-medium leading-[1.15] tracking-[-1.28px] text-[#2A211D] lg:text-[56px] lg:tracking-[-2px]">
+            <h2 className="nx-h2 mt-6 text-[#2A211D]">
               Как проходит поступление
             </h2>
           </Reveal>

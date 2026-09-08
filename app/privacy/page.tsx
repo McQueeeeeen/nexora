@@ -28,7 +28,7 @@ export default function Privacy() {
       <section className="wrap pb-24 pt-40 lg:pt-48">
         <Reveal>
           <p className="font-mono text-xs uppercase tracking-[1px] text-[#2A211D]/50">Главная / Privacy</p>
-          <h1 className="mt-4 max-w-[800px] text-balance text-4xl font-medium tracking-tight sm:text-5xl lg:text-6xl">
+          <h1 className="mt-4 max-w-[800px] text-balance font-medium tracking-tight text-[clamp(2.25rem,1.6rem+2.8vw,3.75rem)]">
             Политика конфиденциальности
           </h1>
           <p className="mt-4 max-w-[640px] text-[#2A211D]/60">Обновлено: сентябрь 2026. Коротко и по-человечески — без мелкого шрифта.</p>

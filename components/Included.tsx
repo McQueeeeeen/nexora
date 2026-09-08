@@ -47,7 +47,7 @@ export default function Included({ c }: { c: CountryInfo }) {
           </div>
         </Reveal>
         <Reveal>
-          <h2 className="mt-6 max-w-[900px] text-balance text-[32px] font-medium leading-[1.15] tracking-[-0.96px] text-[#2A211D] lg:text-[56px] lg:tracking-[-2px]">{c.includedTitle}</h2>
+          <h2 className="nx-h2 mt-6 max-w-[900px] text-[#2A211D]">{c.includedTitle}</h2>
           <p className="mt-4 max-w-[640px] text-base leading-relaxed text-[#2A211D]/70 lg:text-lg">{c.includedIntro}</p>
         </Reveal>
       </div>
